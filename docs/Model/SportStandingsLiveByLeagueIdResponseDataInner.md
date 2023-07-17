@@ -1,0 +1,20 @@
+# # SportStandingsLiveByLeagueIdResponseDataInner
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **float** |  | [optional]
+**sport_id** | **float** |  | [optional]
+**league_id** | **float** |  | [optional]
+**season_id** | **float** |  | [optional]
+**stage_id** | **float** |  | [optional]
+**group_id** | **string** |  | [optional]
+**round_id** | **float** |  | [optional]
+**participant_id** | **float** |  | [optional]
+**standing_rule_id** | **float** |  | [optional]
+**position** | **float** |  | [optional]
+**points** | **float** |  | [optional]
+**result** | **string** |  | [optional]
+
+[[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)
