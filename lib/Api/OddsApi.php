@@ -163,8 +163,8 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakerById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -172,8 +172,8 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsBookmakerByIdResponse
      */
     public function bookmakerById(
-        $version,
         $bookmaker_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakerById'][0]
@@ -181,7 +181,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->bookmakerByIdWithHttpInfo($version, $bookmaker_id, $contentType);
+        list($response) = $this->bookmakerByIdWithHttpInfo($bookmaker_id, $version, $contentType);
         return $response;
     }
 
@@ -190,17 +190,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakerById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsBookmakerByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function bookmakerByIdWithHttpInfo($version, $bookmaker_id, string $contentType = self::contentTypes['bookmakerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakerByIdWithHttpInfo($bookmaker_id, $version = null, string $contentType = self::contentTypes['bookmakerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakerByIdRequest($version, $bookmaker_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakerByIdRequest($bookmaker_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -216,8 +216,8 @@ class OddsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->bookmakerByIdWithHttpInfo(
-                        $version,
                         $bookmaker_id,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -307,16 +307,16 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakerById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function bookmakerByIdAsync(
-        $version,
         $bookmaker_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakerById'][0]
@@ -324,7 +324,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->bookmakerByIdAsyncWithHttpInfo($version, $bookmaker_id, $contentType)
+        return $this->bookmakerByIdAsyncWithHttpInfo($bookmaker_id, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -337,17 +337,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakerById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function bookmakerByIdAsyncWithHttpInfo($version, $bookmaker_id, string $contentType = self::contentTypes['bookmakerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakerByIdAsyncWithHttpInfo($bookmaker_id, $version = null, string $contentType = self::contentTypes['bookmakerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsBookmakerByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakerByIdRequest($version, $bookmaker_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakerByIdRequest($bookmaker_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -391,31 +391,25 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'bookmakerById'
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakerById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function bookmakerByIdRequest($version, $bookmaker_id, string $contentType = self::contentTypes['bookmakerById'][0])
+    public function bookmakerByIdRequest($bookmaker_id, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['bookmakerById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling bookmakerById'
-            );
-        }
         // verify the required parameter 'bookmaker_id' is set
         if ($bookmaker_id === SENTINEL_VALUE || (is_array($bookmaker_id) && count($bookmaker_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter bookmaker_id when calling bookmakerById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -477,6 +471,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -510,7 +509,7 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -518,7 +517,7 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsBookmakersAllResponse
      */
     public function bookmakersAll(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersAll'][0]
@@ -535,14 +534,14 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsBookmakersAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function bookmakersAllWithHttpInfo($version, string $contentType = self::contentTypes['bookmakersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersAllWithHttpInfo($version = null, string $contentType = self::contentTypes['bookmakersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersAllRequest($version, $contentType);
 
@@ -650,14 +649,14 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function bookmakersAllAsync(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersAll'][0]
@@ -678,13 +677,13 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function bookmakersAllAsyncWithHttpInfo($version, string $contentType = self::contentTypes['bookmakersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersAllAsyncWithHttpInfo($version = null, string $contentType = self::contentTypes['bookmakersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsBookmakersAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersAllRequest($version, $contentType);
@@ -731,24 +730,18 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'bookmakersAll'
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function bookmakersAllRequest($version, string $contentType = self::contentTypes['bookmakersAll'][0])
+    public function bookmakersAllRequest($version = SENTINEL_VALUE, string $contentType = self::contentTypes['bookmakersAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling bookmakersAll'
-            );
         }
 
 
@@ -802,6 +795,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -835,8 +833,8 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -844,8 +842,8 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsBookmakersByFixtureIdResponse
      */
     public function bookmakersByFixtureId(
-        $version,
         $fixture_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersByFixtureId'][0]
@@ -853,7 +851,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->bookmakersByFixtureIdWithHttpInfo($version, $fixture_id, $contentType);
+        list($response) = $this->bookmakersByFixtureIdWithHttpInfo($fixture_id, $version, $contentType);
         return $response;
     }
 
@@ -862,17 +860,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsBookmakersByFixtureIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function bookmakersByFixtureIdWithHttpInfo($version, $fixture_id, string $contentType = self::contentTypes['bookmakersByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersByFixtureIdWithHttpInfo($fixture_id, $version = null, string $contentType = self::contentTypes['bookmakersByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersByFixtureIdRequest($version, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersByFixtureIdRequest($fixture_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -888,8 +886,8 @@ class OddsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->bookmakersByFixtureIdWithHttpInfo(
-                        $version,
                         $fixture_id,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -979,16 +977,16 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function bookmakersByFixtureIdAsync(
-        $version,
         $fixture_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersByFixtureId'][0]
@@ -996,7 +994,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->bookmakersByFixtureIdAsyncWithHttpInfo($version, $fixture_id, $contentType)
+        return $this->bookmakersByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1009,17 +1007,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function bookmakersByFixtureIdAsyncWithHttpInfo($version, $fixture_id, string $contentType = self::contentTypes['bookmakersByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, string $contentType = self::contentTypes['bookmakersByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsBookmakersByFixtureIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersByFixtureIdRequest($version, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersByFixtureIdRequest($fixture_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1063,31 +1061,25 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'bookmakersByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The ID of the bookmaker you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function bookmakersByFixtureIdRequest($version, $fixture_id, string $contentType = self::contentTypes['bookmakersByFixtureId'][0])
+    public function bookmakersByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['bookmakersByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling bookmakersByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling bookmakersByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -1149,6 +1141,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1182,8 +1179,8 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Mapping by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The fixtureId you want to retrieve the bookmaker mapping from. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersMappingByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -1191,8 +1188,8 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsBookmakersMappingByFixtureIdResponse
      */
     public function bookmakersMappingByFixtureId(
-        $version,
         $fixture_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0]
@@ -1200,7 +1197,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->bookmakersMappingByFixtureIdWithHttpInfo($version, $fixture_id, $contentType);
+        list($response) = $this->bookmakersMappingByFixtureIdWithHttpInfo($fixture_id, $version, $contentType);
         return $response;
     }
 
@@ -1209,17 +1206,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Mapping by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The fixtureId you want to retrieve the bookmaker mapping from. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersMappingByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsBookmakersMappingByFixtureIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function bookmakersMappingByFixtureIdWithHttpInfo($version, $fixture_id, string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersMappingByFixtureIdWithHttpInfo($fixture_id, $version = null, string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersMappingByFixtureIdRequest($version, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersMappingByFixtureIdRequest($fixture_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1235,8 +1232,8 @@ class OddsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->bookmakersMappingByFixtureIdWithHttpInfo(
-                        $version,
                         $fixture_id,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -1326,16 +1323,16 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Mapping by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The fixtureId you want to retrieve the bookmaker mapping from. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersMappingByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function bookmakersMappingByFixtureIdAsync(
-        $version,
         $fixture_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0]
@@ -1343,7 +1340,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->bookmakersMappingByFixtureIdAsyncWithHttpInfo($version, $fixture_id, $contentType)
+        return $this->bookmakersMappingByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1356,17 +1353,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Mapping by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The fixtureId you want to retrieve the bookmaker mapping from. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersMappingByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function bookmakersMappingByFixtureIdAsyncWithHttpInfo($version, $fixture_id, string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersMappingByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsBookmakersMappingByFixtureIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersMappingByFixtureIdRequest($version, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersMappingByFixtureIdRequest($fixture_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1410,31 +1407,25 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'bookmakersMappingByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $fixture_id The fixtureId you want to retrieve the bookmaker mapping from. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersMappingByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function bookmakersMappingByFixtureIdRequest($version, $fixture_id, string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0])
+    public function bookmakersMappingByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['bookmakersMappingByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling bookmakersMappingByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling bookmakersMappingByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -1496,6 +1487,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1529,8 +1525,8 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -1538,8 +1534,8 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsBookmakersSearchResponse
      */
     public function bookmakersSearch(
-        $version,
         $name,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersSearch'][0]
@@ -1547,7 +1543,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->bookmakersSearchWithHttpInfo($version, $name, $contentType);
+        list($response) = $this->bookmakersSearchWithHttpInfo($name, $version, $contentType);
         return $response;
     }
 
@@ -1556,17 +1552,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsBookmakersSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function bookmakersSearchWithHttpInfo($version, $name, string $contentType = self::contentTypes['bookmakersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersSearchWithHttpInfo($name, $version = null, string $contentType = self::contentTypes['bookmakersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersSearchRequest($version, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersSearchRequest($name, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1582,8 +1578,8 @@ class OddsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->bookmakersSearchWithHttpInfo(
-                        $version,
                         $name,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -1673,16 +1669,16 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function bookmakersSearchAsync(
-        $version,
         $name,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['bookmakersSearch'][0]
@@ -1690,7 +1686,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->bookmakersSearchAsyncWithHttpInfo($version, $name, $contentType)
+        return $this->bookmakersSearchAsyncWithHttpInfo($name, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1703,17 +1699,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function bookmakersSearchAsyncWithHttpInfo($version, $name, string $contentType = self::contentTypes['bookmakersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function bookmakersSearchAsyncWithHttpInfo($name, $version = null, string $contentType = self::contentTypes['bookmakersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsBookmakersSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersSearchRequest($version, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->bookmakersSearchRequest($name, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1757,26 +1753,16 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'bookmakersSearch'
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['bookmakersSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function bookmakersSearchRequest($version, $name, string $contentType = self::contentTypes['bookmakersSearch'][0])
+    public function bookmakersSearchRequest($name, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['bookmakersSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling bookmakersSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -1786,6 +1772,10 @@ class OddsApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling bookmakersSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -1847,6 +1837,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1880,9 +1875,9 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Upcoming Fixtures by Market ID
      *
-     * @param  string $version The sport you want to retrieve upcoming fixtures from. (required)
-     * @param  string $sport sport (required)
      * @param  int $market_id The ID of the market you want to retrieve upcoming fixtures from. (required)
+     * @param  string $version The sport you want to retrieve upcoming fixtures from. (optional)
+     * @param  string $sport sport (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesUpcomingByMarketId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -1890,9 +1885,9 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsFixturesUpcomingByMarketIdResponse
      */
     public function fixturesUpcomingByMarketId(
-        $version,
-        $sport,
         $market_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0]
@@ -1900,7 +1895,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixturesUpcomingByMarketIdWithHttpInfo($version, $sport, $market_id, $contentType);
+        list($response) = $this->fixturesUpcomingByMarketIdWithHttpInfo($market_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -1909,18 +1904,18 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Upcoming Fixtures by Market ID
      *
-     * @param  string $version The sport you want to retrieve upcoming fixtures from. (required)
-     * @param  string $sport (required)
      * @param  int $market_id The ID of the market you want to retrieve upcoming fixtures from. (required)
+     * @param  string $version The sport you want to retrieve upcoming fixtures from. (optional)
+     * @param  string $sport (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesUpcomingByMarketId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsFixturesUpcomingByMarketIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesUpcomingByMarketIdWithHttpInfo($version, $sport, $market_id, string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesUpcomingByMarketIdWithHttpInfo($market_id, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesUpcomingByMarketIdRequest($version, $sport, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesUpcomingByMarketIdRequest($market_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1936,9 +1931,9 @@ class OddsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixturesUpcomingByMarketIdWithHttpInfo(
+                        $market_id,
                         $version,
                         $sport,
-                        $market_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -2028,18 +2023,18 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Upcoming Fixtures by Market ID
      *
-     * @param  string $version The sport you want to retrieve upcoming fixtures from. (required)
-     * @param  string $sport (required)
      * @param  int $market_id The ID of the market you want to retrieve upcoming fixtures from. (required)
+     * @param  string $version The sport you want to retrieve upcoming fixtures from. (optional)
+     * @param  string $sport (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesUpcomingByMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesUpcomingByMarketIdAsync(
-        $version,
-        $sport,
         $market_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0]
@@ -2047,7 +2042,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixturesUpcomingByMarketIdAsyncWithHttpInfo($version, $sport, $market_id, $contentType)
+        return $this->fixturesUpcomingByMarketIdAsyncWithHttpInfo($market_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2060,18 +2055,18 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Upcoming Fixtures by Market ID
      *
-     * @param  string $version The sport you want to retrieve upcoming fixtures from. (required)
-     * @param  string $sport (required)
      * @param  int $market_id The ID of the market you want to retrieve upcoming fixtures from. (required)
+     * @param  string $version The sport you want to retrieve upcoming fixtures from. (optional)
+     * @param  string $sport (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesUpcomingByMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesUpcomingByMarketIdAsyncWithHttpInfo($version, $sport, $market_id, string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesUpcomingByMarketIdAsyncWithHttpInfo($market_id, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsFixturesUpcomingByMarketIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesUpcomingByMarketIdRequest($version, $sport, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesUpcomingByMarketIdRequest($market_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -2115,42 +2110,30 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesUpcomingByMarketId'
      *
-     * @param  string $version The sport you want to retrieve upcoming fixtures from. (required)
-     * @param  string $sport (required)
      * @param  int $market_id The ID of the market you want to retrieve upcoming fixtures from. (required)
+     * @param  string $version The sport you want to retrieve upcoming fixtures from. (optional)
+     * @param  string $sport (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesUpcomingByMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesUpcomingByMarketIdRequest($version, $sport, $market_id, string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0])
+    public function fixturesUpcomingByMarketIdRequest($market_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesUpcomingByMarketId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesUpcomingByMarketId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesUpcomingByMarketId'
-            );
-        }
         // verify the required parameter 'market_id' is set
         if ($market_id === SENTINEL_VALUE || (is_array($market_id) && count($market_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter market_id when calling fixturesUpcomingByMarketId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -2220,6 +2203,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -2253,8 +2241,8 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $market_id The ID of the market you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -2262,8 +2250,8 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsMarketByIdResponse
      */
     public function marketById(
-        $version,
         $market_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['marketById'][0]
@@ -2271,7 +2259,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->marketByIdWithHttpInfo($version, $market_id, $contentType);
+        list($response) = $this->marketByIdWithHttpInfo($market_id, $version, $contentType);
         return $response;
     }
 
@@ -2280,17 +2268,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $market_id The ID of the market you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsMarketByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function marketByIdWithHttpInfo($version, $market_id, string $contentType = self::contentTypes['marketById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function marketByIdWithHttpInfo($market_id, $version = null, string $contentType = self::contentTypes['marketById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketByIdRequest($version, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketByIdRequest($market_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -2306,8 +2294,8 @@ class OddsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->marketByIdWithHttpInfo(
-                        $version,
                         $market_id,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -2397,16 +2385,16 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $market_id The ID of the market you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function marketByIdAsync(
-        $version,
         $market_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['marketById'][0]
@@ -2414,7 +2402,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->marketByIdAsyncWithHttpInfo($version, $market_id, $contentType)
+        return $this->marketByIdAsyncWithHttpInfo($market_id, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2427,17 +2415,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $market_id The ID of the market you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function marketByIdAsyncWithHttpInfo($version, $market_id, string $contentType = self::contentTypes['marketById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function marketByIdAsyncWithHttpInfo($market_id, $version = null, string $contentType = self::contentTypes['marketById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsMarketByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketByIdRequest($version, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketByIdRequest($market_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -2481,31 +2469,25 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'marketById'
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $market_id The ID of the market you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function marketByIdRequest($version, $market_id, string $contentType = self::contentTypes['marketById'][0])
+    public function marketByIdRequest($market_id, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['marketById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling marketById'
-            );
-        }
         // verify the required parameter 'market_id' is set
         if ($market_id === SENTINEL_VALUE || (is_array($market_id) && count($market_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter market_id when calling marketById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -2567,6 +2549,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -2600,7 +2587,7 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -2608,7 +2595,7 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsMarketsAllResponse
      */
     public function marketsAll(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['marketsAll'][0]
@@ -2625,14 +2612,14 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsMarketsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function marketsAllWithHttpInfo($version, string $contentType = self::contentTypes['marketsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function marketsAllWithHttpInfo($version = null, string $contentType = self::contentTypes['marketsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->marketsAllRequest($version, $contentType);
 
@@ -2740,14 +2727,14 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function marketsAllAsync(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['marketsAll'][0]
@@ -2768,13 +2755,13 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function marketsAllAsyncWithHttpInfo($version, string $contentType = self::contentTypes['marketsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function marketsAllAsyncWithHttpInfo($version = null, string $contentType = self::contentTypes['marketsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsMarketsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->marketsAllRequest($version, $contentType);
@@ -2821,24 +2808,18 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'marketsAll'
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function marketsAllRequest($version, string $contentType = self::contentTypes['marketsAll'][0])
+    public function marketsAllRequest($version = SENTINEL_VALUE, string $contentType = self::contentTypes['marketsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling marketsAll'
-            );
         }
 
 
@@ -2892,6 +2873,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -2925,8 +2911,8 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -2934,8 +2920,8 @@ class OddsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\OddsMarketsSearchResponse
      */
     public function marketsSearch(
-        $version,
         $name,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['marketsSearch'][0]
@@ -2943,7 +2929,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->marketsSearchWithHttpInfo($version, $name, $contentType);
+        list($response) = $this->marketsSearchWithHttpInfo($name, $version, $contentType);
         return $response;
     }
 
@@ -2952,17 +2938,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\OddsMarketsSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function marketsSearchWithHttpInfo($version, $name, string $contentType = self::contentTypes['marketsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function marketsSearchWithHttpInfo($name, $version = null, string $contentType = self::contentTypes['marketsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketsSearchRequest($version, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketsSearchRequest($name, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -2978,8 +2964,8 @@ class OddsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->marketsSearchWithHttpInfo(
-                        $version,
                         $name,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -3069,16 +3055,16 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function marketsSearchAsync(
-        $version,
         $name,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['marketsSearch'][0]
@@ -3086,7 +3072,7 @@ class OddsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->marketsSearchAsyncWithHttpInfo($version, $name, $contentType)
+        return $this->marketsSearchAsyncWithHttpInfo($name, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3099,17 +3085,17 @@ class OddsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function marketsSearchAsyncWithHttpInfo($version, $name, string $contentType = self::contentTypes['marketsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function marketsSearchAsyncWithHttpInfo($name, $version = null, string $contentType = self::contentTypes['marketsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\OddsMarketsSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketsSearchRequest($version, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->marketsSearchRequest($name, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -3153,26 +3139,16 @@ class OddsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'marketsSearch'
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['marketsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function marketsSearchRequest($version, $name, string $contentType = self::contentTypes['marketsSearch'][0])
+    public function marketsSearchRequest($name, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['marketsSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling marketsSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -3182,6 +3158,10 @@ class OddsApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling marketsSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -3243,6 +3223,11 @@ class OddsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {

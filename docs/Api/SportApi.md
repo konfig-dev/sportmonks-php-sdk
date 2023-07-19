@@ -114,7 +114,7 @@ All URIs are relative to https://api.sportmonks.com, except if the operation def
 ## `coachById()`
 
 ```php
-coachById($version, $sport, $coach_id): \Sportmonks\Model\SportCoachByIdResponse
+coachById($coach_id, $version, $sport): \Sportmonks\Model\SportCoachByIdResponse
 ```
 
 By ID
@@ -126,17 +126,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$coach_id = 171906; // The ID of the coach you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$coach_id = 171906; // The ID of the coach you want to retrieve.
 
 try {
     $result = $sportmonks->sport->coachById(
+        coach_id: $coach_id, 
         version: $version, 
-        sport: $sport, 
-        coach_id: $coach_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -152,9 +155,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **coach_id** | **int**| The ID of the coach you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -188,6 +191,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -213,8 +219,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -236,7 +242,7 @@ try {
 ## `coachesByCountryId()`
 
 ```php
-coachesByCountryId($version, $sport, $country_id): \Sportmonks\Model\SportCoachesByCountryIdResponse
+coachesByCountryId($country_id, $version, $sport): \Sportmonks\Model\SportCoachesByCountryIdResponse
 ```
 
 By Country ID
@@ -248,17 +254,20 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$country_id = 320; // The ID of the country you want to retrieve coaches from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$country_id = 320; // The ID of the country you want to retrieve coaches from.
 
 try {
     $result = $sportmonks->sport->coachesByCountryId(
+        country_id: $country_id, 
         version: $version, 
-        sport: $sport, 
-        country_id: $country_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -275,9 +284,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **country_id** | **int**| The ID of the country you want to retrieve coaches from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -311,6 +320,9 @@ Last updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -336,8 +348,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -359,7 +371,7 @@ try {
 ## `coachesSearch()`
 
 ```php
-coachesSearch($version, $sport, $name): \Sportmonks\Model\SportCoachesSearchResponse
+coachesSearch($name, $version, $sport): \Sportmonks\Model\SportCoachesSearchResponse
 ```
 
 Search
@@ -371,17 +383,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "John"; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "John"; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->coachesSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -398,9 +413,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -434,6 +449,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -459,8 +477,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -482,7 +500,7 @@ try {
 ## `commentariesByFixtureId()`
 
 ```php
-commentariesByFixtureId($version, $sport, $fixture_id): \Sportmonks\Model\SportCommentariesByFixtureIdResponse
+commentariesByFixtureId($fixture_id, $version, $sport): \Sportmonks\Model\SportCommentariesByFixtureIdResponse
 ```
 
 By Fixture ID
@@ -494,17 +512,20 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_id = 16808591; // The ID of the fixture you want to retrieve commentaries from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_id = 16808591; // The ID of the fixture you want to retrieve commentaries from.
 
 try {
     $result = $sportmonks->sport->commentariesByFixtureId(
+        fixture_id: $fixture_id, 
         version: $version, 
-        sport: $sport, 
-        fixture_id: $fixture_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getMessage());
@@ -521,9 +542,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve commentaries from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -545,7 +566,7 @@ try {
 ## `fixtureByDateRangeForTeam()`
 
 ```php
-fixtureByDateRangeForTeam($version, $sport, $start_date, $end_date, $team_id): \Sportmonks\Model\SportFixtureByDateRangeForTeamResponse
+fixtureByDateRangeForTeam($start_date, $end_date, $team_id, $version, $sport): \Sportmonks\Model\SportFixtureByDateRangeForTeamResponse
 ```
 
 By Date Range for Team
@@ -557,21 +578,24 @@ By Date Range for Team
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $start_date = "maiores";
 $end_date = "voluptates";
 $team_id = "ut";
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->fixtureByDateRangeForTeam(
-        version: $version, 
-        sport: $sport, 
         start_date: $start_date, 
         end_date: $end_date, 
-        team_id: $team_id
+        team_id: $team_id, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -588,11 +612,11 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **start_date** | **string**|  | |
 | **end_date** | **string**|  | |
 | **team_id** | **string**|  | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -614,7 +638,7 @@ try {
 ## `fixtureById()`
 
 ```php
-fixtureById($version, $sport, $fixture_id): \Sportmonks\Model\SportFixtureByIdResponse
+fixtureById($fixture_id, $version, $sport): \Sportmonks\Model\SportFixtureByIdResponse
 ```
 
 Fixture ID
@@ -626,17 +650,20 @@ Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_id = 18528480; // The ID of the fixture you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_id = 18528480; // The ID of the fixture you want to retrieve.
 
 try {
     $result = $sportmonks->sport->fixtureById(
+        fixture_id: $fixture_id, 
         version: $version, 
-        sport: $sport, 
-        fixture_id: $fixture_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -653,9 +680,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -689,6 +716,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -714,8 +744,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -737,7 +767,7 @@ try {
 ## `fixturesByDate()`
 
 ```php
-fixturesByDate($version, $sport, $date): \Sportmonks\Model\SportFixturesByDateResponse
+fixturesByDate($date, $version, $sport): \Sportmonks\Model\SportFixturesByDateResponse
 ```
 
 By Date
@@ -749,17 +779,20 @@ By Date
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$date = "2022-07-24"; // The date you want to retrieve fixtures from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$date = "2022-07-24"; // The date you want to retrieve fixtures from.
 
 try {
     $result = $sportmonks->sport->fixturesByDate(
+        date: $date, 
         version: $version, 
-        sport: $sport, 
-        date: $date
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -776,9 +809,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **date** | **string**| The date you want to retrieve fixtures from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -800,7 +833,7 @@ try {
 ## `fixturesByDateRange()`
 
 ```php
-fixturesByDateRange($version, $sport, $start_date, $end_date): \Sportmonks\Model\SportFixturesByDateRangeResponse
+fixturesByDateRange($start_date, $end_date, $version, $sport): \Sportmonks\Model\SportFixturesByDateRangeResponse
 ```
 
 By Date Range
@@ -812,19 +845,22 @@ By Date Range
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $start_date = "2022-07-17"; // The start date you want to retrieve fixtures from.
 $end_date = "2022-07-25"; // The end date you want to retrieve fixtures from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->fixturesByDateRange(
-        version: $version, 
-        sport: $sport, 
         start_date: $start_date, 
-        end_date: $end_date
+        end_date: $end_date, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -841,10 +877,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **start_date** | **string**| The start date you want to retrieve fixtures from. | |
 | **end_date** | **string**| The end date you want to retrieve fixtures from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -866,7 +902,7 @@ try {
 ## `fixturesByIds()`
 
 ```php
-fixturesByIds($version, $sport, $fixture_ids): \Sportmonks\Model\SportFixturesByIdsResponse
+fixturesByIds($fixture_ids, $version, $sport): \Sportmonks\Model\SportFixturesByIdsResponse
 ```
 
 By IDs
@@ -878,17 +914,20 @@ By IDs
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_ids = "18528484%2C18531140"; // The IDs you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_ids = "18528484%2C18531140"; // The IDs you want to retrieve.
 
 try {
     $result = $sportmonks->sport->fixturesByIds(
+        fixture_ids: $fixture_ids, 
         version: $version, 
-        sport: $sport, 
-        fixture_ids: $fixture_ids
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -904,9 +943,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_ids** | **string**| The IDs you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -928,7 +967,7 @@ try {
 ## `fixturesHeadToHead()`
 
 ```php
-fixturesHeadToHead($version, $sport, $first_team, $second_team): \Sportmonks\Model\SportFixturesHeadToHeadResponse
+fixturesHeadToHead($first_team, $second_team, $version, $sport): \Sportmonks\Model\SportFixturesHeadToHeadResponse
 ```
 
 Head to Head
@@ -940,19 +979,22 @@ Head to Head
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $first_team = 2650; // The ID of the first team retrieve fixtures from.
 $second_team = 86; // The ID of the second team retrieve fixtures from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->fixturesHeadToHead(
-        version: $version, 
-        sport: $sport, 
         first_team: $first_team, 
-        second_team: $second_team
+        second_team: $second_team, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -968,10 +1010,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **first_team** | **int**| The ID of the first team retrieve fixtures from. | |
 | **second_team** | **int**| The ID of the second team retrieve fixtures from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1005,6 +1047,9 @@ Last Updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1025,8 +1070,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1048,7 +1093,7 @@ try {
 ## `fixturesSearch()`
 
 ```php
-fixturesSearch($version, $sport, $name): \Sportmonks\Model\SportFixturesSearchResponse
+fixturesSearch($name, $version, $sport): \Sportmonks\Model\SportFixturesSearchResponse
 ```
 
 Search
@@ -1060,17 +1105,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "havn"; // The name you want search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "havn"; // The name you want search on.
 
 try {
     $result = $sportmonks->sport->fixturesSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -1087,9 +1135,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1111,7 +1159,7 @@ try {
 ## `leagueById()`
 
 ```php
-leagueById($version, $sport, $league_id): \Sportmonks\Model\SportLeagueByIdResponse
+leagueById($league_id, $version, $sport): \Sportmonks\Model\SportLeagueByIdResponse
 ```
 
 By ID
@@ -1123,17 +1171,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$league_id = 271; // The ID of the league you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$league_id = 271; // The ID of the league you want to retrieve.
 
 try {
     $result = $sportmonks->sport->leagueById(
+        league_id: $league_id, 
         version: $version, 
-        sport: $sport, 
-        league_id: $league_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -1149,9 +1200,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **league_id** | **int**| The ID of the league you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1173,7 +1224,7 @@ try {
 ## `leagueEnrichments()`
 
 ```php
-leagueEnrichments($version, $sport, $league_id): object
+leagueEnrichments($league_id, $version, $sport): object
 ```
 
 Enrichments
@@ -1185,17 +1236,20 @@ Enrichments
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$league_id = 271; // The ID of the league you want to retrieve enrichments from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$league_id = 271; // The ID of the league you want to retrieve enrichments from.
 
 try {
     $result = $sportmonks->sport->leagueEnrichments(
+        league_id: $league_id, 
         version: $version, 
-        sport: $sport, 
-        league_id: $league_id
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->leagueEnrichments: ', $e->getMessage(), PHP_EOL;
@@ -1207,9 +1261,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **league_id** | **int**| The ID of the league you want to retrieve enrichments from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1231,7 +1285,7 @@ try {
 ## `leagueShirts()`
 
 ```php
-leagueShirts($version, $sport, $league_id): object
+leagueShirts($league_id, $version, $sport): object
 ```
 
 Shirts By League ID
@@ -1243,17 +1297,20 @@ Shirts By League ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$league_id = 271; // The ID of the league you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$league_id = 271; // The ID of the league you want to retrieve.
 
 try {
     $result = $sportmonks->sport->leagueShirts(
+        league_id: $league_id, 
         version: $version, 
-        sport: $sport, 
-        league_id: $league_id
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->leagueShirts: ', $e->getMessage(), PHP_EOL;
@@ -1265,9 +1322,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **league_id** | **int**| The ID of the league you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1301,6 +1358,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1326,8 +1386,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1349,7 +1409,7 @@ try {
 ## `leaguesByCountryId()`
 
 ```php
-leaguesByCountryId($version, $sport, $country_id): \Sportmonks\Model\SportLeaguesByCountryIdResponse
+leaguesByCountryId($country_id, $version, $sport): \Sportmonks\Model\SportLeaguesByCountryIdResponse
 ```
 
 By Country ID
@@ -1361,17 +1421,20 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$country_id = 320; // The ID of the country you want to retrieve leagues from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$country_id = 320; // The ID of the country you want to retrieve leagues from.
 
 try {
     $result = $sportmonks->sport->leaguesByCountryId(
+        country_id: $country_id, 
         version: $version, 
-        sport: $sport, 
-        country_id: $country_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -1388,9 +1451,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **country_id** | **int**| The ID of the country you want to retrieve leagues from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1412,7 +1475,7 @@ try {
 ## `leaguesByDate()`
 
 ```php
-leaguesByDate($version, $sport, $date): \Sportmonks\Model\SportLeaguesByDateResponse
+leaguesByDate($date, $version, $sport): \Sportmonks\Model\SportLeaguesByDateResponse
 ```
 
 By Date
@@ -1424,17 +1487,20 @@ By Date
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$date = "2022-07-15"; // The date of fixtures you want to retrieve leagues from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$date = "2022-07-15"; // The date of fixtures you want to retrieve leagues from.
 
 try {
     $result = $sportmonks->sport->leaguesByDate(
+        date: $date, 
         version: $version, 
-        sport: $sport, 
-        date: $date
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -1451,9 +1517,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **date** | **string**| The date of fixtures you want to retrieve leagues from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1475,7 +1541,7 @@ try {
 ## `leaguesByTeamId()`
 
 ```php
-leaguesByTeamId($version, $sport, $team_id): object
+leaguesByTeamId($team_id, $version, $sport): object
 ```
 
 Leagues By Team ID
@@ -1487,17 +1553,20 @@ Leagues By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 180; // The ID of the team you want to retrieve leagues from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 180; // The ID of the team you want to retrieve leagues from.
 
 try {
     $result = $sportmonks->sport->leaguesByTeamId(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->leaguesByTeamId: ', $e->getMessage(), PHP_EOL;
@@ -1509,9 +1578,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve leagues from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1533,7 +1602,7 @@ try {
 ## `leaguesCurrentByTeamId()`
 
 ```php
-leaguesCurrentByTeamId($version, $sport, $team_id): object
+leaguesCurrentByTeamId($team_id, $version, $sport): object
 ```
 
 Current Leagues By Team ID
@@ -1545,17 +1614,20 @@ Current Leagues By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 180; // The ID of the team you want to retrieve current leagues from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 180; // The ID of the team you want to retrieve current leagues from.
 
 try {
     $result = $sportmonks->sport->leaguesCurrentByTeamId(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->leaguesCurrentByTeamId: ', $e->getMessage(), PHP_EOL;
@@ -1567,9 +1639,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve current leagues from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1603,6 +1675,9 @@ Live
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1627,8 +1702,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1650,7 +1725,7 @@ try {
 ## `leaguesSearch()`
 
 ```php
-leaguesSearch($version, $sport, $name): \Sportmonks\Model\SportLeaguesSearchResponse
+leaguesSearch($name, $version, $sport): \Sportmonks\Model\SportLeaguesSearchResponse
 ```
 
 Search
@@ -1662,17 +1737,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "Super"; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "Super"; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->leaguesSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -1689,9 +1767,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1725,6 +1803,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1749,8 +1830,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1784,6 +1865,9 @@ All In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1808,8 +1892,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1843,6 +1927,9 @@ Last Updated In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1867,8 +1954,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1902,6 +1989,9 @@ All Post Match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1922,8 +2012,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -1957,6 +2047,9 @@ All Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -1982,8 +2075,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2005,7 +2098,7 @@ try {
 ## `newsPostMatchBySeasonId()`
 
 ```php
-newsPostMatchBySeasonId($version, $sport, $season_id): string
+newsPostMatchBySeasonId($season_id, $version, $sport): string
 ```
 
 Post Match by Season ID
@@ -2017,17 +2110,20 @@ Post Match by Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve post-match news from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve post-match news from.
 
 try {
     $result = $sportmonks->sport->newsPostMatchBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->newsPostMatchBySeasonId: ', $e->getMessage(), PHP_EOL;
@@ -2039,9 +2135,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve post-match news from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2063,7 +2159,7 @@ try {
 ## `newsPreMatchBySeasonId()`
 
 ```php
-newsPreMatchBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportNewsPreMatchBySeasonIdResponse
+newsPreMatchBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportNewsPreMatchBySeasonIdResponse
 ```
 
 Pre-match By Season ID
@@ -2075,17 +2171,20 @@ Pre-match By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19734; // The ID of the season you want to retrieve post-match news from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19734; // The ID of the season you want to retrieve post-match news from.
 
 try {
     $result = $sportmonks->sport->newsPreMatchBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -2102,9 +2201,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve post-match news from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2138,6 +2237,9 @@ Upcoming Post Match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -2158,8 +2260,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2193,6 +2295,9 @@ Upcoming Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -2218,8 +2323,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2253,6 +2358,9 @@ All In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -2278,8 +2386,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2313,6 +2421,9 @@ All Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -2338,8 +2449,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2361,7 +2472,7 @@ try {
 ## `oddsInPlayByFixtureAndBookmakerId()`
 
 ```php
-oddsInPlayByFixtureAndBookmakerId($version, $sport, $fixture_id, $bookmaker_id): object
+oddsInPlayByFixtureAndBookmakerId($fixture_id, $bookmaker_id, $version, $sport): object
 ```
 
 In-play by Fixture and Bookmaker ID
@@ -2373,19 +2484,22 @@ In-play by Fixture and Bookmaker ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $fixture_id = 18535046; // The ID of the fixture you want to retrieve in-play odds from.
 $bookmaker_id = 6; // The ID of the bookmaker you want to retrieve in-play odds from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->oddsInPlayByFixtureAndBookmakerId(
-        version: $version, 
-        sport: $sport, 
         fixture_id: $fixture_id, 
-        bookmaker_id: $bookmaker_id
+        bookmaker_id: $bookmaker_id, 
+        version: $version, 
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->oddsInPlayByFixtureAndBookmakerId: ', $e->getMessage(), PHP_EOL;
@@ -2397,10 +2511,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve in-play odds from. | |
 | **bookmaker_id** | **int**| The ID of the bookmaker you want to retrieve in-play odds from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2422,7 +2536,7 @@ try {
 ## `oddsInPlayByFixtureAndMarketId()`
 
 ```php
-oddsInPlayByFixtureAndMarketId($version, $sport, $fixture_id, $market_id): object
+oddsInPlayByFixtureAndMarketId($fixture_id, $market_id, $version, $sport): object
 ```
 
 In-play by Fixture and Market ID
@@ -2434,19 +2548,22 @@ In-play by Fixture and Market ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $fixture_id = 233366; // The ID of the fixture you want to retrieve in-play odds from.
 $market_id = 56; // The ID of the market you want to retrieve in-play odds from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->oddsInPlayByFixtureAndMarketId(
-        version: $version, 
-        sport: $sport, 
         fixture_id: $fixture_id, 
-        market_id: $market_id
+        market_id: $market_id, 
+        version: $version, 
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->oddsInPlayByFixtureAndMarketId: ', $e->getMessage(), PHP_EOL;
@@ -2458,10 +2575,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve in-play odds from. | |
 | **market_id** | **int**| The ID of the market you want to retrieve in-play odds from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2483,7 +2600,7 @@ try {
 ## `oddsInPlayByFixtureId()`
 
 ```php
-oddsInPlayByFixtureId($version, $sport, $fixture_id): \Sportmonks\Model\SportOddsInPlayByFixtureIdResponse
+oddsInPlayByFixtureId($fixture_id, $version, $sport): \Sportmonks\Model\SportOddsInPlayByFixtureIdResponse
 ```
 
 In-play by Fixture ID
@@ -2495,17 +2612,20 @@ In-play by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_id = 18535046; // The ID of the fixture you want to retrieve in-play odds from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_id = 18535046; // The ID of the fixture you want to retrieve in-play odds from.
 
 try {
     $result = $sportmonks->sport->oddsInPlayByFixtureId(
+        fixture_id: $fixture_id, 
         version: $version, 
-        sport: $sport, 
-        fixture_id: $fixture_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -2521,9 +2641,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve in-play odds from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2557,6 +2677,9 @@ Latest In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -2577,8 +2700,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2612,6 +2735,9 @@ Last Updated Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -2632,8 +2758,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2655,7 +2781,7 @@ try {
 ## `oddsPreMatchByFixtureAndBookmakerId()`
 
 ```php
-oddsPreMatchByFixtureAndBookmakerId($version, $sport, $fixture_id, $bookmaker_id): \Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponse
+oddsPreMatchByFixtureAndBookmakerId($fixture_id, $bookmaker_id, $version, $sport): \Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponse
 ```
 
 Pre-match by Fixture and Bookmaker ID
@@ -2667,19 +2793,22 @@ Pre-match by Fixture and Bookmaker ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $fixture_id = 233366; // The ID of the fixture you want to retrieve pre-match odds from.
 $bookmaker_id = 6; // The ID of the bookmaker you want to retrieve pre-match odds from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->oddsPreMatchByFixtureAndBookmakerId(
-        version: $version, 
-        sport: $sport, 
         fixture_id: $fixture_id, 
-        bookmaker_id: $bookmaker_id
+        bookmaker_id: $bookmaker_id, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -2695,10 +2824,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve pre-match odds from. | |
 | **bookmaker_id** | **int**| The ID of the bookmaker you want to retrieve pre-match odds from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2720,7 +2849,7 @@ try {
 ## `oddsPreMatchByFixtureAndMarketId()`
 
 ```php
-oddsPreMatchByFixtureAndMarketId($version, $sport, $fixture_id, $market_id): \Sportmonks\Model\SportOddsPreMatchByFixtureAndMarketIdResponse
+oddsPreMatchByFixtureAndMarketId($fixture_id, $market_id, $version, $sport): \Sportmonks\Model\SportOddsPreMatchByFixtureAndMarketIdResponse
 ```
 
 Pre-match by Fixture and Market ID
@@ -2732,19 +2861,22 @@ Pre-match by Fixture and Market ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $fixture_id = 233366; // The ID of the fixture you want to retrieve pre-match odds from.
 $market_id = 56; // The ID of the market you want to retrieve pre-match odds from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->oddsPreMatchByFixtureAndMarketId(
-        version: $version, 
-        sport: $sport, 
         fixture_id: $fixture_id, 
-        market_id: $market_id
+        market_id: $market_id, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -2760,10 +2892,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve pre-match odds from. | |
 | **market_id** | **int**| The ID of the market you want to retrieve pre-match odds from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2785,7 +2917,7 @@ try {
 ## `oddsPreMatchByFixtureId()`
 
 ```php
-oddsPreMatchByFixtureId($version, $sport, $fixture_id): \Sportmonks\Model\SportOddsPreMatchByFixtureIdResponse
+oddsPreMatchByFixtureId($fixture_id, $version, $sport): \Sportmonks\Model\SportOddsPreMatchByFixtureIdResponse
 ```
 
 Pre-match by Fixture ID
@@ -2797,17 +2929,20 @@ Pre-match by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_id = 233366; // The ID of the fixture you want to retrieve pre-match odds from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_id = 233366; // The ID of the fixture you want to retrieve pre-match odds from.
 
 try {
     $result = $sportmonks->sport->oddsPreMatchByFixtureId(
+        fixture_id: $fixture_id, 
         version: $version, 
-        sport: $sport, 
-        fixture_id: $fixture_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -2823,9 +2958,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve pre-match odds from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2847,7 +2982,7 @@ try {
 ## `playerById()`
 
 ```php
-playerById($version, $sport, $player_id): \Sportmonks\Model\SportPlayerByIdResponse
+playerById($player_id, $version, $sport): \Sportmonks\Model\SportPlayerByIdResponse
 ```
 
 By ID
@@ -2859,17 +2994,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$player_id = 14; // The ID of the player you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$player_id = 14; // The ID of the player you want to retrieve.
 
 try {
     $result = $sportmonks->sport->playerById(
+        player_id: $player_id, 
         version: $version, 
-        sport: $sport, 
-        player_id: $player_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -2885,9 +3023,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **player_id** | **int**| The ID of the player you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2921,6 +3059,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -2946,8 +3087,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -2969,7 +3110,7 @@ try {
 ## `playersByCountryId()`
 
 ```php
-playersByCountryId($version, $sport, $country_id): \Sportmonks\Model\SportPlayersByCountryIdResponse
+playersByCountryId($country_id, $version, $sport): \Sportmonks\Model\SportPlayersByCountryIdResponse
 ```
 
 By Country ID
@@ -2981,17 +3122,20 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$country_id = 320; // The ID of the country you want to retrieve players from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$country_id = 320; // The ID of the country you want to retrieve players from.
 
 try {
     $result = $sportmonks->sport->playersByCountryId(
+        country_id: $country_id, 
         version: $version, 
-        sport: $sport, 
-        country_id: $country_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -3008,9 +3152,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **country_id** | **int**| The ID of the country you want to retrieve players from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3044,6 +3188,9 @@ Latest Updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -3068,8 +3215,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3091,7 +3238,7 @@ try {
 ## `playersSearch()`
 
 ```php
-playersSearch($version, $sport, $name): \Sportmonks\Model\SportPlayersSearchResponse
+playersSearch($name, $version, $sport): \Sportmonks\Model\SportPlayersSearchResponse
 ```
 
 Search
@@ -3103,17 +3250,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "Agg"; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "Agg"; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->playersSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -3130,9 +3280,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3166,6 +3316,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -3191,8 +3344,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3226,6 +3379,9 @@ All Value Bets
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -3251,8 +3407,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3274,7 +3430,7 @@ try {
 ## `predictionsByFixtureId()`
 
 ```php
-predictionsByFixtureId($version, $sport, $fixture_id): \Sportmonks\Model\SportPredictionsByFixtureIdResponse
+predictionsByFixtureId($fixture_id, $version, $sport): \Sportmonks\Model\SportPredictionsByFixtureIdResponse
 ```
 
 By Fixture ID
@@ -3286,17 +3442,20 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_id = 16774022; // The ID of the fixture you want to retrieve predictions from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_id = 16774022; // The ID of the fixture you want to retrieve predictions from.
 
 try {
     $result = $sportmonks->sport->predictionsByFixtureId(
+        fixture_id: $fixture_id, 
         version: $version, 
-        sport: $sport, 
-        fixture_id: $fixture_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -3313,9 +3472,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve predictions from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3337,7 +3496,7 @@ try {
 ## `predictionsValueBetsByFixtureId()`
 
 ```php
-predictionsValueBetsByFixtureId($version, $sport, $fixture_id): object
+predictionsValueBetsByFixtureId($fixture_id, $version, $sport): object
 ```
 
 Value Bets by Fixture ID
@@ -3349,17 +3508,20 @@ Value Bets by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_id = 18535050; // The ID of the fixture you want to retrieve value bets from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_id = 18535050; // The ID of the fixture you want to retrieve value bets from.
 
 try {
     $result = $sportmonks->sport->predictionsValueBetsByFixtureId(
+        fixture_id: $fixture_id, 
         version: $version, 
-        sport: $sport, 
-        fixture_id: $fixture_id
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->predictionsValueBetsByFixtureId: ', $e->getMessage(), PHP_EOL;
@@ -3371,9 +3533,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve value bets from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3395,7 +3557,7 @@ try {
 ## `refereeById()`
 
 ```php
-refereeById($version, $sport, $referee_id): \Sportmonks\Model\SportRefereeByIdResponse
+refereeById($referee_id, $version, $sport): \Sportmonks\Model\SportRefereeByIdResponse
 ```
 
 By ID
@@ -3407,17 +3569,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$referee_id = 11698; // The ID of the referee you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$referee_id = 11698; // The ID of the referee you want to retrieve.
 
 try {
     $result = $sportmonks->sport->refereeById(
+        referee_id: $referee_id, 
         version: $version, 
-        sport: $sport, 
-        referee_id: $referee_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -3433,9 +3598,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **referee_id** | **int**| The ID of the referee you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3469,6 +3634,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -3494,8 +3662,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3517,7 +3685,7 @@ try {
 ## `refereesByCountryId()`
 
 ```php
-refereesByCountryId($version, $sport, $country_id): \Sportmonks\Model\SportRefereesByCountryIdResponse
+refereesByCountryId($country_id, $version, $sport): \Sportmonks\Model\SportRefereesByCountryIdResponse
 ```
 
 By Country ID
@@ -3529,17 +3697,20 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$country_id = 320; // The ID of the country you want to retrieve referees from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$country_id = 320; // The ID of the country you want to retrieve referees from.
 
 try {
     $result = $sportmonks->sport->refereesByCountryId(
+        country_id: $country_id, 
         version: $version, 
-        sport: $sport, 
-        country_id: $country_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -3556,9 +3727,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **country_id** | **int**| The ID of the country you want to retrieve referees from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3580,7 +3751,7 @@ try {
 ## `refereesBySeasonId()`
 
 ```php
-refereesBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportRefereesBySeasonIdResponse
+refereesBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportRefereesBySeasonIdResponse
 ```
 
 By Season ID
@@ -3592,17 +3763,20 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve referees from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve referees from.
 
 try {
     $result = $sportmonks->sport->refereesBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -3619,9 +3793,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve referees from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3643,7 +3817,7 @@ try {
 ## `refereesSearch()`
 
 ```php
-refereesSearch($version, $sport, $name): \Sportmonks\Model\SportRefereesSearchResponse
+refereesSearch($name, $version, $sport): \Sportmonks\Model\SportRefereesSearchResponse
 ```
 
 Search
@@ -3655,17 +3829,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "Munch"; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "Munch"; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->refereesSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -3682,9 +3859,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3718,6 +3895,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -3743,8 +3923,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3766,7 +3946,7 @@ try {
 ## `rivalsByTeamId()`
 
 ```php
-rivalsByTeamId($version, $sport, $team_id): \Sportmonks\Model\SportRivalsByTeamIdResponse
+rivalsByTeamId($team_id, $version, $sport): \Sportmonks\Model\SportRivalsByTeamIdResponse
 ```
 
 By Team ID
@@ -3778,17 +3958,20 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 53; // The ID of the team you want to retrieve rivals from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 53; // The ID of the team you want to retrieve rivals from.
 
 try {
     $result = $sportmonks->sport->rivalsByTeamId(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -3804,9 +3987,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve rivals from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3828,7 +4011,7 @@ try {
 ## `roundById()`
 
 ```php
-roundById($version, $sport, $round_id): \Sportmonks\Model\SportRoundByIdResponse
+roundById($round_id, $version, $sport): \Sportmonks\Model\SportRoundByIdResponse
 ```
 
 By ID
@@ -3840,17 +4023,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$round_id = 23317; // The ID of the round you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$round_id = 23317; // The ID of the round you want to retrieve.
 
 try {
     $result = $sportmonks->sport->roundById(
+        round_id: $round_id, 
         version: $version, 
-        sport: $sport, 
-        round_id: $round_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -3866,9 +4052,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **round_id** | **int**| The ID of the round you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3902,6 +4088,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -3927,8 +4116,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -3950,7 +4139,7 @@ try {
 ## `roundsBySeasonId()`
 
 ```php
-roundsBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportRoundsBySeasonIdResponse
+roundsBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportRoundsBySeasonIdResponse
 ```
 
 Season ID
@@ -3962,17 +4151,20 @@ Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve rounds from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve rounds from.
 
 try {
     $result = $sportmonks->sport->roundsBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -3988,9 +4180,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve rounds from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4012,7 +4204,7 @@ try {
 ## `roundsSearch()`
 
 ```php
-roundsSearch($version, $sport, $name): \Sportmonks\Model\SportRoundsSearchResponse
+roundsSearch($name, $version, $sport): \Sportmonks\Model\SportRoundsSearchResponse
 ```
 
 Search
@@ -4024,17 +4216,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = 2; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = 2; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->roundsSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -4051,9 +4246,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **int**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4075,7 +4270,7 @@ try {
 ## `schedulesBySeasonId()`
 
 ```php
-schedulesBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportSchedulesBySeasonIdResponse
+schedulesBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportSchedulesBySeasonIdResponse
 ```
 
 By Season ID
@@ -4087,17 +4282,20 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686;
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686;
 
 try {
     $result = $sportmonks->sport->schedulesBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -4113,9 +4311,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**|  | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4137,7 +4335,7 @@ try {
 ## `schedulesByTeamAndSeasonId()`
 
 ```php
-schedulesByTeamAndSeasonId($version, $sport, $season_id, $team_id): \Sportmonks\Model\SportSchedulesByTeamAndSeasonIdResponse
+schedulesByTeamAndSeasonId($season_id, $team_id, $version, $sport): \Sportmonks\Model\SportSchedulesByTeamAndSeasonIdResponse
 ```
 
 By Team and Season ID
@@ -4149,19 +4347,22 @@ By Team and Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $season_id = 19686; // The ID of the season you want to retrieve schedule from.
 $team_id = 282; // The ID of the team you want to retrieve schedule from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->schedulesByTeamAndSeasonId(
-        version: $version, 
-        sport: $sport, 
         season_id: $season_id, 
-        team_id: $team_id
+        team_id: $team_id, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -4177,10 +4378,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve schedule from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve schedule from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4202,7 +4403,7 @@ try {
 ## `schedulesByTeamId()`
 
 ```php
-schedulesByTeamId($version, $sport, $team_id): \Sportmonks\Model\SportSchedulesByTeamIdResponse
+schedulesByTeamId($team_id, $version, $sport): \Sportmonks\Model\SportSchedulesByTeamIdResponse
 ```
 
 By Team ID
@@ -4214,17 +4415,20 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 282; // The ID of the team you want to retrieve schedule from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 282; // The ID of the team you want to retrieve schedule from.
 
 try {
     $result = $sportmonks->sport->schedulesByTeamId(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -4240,9 +4444,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve schedule from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4264,7 +4468,7 @@ try {
 ## `seasonById()`
 
 ```php
-seasonById($version, $sport, $season_id): \Sportmonks\Model\SportSeasonByIdResponse
+seasonById($season_id, $version, $sport): \Sportmonks\Model\SportSeasonByIdResponse
 ```
 
 By ID
@@ -4276,17 +4480,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve.
 
 try {
     $result = $sportmonks->sport->seasonById(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -4302,9 +4509,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4338,6 +4545,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -4363,8 +4573,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4386,7 +4596,7 @@ try {
 ## `seasonsByTeamId()`
 
 ```php
-seasonsByTeamId($version, $sport, $team_id): object
+seasonsByTeamId($team_id, $version, $sport): object
 ```
 
 By Team ID
@@ -4398,17 +4608,20 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 282; // The ID of the team you want to retrieve seasons from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 282; // The ID of the team you want to retrieve seasons from.
 
 try {
     $result = $sportmonks->sport->seasonsByTeamId(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
 } catch (\Exception $e) {
     echo 'Exception when calling SportApi->seasonsByTeamId: ', $e->getMessage(), PHP_EOL;
@@ -4420,9 +4633,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve seasons from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4444,7 +4657,7 @@ try {
 ## `seasonsSearch()`
 
 ```php
-seasonsSearch($version, $sport, $name): \Sportmonks\Model\SportSeasonsSearchResponse
+seasonsSearch($name, $version, $sport): \Sportmonks\Model\SportSeasonsSearchResponse
 ```
 
 Search
@@ -4456,17 +4669,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = 2022; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = 2022; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->seasonsSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -4483,9 +4699,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **int**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4507,7 +4723,7 @@ try {
 ## `squadsBySeasonAndTeamId()`
 
 ```php
-squadsBySeasonAndTeamId($version, $sport, $season_id, $team_id): \Sportmonks\Model\SportSquadsBySeasonAndTeamIdResponse
+squadsBySeasonAndTeamId($season_id, $team_id, $version, $sport): \Sportmonks\Model\SportSquadsBySeasonAndTeamIdResponse
 ```
 
 By Season and Team ID
@@ -4519,19 +4735,22 @@ By Season and Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $season_id = 19686; // The ID of the season you want to retrieve squads from.
 $team_id = 282; // The ID of the team you want to retrieve squads from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->squadsBySeasonAndTeamId(
-        version: $version, 
-        sport: $sport, 
         season_id: $season_id, 
-        team_id: $team_id
+        team_id: $team_id, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getMessage());
@@ -4548,10 +4767,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve squads from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve squads from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4573,7 +4792,7 @@ try {
 ## `squadsByTeamId()`
 
 ```php
-squadsByTeamId($version, $sport, $team_id): \Sportmonks\Model\SportSquadsByTeamIdResponse
+squadsByTeamId($team_id, $version, $sport): \Sportmonks\Model\SportSquadsByTeamIdResponse
 ```
 
 By Team ID
@@ -4585,17 +4804,20 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 282; // The ID of the team you want to retrieve squads from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 282; // The ID of the team you want to retrieve squads from.
 
 try {
     $result = $sportmonks->sport->squadsByTeamId(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -4611,9 +4833,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve squads from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4635,7 +4857,7 @@ try {
 ## `stageById()`
 
 ```php
-stageById($version, $sport, $stage_id): \Sportmonks\Model\SportStageByIdResponse
+stageById($stage_id, $version, $sport): \Sportmonks\Model\SportStageByIdResponse
 ```
 
 By ID
@@ -4647,17 +4869,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$stage_id = 1100; // The ID of the stage you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$stage_id = 1100; // The ID of the stage you want to retrieve.
 
 try {
     $result = $sportmonks->sport->stageById(
+        stage_id: $stage_id, 
         version: $version, 
-        sport: $sport, 
-        stage_id: $stage_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -4673,9 +4898,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **stage_id** | **int**| The ID of the stage you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4709,6 +4934,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -4734,8 +4962,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4757,7 +4985,7 @@ try {
 ## `stagesBySeasonId()`
 
 ```php
-stagesBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportStagesBySeasonIdResponse
+stagesBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportStagesBySeasonIdResponse
 ```
 
 By Season ID
@@ -4769,17 +4997,20 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve stages from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve stages from.
 
 try {
     $result = $sportmonks->sport->stagesBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -4795,9 +5026,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve stages from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4819,7 +5050,7 @@ try {
 ## `stagesSearch()`
 
 ```php
-stagesSearch($version, $sport, $name): \Sportmonks\Model\SportStagesSearchResponse
+stagesSearch($name, $version, $sport): \Sportmonks\Model\SportStagesSearchResponse
 ```
 
 Search
@@ -4831,17 +5062,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "Championship"; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "Championship"; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->stagesSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -4858,9 +5092,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4882,7 +5116,7 @@ try {
 ## `standingCorrectionsBySeasonId()`
 
 ```php
-standingCorrectionsBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportStandingCorrectionsBySeasonIdResponse
+standingCorrectionsBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportStandingCorrectionsBySeasonIdResponse
 ```
 
 Correction by Season ID
@@ -4894,17 +5128,20 @@ Correction by Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve standing corrections from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve standing corrections from.
 
 try {
     $result = $sportmonks->sport->standingCorrectionsBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getMessage());
@@ -4921,9 +5158,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve standing corrections from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -4957,6 +5194,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -4982,8 +5222,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5005,7 +5245,7 @@ try {
 ## `standingsByRoundId()`
 
 ```php
-standingsByRoundId($version, $sport, $round_id): \Sportmonks\Model\SportStandingsByRoundIdResponse
+standingsByRoundId($round_id, $version, $sport): \Sportmonks\Model\SportStandingsByRoundIdResponse
 ```
 
 By Round ID
@@ -5017,17 +5257,20 @@ By Round ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$round_id = 23318; // The ID of the round you want to retrieve standing from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$round_id = 23318; // The ID of the round you want to retrieve standing from.
 
 try {
     $result = $sportmonks->sport->standingsByRoundId(
+        round_id: $round_id, 
         version: $version, 
-        sport: $sport, 
-        round_id: $round_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getMessage());
@@ -5044,9 +5287,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **round_id** | **int**| The ID of the round you want to retrieve standing from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5068,7 +5311,7 @@ try {
 ## `standingsBySeasonId()`
 
 ```php
-standingsBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportStandingsBySeasonIdResponse
+standingsBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportStandingsBySeasonIdResponse
 ```
 
 By Season ID
@@ -5080,17 +5323,20 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve standing from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve standing from.
 
 try {
     $result = $sportmonks->sport->standingsBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -5106,9 +5352,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve standing from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5130,7 +5376,7 @@ try {
 ## `standingsLiveByLeagueId()`
 
 ```php
-standingsLiveByLeagueId($version, $sport, $league_id): \Sportmonks\Model\SportStandingsLiveByLeagueIdResponse
+standingsLiveByLeagueId($league_id, $version, $sport): \Sportmonks\Model\SportStandingsLiveByLeagueIdResponse
 ```
 
 By League ID
@@ -5142,17 +5388,20 @@ By League ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$league_id = 271; // The ID of the league you want to retrieve standings from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$league_id = 271; // The ID of the league you want to retrieve standings from.
 
 try {
     $result = $sportmonks->sport->standingsLiveByLeagueId(
+        league_id: $league_id, 
         version: $version, 
-        sport: $sport, 
-        league_id: $league_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -5168,9 +5417,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **league_id** | **int**| The ID of the league you want to retrieve standings from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5192,7 +5441,7 @@ try {
 ## `stateById()`
 
 ```php
-stateById($version, $sport, $state_id): \Sportmonks\Model\SportStateByIdResponse
+stateById($state_id, $version, $sport): \Sportmonks\Model\SportStateByIdResponse
 ```
 
 By ID
@@ -5204,17 +5453,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$state_id = 1; // The ID of the state you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$state_id = 1; // The ID of the state you want to retrieve.
 
 try {
     $result = $sportmonks->sport->stateById(
+        state_id: $state_id, 
         version: $version, 
-        sport: $sport, 
-        state_id: $state_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -5230,9 +5482,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **state_id** | **int**| The ID of the state you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5266,6 +5518,9 @@ By Sport
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -5291,8 +5546,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5326,6 +5581,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -5351,8 +5609,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5374,7 +5632,7 @@ try {
 ## `teamsByCountryId()`
 
 ```php
-teamsByCountryId($version, $sport, $country_id): \Sportmonks\Model\SportTeamsByCountryIdResponse
+teamsByCountryId($country_id, $version, $sport): \Sportmonks\Model\SportTeamsByCountryIdResponse
 ```
 
 By Country ID
@@ -5386,17 +5644,20 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$country_id = 320; // The ID of the country you want to retrieve teams from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$country_id = 320; // The ID of the country you want to retrieve teams from.
 
 try {
     $result = $sportmonks->sport->teamsByCountryId(
+        country_id: $country_id, 
         version: $version, 
-        sport: $sport, 
-        country_id: $country_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -5413,9 +5674,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **country_id** | **int**| The ID of the country you want to retrieve teams from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5437,7 +5698,7 @@ try {
 ## `teamsById()`
 
 ```php
-teamsById($version, $sport, $team_id): \Sportmonks\Model\SportTeamsByIdResponse
+teamsById($team_id, $version, $sport): \Sportmonks\Model\SportTeamsByIdResponse
 ```
 
 By ID
@@ -5449,17 +5710,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 180; // The ID of the team you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 180; // The ID of the team you want to retrieve.
 
 try {
     $result = $sportmonks->sport->teamsById(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -5475,9 +5739,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5499,7 +5763,7 @@ try {
 ## `teamsBySeasonId()`
 
 ```php
-teamsBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportTeamsBySeasonIdResponse
+teamsBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportTeamsBySeasonIdResponse
 ```
 
 By Season ID
@@ -5511,17 +5775,20 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve teams from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve teams from.
 
 try {
     $result = $sportmonks->sport->teamsBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -5537,9 +5804,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve teams from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5561,7 +5828,7 @@ try {
 ## `teamsSearch()`
 
 ```php
-teamsSearch($version, $sport, $name): \Sportmonks\Model\SportTeamsSearchResponse
+teamsSearch($name, $version, $sport): \Sportmonks\Model\SportTeamsSearchResponse
 ```
 
 Search
@@ -5573,17 +5840,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "Hors"; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "Hors"; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->teamsSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -5600,9 +5870,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5624,7 +5894,7 @@ try {
 ## `topScorersBySeasonId()`
 
 ```php
-topScorersBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportTopScorersBySeasonIdResponse
+topScorersBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportTopScorersBySeasonIdResponse
 ```
 
 By Season ID
@@ -5636,17 +5906,20 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve topscorers from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve topscorers from.
 
 try {
     $result = $sportmonks->sport->topScorersBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -5663,9 +5936,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve topscorers from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5687,7 +5960,7 @@ try {
 ## `topScorersByStageId()`
 
 ```php
-topScorersByStageId($version, $sport, $stage_id): \Sportmonks\Model\SportTopScorersByStageIdResponse
+topScorersByStageId($stage_id, $version, $sport): \Sportmonks\Model\SportTopScorersByStageIdResponse
 ```
 
 By Stage ID
@@ -5699,17 +5972,20 @@ By Stage ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$stage_id = 1100; // The ID of the stage you want to retrieve topscorers from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$stage_id = 1100; // The ID of the stage you want to retrieve topscorers from.
 
 try {
     $result = $sportmonks->sport->topScorersByStageId(
+        stage_id: $stage_id, 
         version: $version, 
-        sport: $sport, 
-        stage_id: $stage_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -5726,9 +6002,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **stage_id** | **int**| The ID of the stage you want to retrieve topscorers from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5750,7 +6026,7 @@ try {
 ## `tranfersByDateRange()`
 
 ```php
-tranfersByDateRange($version, $sport, $start_date, $end_date): \Sportmonks\Model\SportTranfersByDateRangeResponse
+tranfersByDateRange($start_date, $end_date, $version, $sport): \Sportmonks\Model\SportTranfersByDateRangeResponse
 ```
 
 By Date Range
@@ -5762,19 +6038,22 @@ By Date Range
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
-$sport = "football"; // The sport you want retrieve entities from.
 $start_date = "2021-12-27"; // The start date you want to retrieve transfers from.
 $end_date = "2021-12-30"; // The end date you want to retrieve transfers from.
+$version = "v3"; // The version of the API.
+$sport = "football"; // The sport you want retrieve entities from.
 
 try {
     $result = $sportmonks->sport->tranfersByDateRange(
-        version: $version, 
-        sport: $sport, 
         start_date: $start_date, 
-        end_date: $end_date
+        end_date: $end_date, 
+        version: $version, 
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -5791,10 +6070,10 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **start_date** | **string**| The start date you want to retrieve transfers from. | |
 | **end_date** | **string**| The end date you want to retrieve transfers from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5816,7 +6095,7 @@ try {
 ## `transferById()`
 
 ```php
-transferById($version, $sport, $transfer_id): \Sportmonks\Model\SportTransferByIdResponse
+transferById($transfer_id, $version, $sport): \Sportmonks\Model\SportTransferByIdResponse
 ```
 
 By ID
@@ -5828,17 +6107,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$transfer_id = 1;
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$transfer_id = 1;
 
 try {
     $result = $sportmonks->sport->transferById(
+        transfer_id: $transfer_id, 
         version: $version, 
-        sport: $sport, 
-        transfer_id: $transfer_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -5854,9 +6136,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **transfer_id** | **int**|  | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5890,6 +6172,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -5915,8 +6200,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -5938,7 +6223,7 @@ try {
 ## `transfersByPlayerId()`
 
 ```php
-transfersByPlayerId($version, $sport, $player_id): \Sportmonks\Model\SportTransfersByPlayerIdResponse
+transfersByPlayerId($player_id, $version, $sport): \Sportmonks\Model\SportTransfersByPlayerIdResponse
 ```
 
 By Player ID
@@ -5950,17 +6235,20 @@ By Player ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$player_id = 35659846; // The ID of the player you want to retrieve transfers from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$player_id = 35659846; // The ID of the player you want to retrieve transfers from.
 
 try {
     $result = $sportmonks->sport->transfersByPlayerId(
+        player_id: $player_id, 
         version: $version, 
-        sport: $sport, 
-        player_id: $player_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -5977,9 +6265,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **player_id** | **int**| The ID of the player you want to retrieve transfers from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6001,7 +6289,7 @@ try {
 ## `transfersByTeamId()`
 
 ```php
-transfersByTeamId($version, $sport, $team_id): \Sportmonks\Model\SportTransfersByTeamIdResponse
+transfersByTeamId($team_id, $version, $sport): \Sportmonks\Model\SportTransfersByTeamIdResponse
 ```
 
 By Team ID
@@ -6013,17 +6301,20 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$team_id = 3736; // The ID of the team you want to retrieve transfers from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$team_id = 3736; // The ID of the team you want to retrieve transfers from.
 
 try {
     $result = $sportmonks->sport->transfersByTeamId(
+        team_id: $team_id, 
         version: $version, 
-        sport: $sport, 
-        team_id: $team_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -6040,9 +6331,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **team_id** | **int**| The ID of the team you want to retrieve transfers from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6076,6 +6367,9 @@ Last Updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -6101,8 +6395,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6124,7 +6418,7 @@ try {
 ## `tvStationById()`
 
 ```php
-tvStationById($version, $sport, $tv_station_id): \Sportmonks\Model\SportTvStationByIdResponse
+tvStationById($tv_station_id, $version, $sport): \Sportmonks\Model\SportTvStationByIdResponse
 ```
 
 By ID
@@ -6136,17 +6430,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$tv_station_id = 33; // The ID of the tv station you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$tv_station_id = 33; // The ID of the tv station you want to retrieve.
 
 try {
     $result = $sportmonks->sport->tvStationById(
+        tv_station_id: $tv_station_id, 
         version: $version, 
-        sport: $sport, 
-        tv_station_id: $tv_station_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -6162,9 +6459,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **tv_station_id** | **int**| The ID of the tv station you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6198,6 +6495,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -6223,8 +6523,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6246,7 +6546,7 @@ try {
 ## `tvStationsByFixtureId()`
 
 ```php
-tvStationsByFixtureId($version, $sport, $fixture_id): \Sportmonks\Model\SportTvStationsByFixtureIdResponse
+tvStationsByFixtureId($fixture_id, $version, $sport): \Sportmonks\Model\SportTvStationsByFixtureIdResponse
 ```
 
 By Fixture ID
@@ -6258,17 +6558,20 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$fixture_id = 16808591; // The ID of the fixture you want to retrieve tv-stations from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$fixture_id = 16808591; // The ID of the fixture you want to retrieve tv-stations from.
 
 try {
     $result = $sportmonks->sport->tvStationsByFixtureId(
+        fixture_id: $fixture_id, 
         version: $version, 
-        sport: $sport, 
-        fixture_id: $fixture_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getMessage());
@@ -6285,9 +6588,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **fixture_id** | **int**| The ID of the fixture you want to retrieve tv-stations from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6309,7 +6612,7 @@ try {
 ## `venueById()`
 
 ```php
-venueById($version, $sport, $venue_id): \Sportmonks\Model\SportVenueByIdResponse
+venueById($venue_id, $version, $sport): \Sportmonks\Model\SportVenueByIdResponse
 ```
 
 By ID
@@ -6321,17 +6624,20 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$venue_id = 219; // The ID of the venue you want to retrieve.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$venue_id = 219; // The ID of the venue you want to retrieve.
 
 try {
     $result = $sportmonks->sport->venueById(
+        venue_id: $venue_id, 
         version: $version, 
-        sport: $sport, 
-        venue_id: $venue_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -6347,9 +6653,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **venue_id** | **int**| The ID of the venue you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6383,6 +6689,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -6408,8 +6717,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6431,7 +6740,7 @@ try {
 ## `venuesBySeasonId()`
 
 ```php
-venuesBySeasonId($version, $sport, $season_id): \Sportmonks\Model\SportVenuesBySeasonIdResponse
+venuesBySeasonId($season_id, $version, $sport): \Sportmonks\Model\SportVenuesBySeasonIdResponse
 ```
 
 By Season ID
@@ -6443,17 +6752,20 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$season_id = 19686; // The ID of the season you want to retrieve venues from.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$season_id = 19686; // The ID of the season you want to retrieve venues from.
 
 try {
     $result = $sportmonks->sport->venuesBySeasonId(
+        season_id: $season_id, 
         version: $version, 
-        sport: $sport, 
-        season_id: $season_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -6469,9 +6781,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **season_id** | **int**| The ID of the season you want to retrieve venues from. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 
@@ -6493,7 +6805,7 @@ try {
 ## `venuesSearch()`
 
 ```php
-venuesSearch($version, $sport, $name): \Sportmonks\Model\SportVenuesSearchResponse
+venuesSearch($name, $version, $sport): \Sportmonks\Model\SportVenuesSearchResponse
 ```
 
 Search
@@ -6505,17 +6817,20 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$name = "Park"; // The name you want to search on.
 $version = "v3"; // The version of the API.
 $sport = "football"; // The sport you want retrieve entities from.
-$name = "Park"; // The name you want to search on.
 
 try {
     $result = $sportmonks->sport->venuesSearch(
+        name: $name, 
         version: $version, 
-        sport: $sport, 
-        name: $name
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -6532,9 +6847,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
-| **sport** | **string**| The sport you want retrieve entities from. | |
 | **name** | **string**| The name you want to search on. | |
+| **version** | **string**| The version of the API. | [optional] |
+| **sport** | **string**| The sport you want retrieve entities from. | [optional] |
 
 ### Return type
 

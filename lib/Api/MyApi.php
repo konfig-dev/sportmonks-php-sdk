@@ -145,7 +145,7 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['enrichments'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -153,7 +153,7 @@ class MyApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\MyEnrichmentsResponse
      */
     public function enrichments(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['enrichments'][0]
@@ -170,14 +170,14 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['enrichments'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\MyEnrichmentsResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function enrichmentsWithHttpInfo($version, string $contentType = self::contentTypes['enrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function enrichmentsWithHttpInfo($version = null, string $contentType = self::contentTypes['enrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->enrichmentsRequest($version, $contentType);
 
@@ -285,14 +285,14 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['enrichments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function enrichmentsAsync(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['enrichments'][0]
@@ -313,13 +313,13 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['enrichments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function enrichmentsAsyncWithHttpInfo($version, string $contentType = self::contentTypes['enrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function enrichmentsAsyncWithHttpInfo($version = null, string $contentType = self::contentTypes['enrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\MyEnrichmentsResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->enrichmentsRequest($version, $contentType);
@@ -366,24 +366,18 @@ class MyApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'enrichments'
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['enrichments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function enrichmentsRequest($version, string $contentType = self::contentTypes['enrichments'][0])
+    public function enrichmentsRequest($version = SENTINEL_VALUE, string $contentType = self::contentTypes['enrichments'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling enrichments'
-            );
         }
 
 
@@ -437,6 +431,11 @@ class MyApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -470,7 +469,7 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagues'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -478,7 +477,7 @@ class MyApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\MyLeaguesResponse
      */
     public function leagues(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagues'][0]
@@ -495,14 +494,14 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagues'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\MyLeaguesResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesWithHttpInfo($version, string $contentType = self::contentTypes['leagues'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesWithHttpInfo($version = null, string $contentType = self::contentTypes['leagues'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesRequest($version, $contentType);
 
@@ -610,14 +609,14 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagues'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesAsync(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagues'][0]
@@ -638,13 +637,13 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagues'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesAsyncWithHttpInfo($version, string $contentType = self::contentTypes['leagues'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesAsyncWithHttpInfo($version = null, string $contentType = self::contentTypes['leagues'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\MyLeaguesResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesRequest($version, $contentType);
@@ -691,24 +690,18 @@ class MyApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leagues'
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagues'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesRequest($version, string $contentType = self::contentTypes['leagues'][0])
+    public function leaguesRequest($version = SENTINEL_VALUE, string $contentType = self::contentTypes['leagues'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leagues'
-            );
         }
 
 
@@ -762,6 +755,11 @@ class MyApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -795,7 +793,7 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['resources'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -803,7 +801,7 @@ class MyApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\MyResourcesResponse
      */
     public function resources(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['resources'][0]
@@ -820,14 +818,14 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['resources'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\MyResourcesResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function resourcesWithHttpInfo($version, string $contentType = self::contentTypes['resources'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function resourcesWithHttpInfo($version = null, string $contentType = self::contentTypes['resources'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->resourcesRequest($version, $contentType);
 
@@ -935,14 +933,14 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['resources'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function resourcesAsync(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['resources'][0]
@@ -963,13 +961,13 @@ class MyApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['resources'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function resourcesAsyncWithHttpInfo($version, string $contentType = self::contentTypes['resources'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function resourcesAsyncWithHttpInfo($version = null, string $contentType = self::contentTypes['resources'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\MyResourcesResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->resourcesRequest($version, $contentType);
@@ -1016,24 +1014,18 @@ class MyApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'resources'
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['resources'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function resourcesRequest($version, string $contentType = self::contentTypes['resources'][0])
+    public function resourcesRequest($version = SENTINEL_VALUE, string $contentType = self::contentTypes['resources'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling resources'
-            );
         }
 
 
@@ -1087,6 +1079,11 @@ class MyApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {

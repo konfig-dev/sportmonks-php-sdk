@@ -24,6 +24,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -47,7 +50,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -69,7 +72,7 @@ try {
 ## `getById()`
 
 ```php
-getById($version, $city_id): \Sportmonks\Model\CitiesGetByIdResponse
+getById($city_id, $version): \Sportmonks\Model\CitiesGetByIdResponse
 ```
 
 By ID
@@ -81,15 +84,18 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $city_id = 29834; // The ID of the city you want to retrieve
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->cities->getById(
-        version: $version, 
-        city_id: $city_id
+        city_id: $city_id, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -105,8 +111,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **city_id** | **int**| The ID of the city you want to retrieve | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -128,7 +134,7 @@ try {
 ## `search()`
 
 ```php
-search($version, $name): \Sportmonks\Model\CitiesSearchResponse
+search($name, $version): \Sportmonks\Model\CitiesSearchResponse
 ```
 
 Search
@@ -140,15 +146,18 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $name = "Lon"; // The name you want to search on
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->cities->search(
-        version: $version, 
-        name: $name
+        name: $name, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -165,8 +174,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **name** | **string**| The name you want to search on | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 

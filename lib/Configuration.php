@@ -120,12 +120,64 @@ class Configuration
     protected $tempFolderPath;
 
     /**
+     * version - client state from konfig.yaml
+     */
+    protected ?string $version = '';
+
+
+    /**
+     * version - client state setter from konfig.yaml
+     */
+    public function setVersion($version)
+    {
+        $this->version = $version;
+        return $this;
+    }
+
+    /**
+     * version - client state getter from konfig.yaml
+     */
+    public function getVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * sport - client state from konfig.yaml
+     */
+    protected ?string $sport = '';
+
+
+    /**
+     * sport - client state setter from konfig.yaml
+     */
+    public function setSport($sport)
+    {
+        $this->sport = $sport;
+        return $this;
+    }
+
+    /**
+     * sport - client state getter from konfig.yaml
+     */
+    public function getSport()
+    {
+        return $this->sport;
+    }
+
+    /**
      * Constructor
      */
     public function __construct(
+        string $version = null,
+        string $sport = null,
+        string $apiKey = null,
     )
     {
         $this->tempFolderPath = sys_get_temp_dir();
+        $this->setVersion($version);
+        $this->setSport($sport);
+        $this->setApiKey("Authorization", $apiKey);
     }
 
     /**

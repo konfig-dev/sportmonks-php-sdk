@@ -145,7 +145,7 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['all'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -153,7 +153,7 @@ class RegionsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\RegionsAllResponse
      */
     public function all(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['all'][0]
@@ -170,14 +170,14 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['all'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\RegionsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function allWithHttpInfo($version, string $contentType = self::contentTypes['all'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function allWithHttpInfo($version = null, string $contentType = self::contentTypes['all'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->allRequest($version, $contentType);
 
@@ -285,14 +285,14 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['all'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function allAsync(
-        $version,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['all'][0]
@@ -313,13 +313,13 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['all'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function allAsyncWithHttpInfo($version, string $contentType = self::contentTypes['all'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function allAsyncWithHttpInfo($version = null, string $contentType = self::contentTypes['all'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\RegionsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->allRequest($version, $contentType);
@@ -366,24 +366,18 @@ class RegionsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'all'
      *
-     * @param  string $version The version of the API. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['all'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function allRequest($version, string $contentType = self::contentTypes['all'][0])
+    public function allRequest($version = SENTINEL_VALUE, string $contentType = self::contentTypes['all'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling all'
-            );
         }
 
 
@@ -437,6 +431,11 @@ class RegionsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -470,8 +469,8 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $region_id The ID of the region you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -479,8 +478,8 @@ class RegionsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\RegionsGetByIdResponse
      */
     public function getById(
-        $version,
         $region_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['getById'][0]
@@ -488,7 +487,7 @@ class RegionsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->getByIdWithHttpInfo($version, $region_id, $contentType);
+        list($response) = $this->getByIdWithHttpInfo($region_id, $version, $contentType);
         return $response;
     }
 
@@ -497,17 +496,17 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $region_id The ID of the region you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\RegionsGetByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function getByIdWithHttpInfo($version, $region_id, string $contentType = self::contentTypes['getById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function getByIdWithHttpInfo($region_id, $version = null, string $contentType = self::contentTypes['getById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->getByIdRequest($version, $region_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->getByIdRequest($region_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -523,8 +522,8 @@ class RegionsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->getByIdWithHttpInfo(
-                        $version,
                         $region_id,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -614,16 +613,16 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $region_id The ID of the region you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function getByIdAsync(
-        $version,
         $region_id,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['getById'][0]
@@ -631,7 +630,7 @@ class RegionsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->getByIdAsyncWithHttpInfo($version, $region_id, $contentType)
+        return $this->getByIdAsyncWithHttpInfo($region_id, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -644,17 +643,17 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $region_id The ID of the region you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function getByIdAsyncWithHttpInfo($version, $region_id, string $contentType = self::contentTypes['getById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function getByIdAsyncWithHttpInfo($region_id, $version = null, string $contentType = self::contentTypes['getById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\RegionsGetByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->getByIdRequest($version, $region_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->getByIdRequest($region_id, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -698,31 +697,25 @@ class RegionsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'getById'
      *
-     * @param  string $version The version of the API. (required)
      * @param  int $region_id The ID of the region you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['getById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function getByIdRequest($version, $region_id, string $contentType = self::contentTypes['getById'][0])
+    public function getByIdRequest($region_id, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['getById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling getById'
-            );
-        }
         // verify the required parameter 'region_id' is set
         if ($region_id === SENTINEL_VALUE || (is_array($region_id) && count($region_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter region_id when calling getById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -784,6 +777,11 @@ class RegionsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -817,8 +815,8 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['search'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -826,8 +824,8 @@ class RegionsApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\RegionsSearchResponse
      */
     public function search(
-        $version,
         $name,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['search'][0]
@@ -835,7 +833,7 @@ class RegionsApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->searchWithHttpInfo($version, $name, $contentType);
+        list($response) = $this->searchWithHttpInfo($name, $version, $contentType);
         return $response;
     }
 
@@ -844,17 +842,17 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['search'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\RegionsSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function searchWithHttpInfo($version, $name, string $contentType = self::contentTypes['search'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function searchWithHttpInfo($name, $version = null, string $contentType = self::contentTypes['search'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->searchRequest($version, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->searchRequest($name, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -870,8 +868,8 @@ class RegionsApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->searchWithHttpInfo(
-                        $version,
                         $name,
+                        $version,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -961,16 +959,16 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['search'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function searchAsync(
-        $version,
         $name,
+        $version = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['search'][0]
@@ -978,7 +976,7 @@ class RegionsApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->searchAsyncWithHttpInfo($version, $name, $contentType)
+        return $this->searchAsyncWithHttpInfo($name, $version, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -991,17 +989,17 @@ class RegionsApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['search'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function searchAsyncWithHttpInfo($version, $name, string $contentType = self::contentTypes['search'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function searchAsyncWithHttpInfo($name, $version = null, string $contentType = self::contentTypes['search'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\RegionsSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->searchRequest($version, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->searchRequest($name, $version, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1045,26 +1043,16 @@ class RegionsApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'search'
      *
-     * @param  string $version The version of the API. (required)
      * @param  string $name The name you want to search on (required)
+     * @param  string $version The version of the API. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['search'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function searchRequest($version, $name, string $contentType = self::contentTypes['search'][0])
+    public function searchRequest($name, $version = SENTINEL_VALUE, string $contentType = self::contentTypes['search'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling search'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -1074,6 +1062,10 @@ class RegionsApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling search'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
 
 
@@ -1135,6 +1127,11 @@ class RegionsApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {

@@ -24,6 +24,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -46,7 +49,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -80,6 +83,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -102,7 +108,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -136,6 +142,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -158,7 +167,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 

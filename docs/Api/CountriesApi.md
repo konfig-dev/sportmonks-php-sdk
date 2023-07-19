@@ -24,6 +24,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -47,7 +50,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -69,7 +72,7 @@ try {
 ## `getById()`
 
 ```php
-getById($version, $country_id): \Sportmonks\Model\CountriesGetByIdResponse
+getById($country_id, $version): \Sportmonks\Model\CountriesGetByIdResponse
 ```
 
 By ID
@@ -81,15 +84,18 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $country_id = 1161; // The ID of the country you want to retrieve.
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->countries->getById(
-        version: $version, 
-        country_id: $country_id
+        country_id: $country_id, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -105,8 +111,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **country_id** | **int**| The ID of the country you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -128,7 +134,7 @@ try {
 ## `search()`
 
 ```php
-search($version, $name): \Sportmonks\Model\CountriesSearchResponse
+search($name, $version): \Sportmonks\Model\CountriesSearchResponse
 ```
 
 Search
@@ -140,15 +146,18 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $name = "Fra"; // The name you want to search on
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->countries->search(
-        version: $version, 
-        name: $name
+        name: $name, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -165,8 +174,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **name** | **string**| The name you want to search on | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 

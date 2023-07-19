@@ -451,9 +451,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $coach_id The ID of the coach you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -461,9 +461,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportCoachByIdResponse
      */
     public function coachById(
-        $version,
-        $sport,
         $coach_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachById'][0]
@@ -471,7 +471,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->coachByIdWithHttpInfo($version, $sport, $coach_id, $contentType);
+        list($response) = $this->coachByIdWithHttpInfo($coach_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -480,18 +480,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $coach_id The ID of the coach you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportCoachByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function coachByIdWithHttpInfo($version, $sport, $coach_id, string $contentType = self::contentTypes['coachById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachByIdWithHttpInfo($coach_id, $version = null, $sport = null, string $contentType = self::contentTypes['coachById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachByIdRequest($version, $sport, $coach_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachByIdRequest($coach_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -507,9 +507,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->coachByIdWithHttpInfo(
+                        $coach_id,
                         $version,
                         $sport,
-                        $coach_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -599,18 +599,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $coach_id The ID of the coach you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function coachByIdAsync(
-        $version,
-        $sport,
         $coach_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachById'][0]
@@ -618,7 +618,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->coachByIdAsyncWithHttpInfo($version, $sport, $coach_id, $contentType)
+        return $this->coachByIdAsyncWithHttpInfo($coach_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -631,18 +631,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $coach_id The ID of the coach you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function coachByIdAsyncWithHttpInfo($version, $sport, $coach_id, string $contentType = self::contentTypes['coachById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachByIdAsyncWithHttpInfo($coach_id, $version = null, $sport = null, string $contentType = self::contentTypes['coachById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportCoachByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachByIdRequest($version, $sport, $coach_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachByIdRequest($coach_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -686,42 +686,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'coachById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $coach_id The ID of the coach you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function coachByIdRequest($version, $sport, $coach_id, string $contentType = self::contentTypes['coachById'][0])
+    public function coachByIdRequest($coach_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['coachById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling coachById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling coachById'
-            );
-        }
         // verify the required parameter 'coach_id' is set
         if ($coach_id === SENTINEL_VALUE || (is_array($coach_id) && count($coach_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter coach_id when calling coachById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -791,6 +779,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -824,8 +817,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -833,8 +826,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportCoachesAllResponse
      */
     public function coachesAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesAll'][0]
@@ -851,15 +844,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportCoachesAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function coachesAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['coachesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['coachesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesAllRequest($version, $sport, $contentType);
 
@@ -968,16 +961,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function coachesAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesAll'][0]
@@ -998,14 +991,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function coachesAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['coachesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['coachesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportCoachesAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesAllRequest($version, $sport, $contentType);
@@ -1052,35 +1045,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'coachesAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function coachesAllRequest($version, $sport, string $contentType = self::contentTypes['coachesAll'][0])
+    public function coachesAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['coachesAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling coachesAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling coachesAll'
-            );
         }
 
 
@@ -1142,6 +1123,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1175,9 +1161,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve coaches from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -1185,9 +1171,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportCoachesByCountryIdResponse
      */
     public function coachesByCountryId(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesByCountryId'][0]
@@ -1195,7 +1181,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->coachesByCountryIdWithHttpInfo($version, $sport, $country_id, $contentType);
+        list($response) = $this->coachesByCountryIdWithHttpInfo($country_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -1204,18 +1190,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve coaches from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportCoachesByCountryIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function coachesByCountryIdWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['coachesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesByCountryIdWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['coachesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1231,9 +1217,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->coachesByCountryIdWithHttpInfo(
+                        $country_id,
                         $version,
                         $sport,
-                        $country_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -1323,18 +1309,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve coaches from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function coachesByCountryIdAsync(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesByCountryId'][0]
@@ -1342,7 +1328,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->coachesByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, $contentType)
+        return $this->coachesByCountryIdAsyncWithHttpInfo($country_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -1355,18 +1341,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve coaches from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function coachesByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['coachesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesByCountryIdAsyncWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['coachesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportCoachesByCountryIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1410,42 +1396,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'coachesByCountryId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve coaches from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function coachesByCountryIdRequest($version, $sport, $country_id, string $contentType = self::contentTypes['coachesByCountryId'][0])
+    public function coachesByCountryIdRequest($country_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['coachesByCountryId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling coachesByCountryId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling coachesByCountryId'
-            );
-        }
         // verify the required parameter 'country_id' is set
         if ($country_id === SENTINEL_VALUE || (is_array($country_id) && count($country_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter country_id when calling coachesByCountryId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -1515,6 +1489,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1548,8 +1527,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -1557,8 +1536,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportCoachesLatestResponse
      */
     public function coachesLatest(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesLatest'][0]
@@ -1575,15 +1554,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportCoachesLatestResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function coachesLatestWithHttpInfo($version, $sport, string $contentType = self::contentTypes['coachesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesLatestWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['coachesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesLatestRequest($version, $sport, $contentType);
 
@@ -1692,16 +1671,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function coachesLatestAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesLatest'][0]
@@ -1722,14 +1701,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function coachesLatestAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['coachesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesLatestAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['coachesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportCoachesLatestResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesLatestRequest($version, $sport, $contentType);
@@ -1776,35 +1755,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'coachesLatest'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function coachesLatestRequest($version, $sport, string $contentType = self::contentTypes['coachesLatest'][0])
+    public function coachesLatestRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['coachesLatest'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling coachesLatest'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling coachesLatest'
-            );
         }
 
 
@@ -1866,6 +1833,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -1899,9 +1871,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -1909,9 +1881,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportCoachesSearchResponse
      */
     public function coachesSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesSearch'][0]
@@ -1919,7 +1891,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->coachesSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->coachesSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -1928,18 +1900,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportCoachesSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function coachesSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['coachesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['coachesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -1955,9 +1927,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->coachesSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -2047,18 +2019,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function coachesSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['coachesSearch'][0]
@@ -2066,7 +2038,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->coachesSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->coachesSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2079,18 +2051,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function coachesSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['coachesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function coachesSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['coachesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportCoachesSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->coachesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -2134,37 +2106,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'coachesSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['coachesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function coachesSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['coachesSearch'][0])
+    public function coachesSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['coachesSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling coachesSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling coachesSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -2174,6 +2126,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling coachesSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -2243,6 +2203,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -2276,8 +2241,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -2285,8 +2250,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportCommentariesAllResponse
      */
     public function commentariesAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['commentariesAll'][0]
@@ -2303,15 +2268,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportCommentariesAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function commentariesAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['commentariesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function commentariesAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['commentariesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->commentariesAllRequest($version, $sport, $contentType);
 
@@ -2420,16 +2385,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function commentariesAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['commentariesAll'][0]
@@ -2450,14 +2415,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function commentariesAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['commentariesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function commentariesAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['commentariesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportCommentariesAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->commentariesAllRequest($version, $sport, $contentType);
@@ -2504,35 +2469,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'commentariesAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function commentariesAllRequest($version, $sport, string $contentType = self::contentTypes['commentariesAll'][0])
+    public function commentariesAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['commentariesAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling commentariesAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling commentariesAll'
-            );
         }
 
 
@@ -2594,6 +2547,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -2627,9 +2585,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve commentaries from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -2637,9 +2595,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportCommentariesByFixtureIdResponse
      */
     public function commentariesByFixtureId(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['commentariesByFixtureId'][0]
@@ -2647,7 +2605,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->commentariesByFixtureIdWithHttpInfo($version, $sport, $fixture_id, $contentType);
+        list($response) = $this->commentariesByFixtureIdWithHttpInfo($fixture_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -2656,18 +2614,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve commentaries from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportCommentariesByFixtureIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function commentariesByFixtureIdWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['commentariesByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function commentariesByFixtureIdWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['commentariesByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->commentariesByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->commentariesByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -2683,9 +2641,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->commentariesByFixtureIdWithHttpInfo(
+                        $fixture_id,
                         $version,
                         $sport,
-                        $fixture_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -2775,18 +2733,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve commentaries from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function commentariesByFixtureIdAsync(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['commentariesByFixtureId'][0]
@@ -2794,7 +2752,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->commentariesByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, $contentType)
+        return $this->commentariesByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -2807,18 +2765,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve commentaries from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function commentariesByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['commentariesByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function commentariesByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['commentariesByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportCommentariesByFixtureIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->commentariesByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->commentariesByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -2862,42 +2820,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'commentariesByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve commentaries from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['commentariesByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function commentariesByFixtureIdRequest($version, $sport, $fixture_id, string $contentType = self::contentTypes['commentariesByFixtureId'][0])
+    public function commentariesByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['commentariesByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling commentariesByFixtureId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling commentariesByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling commentariesByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -2967,6 +2913,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -3000,11 +2951,11 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range for Team
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date start_date (required)
      * @param  string $end_date end_date (required)
      * @param  string $team_id team_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureByDateRangeForTeam'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -3012,11 +2963,11 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixtureByDateRangeForTeamResponse
      */
     public function fixtureByDateRangeForTeam(
-        $version,
-        $sport,
         $start_date,
         $end_date,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0]
@@ -3024,7 +2975,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixtureByDateRangeForTeamWithHttpInfo($version, $sport, $start_date, $end_date, $team_id, $contentType);
+        list($response) = $this->fixtureByDateRangeForTeamWithHttpInfo($start_date, $end_date, $team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -3033,20 +2984,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range for Team
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date (required)
      * @param  string $end_date (required)
      * @param  string $team_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureByDateRangeForTeam'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixtureByDateRangeForTeamResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixtureByDateRangeForTeamWithHttpInfo($version, $sport, $start_date, $end_date, $team_id, string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixtureByDateRangeForTeamWithHttpInfo($start_date, $end_date, $team_id, $version = null, $sport = null, string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByDateRangeForTeamRequest($version, $sport, $start_date, $end_date, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByDateRangeForTeamRequest($start_date, $end_date, $team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -3062,11 +3013,11 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixtureByDateRangeForTeamWithHttpInfo(
-                        $version,
-                        $sport,
                         $start_date,
                         $end_date,
                         $team_id,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -3156,22 +3107,22 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range for Team
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date (required)
      * @param  string $end_date (required)
      * @param  string $team_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureByDateRangeForTeam'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixtureByDateRangeForTeamAsync(
-        $version,
-        $sport,
         $start_date,
         $end_date,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0]
@@ -3179,7 +3130,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixtureByDateRangeForTeamAsyncWithHttpInfo($version, $sport, $start_date, $end_date, $team_id, $contentType)
+        return $this->fixtureByDateRangeForTeamAsyncWithHttpInfo($start_date, $end_date, $team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3192,20 +3143,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range for Team
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date (required)
      * @param  string $end_date (required)
      * @param  string $team_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureByDateRangeForTeam'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixtureByDateRangeForTeamAsyncWithHttpInfo($version, $sport, $start_date, $end_date, $team_id, string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixtureByDateRangeForTeamAsyncWithHttpInfo($start_date, $end_date, $team_id, $version = null, $sport = null, string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixtureByDateRangeForTeamResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByDateRangeForTeamRequest($version, $sport, $start_date, $end_date, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByDateRangeForTeamRequest($start_date, $end_date, $team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -3249,39 +3200,19 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixtureByDateRangeForTeam'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date (required)
      * @param  string $end_date (required)
      * @param  string $team_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureByDateRangeForTeam'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixtureByDateRangeForTeamRequest($version, $sport, $start_date, $end_date, $team_id, string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0])
+    public function fixtureByDateRangeForTeamRequest($start_date, $end_date, $team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixtureByDateRangeForTeam'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixtureByDateRangeForTeam'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixtureByDateRangeForTeam'
-            );
-        }
         // Check if $start_date is a string
         if ($start_date !== SENTINEL_VALUE && !is_string($start_date)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($start_date, true), gettype($start_date)));
@@ -3311,6 +3242,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling fixtureByDateRangeForTeam'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -3396,6 +3335,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -3429,9 +3373,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -3439,9 +3383,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixtureByIdResponse
      */
     public function fixtureById(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixtureById'][0]
@@ -3449,7 +3393,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixtureByIdWithHttpInfo($version, $sport, $fixture_id, $contentType);
+        list($response) = $this->fixtureByIdWithHttpInfo($fixture_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -3458,18 +3402,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixtureByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixtureByIdWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['fixtureById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixtureByIdWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['fixtureById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -3485,9 +3429,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixtureByIdWithHttpInfo(
+                        $fixture_id,
                         $version,
                         $sport,
-                        $fixture_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -3577,18 +3521,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixtureByIdAsync(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixtureById'][0]
@@ -3596,7 +3540,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixtureByIdAsyncWithHttpInfo($version, $sport, $fixture_id, $contentType)
+        return $this->fixtureByIdAsyncWithHttpInfo($fixture_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -3609,18 +3553,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixtureByIdAsyncWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['fixtureById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixtureByIdAsyncWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['fixtureById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixtureByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixtureByIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -3664,42 +3608,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixtureById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixtureById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixtureByIdRequest($version, $sport, $fixture_id, string $contentType = self::contentTypes['fixtureById'][0])
+    public function fixtureByIdRequest($fixture_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixtureById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixtureById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixtureById'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling fixtureById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -3769,6 +3701,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -3802,8 +3739,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -3811,8 +3748,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixturesAllResponse
      */
     public function fixturesAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesAll'][0]
@@ -3829,15 +3766,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixturesAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['fixturesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['fixturesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesAllRequest($version, $sport, $contentType);
 
@@ -3946,16 +3883,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesAll'][0]
@@ -3976,14 +3913,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['fixturesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['fixturesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixturesAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesAllRequest($version, $sport, $contentType);
@@ -4030,35 +3967,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesAllRequest($version, $sport, string $contentType = self::contentTypes['fixturesAll'][0])
+    public function fixturesAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesAll'
-            );
         }
 
 
@@ -4120,6 +4045,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -4153,9 +4083,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDate'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -4163,9 +4093,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixturesByDateResponse
      */
     public function fixturesByDate(
-        $version,
-        $sport,
         $date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesByDate'][0]
@@ -4173,7 +4103,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixturesByDateWithHttpInfo($version, $sport, $date, $contentType);
+        list($response) = $this->fixturesByDateWithHttpInfo($date, $version, $sport, $contentType);
         return $response;
     }
 
@@ -4182,18 +4112,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDate'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixturesByDateResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesByDateWithHttpInfo($version, $sport, $date, string $contentType = self::contentTypes['fixturesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesByDateWithHttpInfo($date, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRequest($version, $sport, $date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRequest($date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -4209,9 +4139,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixturesByDateWithHttpInfo(
+                        $date,
                         $version,
                         $sport,
-                        $date,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -4301,18 +4231,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesByDateAsync(
-        $version,
-        $sport,
         $date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesByDate'][0]
@@ -4320,7 +4250,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixturesByDateAsyncWithHttpInfo($version, $sport, $date, $contentType)
+        return $this->fixturesByDateAsyncWithHttpInfo($date, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4333,18 +4263,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesByDateAsyncWithHttpInfo($version, $sport, $date, string $contentType = self::contentTypes['fixturesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesByDateAsyncWithHttpInfo($date, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixturesByDateResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRequest($version, $sport, $date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRequest($date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -4388,37 +4318,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesByDate'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesByDateRequest($version, $sport, $date, string $contentType = self::contentTypes['fixturesByDate'][0])
+    public function fixturesByDateRequest($date, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesByDate'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesByDate'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesByDate'
-            );
-        }
         // Check if $date is a string
         if ($date !== SENTINEL_VALUE && !is_string($date)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($date, true), gettype($date)));
@@ -4428,6 +4338,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter date when calling fixturesByDate'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -4497,6 +4415,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -4530,10 +4453,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve fixtures from. (required)
      * @param  string $end_date The end date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDateRange'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -4541,10 +4464,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixturesByDateRangeResponse
      */
     public function fixturesByDateRange(
-        $version,
-        $sport,
         $start_date,
         $end_date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesByDateRange'][0]
@@ -4552,7 +4475,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixturesByDateRangeWithHttpInfo($version, $sport, $start_date, $end_date, $contentType);
+        list($response) = $this->fixturesByDateRangeWithHttpInfo($start_date, $end_date, $version, $sport, $contentType);
         return $response;
     }
 
@@ -4561,19 +4484,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve fixtures from. (required)
      * @param  string $end_date The end date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDateRange'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixturesByDateRangeResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesByDateRangeWithHttpInfo($version, $sport, $start_date, $end_date, string $contentType = self::contentTypes['fixturesByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesByDateRangeWithHttpInfo($start_date, $end_date, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRangeRequest($version, $sport, $start_date, $end_date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRangeRequest($start_date, $end_date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -4589,10 +4512,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixturesByDateRangeWithHttpInfo(
-                        $version,
-                        $sport,
                         $start_date,
                         $end_date,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -4682,20 +4605,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve fixtures from. (required)
      * @param  string $end_date The end date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDateRange'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesByDateRangeAsync(
-        $version,
-        $sport,
         $start_date,
         $end_date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesByDateRange'][0]
@@ -4703,7 +4626,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixturesByDateRangeAsyncWithHttpInfo($version, $sport, $start_date, $end_date, $contentType)
+        return $this->fixturesByDateRangeAsyncWithHttpInfo($start_date, $end_date, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -4716,19 +4639,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve fixtures from. (required)
      * @param  string $end_date The end date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDateRange'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesByDateRangeAsyncWithHttpInfo($version, $sport, $start_date, $end_date, string $contentType = self::contentTypes['fixturesByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesByDateRangeAsyncWithHttpInfo($start_date, $end_date, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixturesByDateRangeResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRangeRequest($version, $sport, $start_date, $end_date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByDateRangeRequest($start_date, $end_date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -4772,38 +4695,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesByDateRange'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve fixtures from. (required)
      * @param  string $end_date The end date you want to retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByDateRange'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesByDateRangeRequest($version, $sport, $start_date, $end_date, string $contentType = self::contentTypes['fixturesByDateRange'][0])
+    public function fixturesByDateRangeRequest($start_date, $end_date, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesByDateRange'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesByDateRange'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesByDateRange'
-            );
-        }
         // Check if $start_date is a string
         if ($start_date !== SENTINEL_VALUE && !is_string($start_date)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($start_date, true), gettype($start_date)));
@@ -4823,6 +4726,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter end_date when calling fixturesByDateRange'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -4900,6 +4811,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -4933,9 +4849,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By IDs
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $fixture_ids The IDs you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByIds'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -4943,9 +4859,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixturesByIdsResponse
      */
     public function fixturesByIds(
-        $version,
-        $sport,
         $fixture_ids,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesByIds'][0]
@@ -4953,7 +4869,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixturesByIdsWithHttpInfo($version, $sport, $fixture_ids, $contentType);
+        list($response) = $this->fixturesByIdsWithHttpInfo($fixture_ids, $version, $sport, $contentType);
         return $response;
     }
 
@@ -4962,18 +4878,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By IDs
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $fixture_ids The IDs you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByIds'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixturesByIdsResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesByIdsWithHttpInfo($version, $sport, $fixture_ids, string $contentType = self::contentTypes['fixturesByIds'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesByIdsWithHttpInfo($fixture_ids, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesByIds'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByIdsRequest($version, $sport, $fixture_ids, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByIdsRequest($fixture_ids, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -4989,9 +4905,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixturesByIdsWithHttpInfo(
+                        $fixture_ids,
                         $version,
                         $sport,
-                        $fixture_ids,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -5081,18 +4997,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By IDs
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $fixture_ids The IDs you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByIds'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesByIdsAsync(
-        $version,
-        $sport,
         $fixture_ids,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesByIds'][0]
@@ -5100,7 +5016,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixturesByIdsAsyncWithHttpInfo($version, $sport, $fixture_ids, $contentType)
+        return $this->fixturesByIdsAsyncWithHttpInfo($fixture_ids, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5113,18 +5029,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By IDs
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $fixture_ids The IDs you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByIds'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesByIdsAsyncWithHttpInfo($version, $sport, $fixture_ids, string $contentType = self::contentTypes['fixturesByIds'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesByIdsAsyncWithHttpInfo($fixture_ids, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesByIds'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixturesByIdsResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByIdsRequest($version, $sport, $fixture_ids, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesByIdsRequest($fixture_ids, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -5168,37 +5084,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesByIds'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $fixture_ids The IDs you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesByIds'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesByIdsRequest($version, $sport, $fixture_ids, string $contentType = self::contentTypes['fixturesByIds'][0])
+    public function fixturesByIdsRequest($fixture_ids, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesByIds'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesByIds'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesByIds'
-            );
-        }
         // Check if $fixture_ids is a string
         if ($fixture_ids !== SENTINEL_VALUE && !is_string($fixture_ids)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($fixture_ids, true), gettype($fixture_ids)));
@@ -5208,6 +5104,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_ids when calling fixturesByIds'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -5277,6 +5181,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -5310,10 +5219,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Head to Head
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $first_team The ID of the first team retrieve fixtures from. (required)
      * @param  int $second_team The ID of the second team retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesHeadToHead'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -5321,10 +5230,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixturesHeadToHeadResponse
      */
     public function fixturesHeadToHead(
-        $version,
-        $sport,
         $first_team,
         $second_team,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesHeadToHead'][0]
@@ -5332,7 +5241,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixturesHeadToHeadWithHttpInfo($version, $sport, $first_team, $second_team, $contentType);
+        list($response) = $this->fixturesHeadToHeadWithHttpInfo($first_team, $second_team, $version, $sport, $contentType);
         return $response;
     }
 
@@ -5341,19 +5250,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Head to Head
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $first_team The ID of the first team retrieve fixtures from. (required)
      * @param  int $second_team The ID of the second team retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesHeadToHead'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixturesHeadToHeadResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesHeadToHeadWithHttpInfo($version, $sport, $first_team, $second_team, string $contentType = self::contentTypes['fixturesHeadToHead'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesHeadToHeadWithHttpInfo($first_team, $second_team, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesHeadToHead'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesHeadToHeadRequest($version, $sport, $first_team, $second_team, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesHeadToHeadRequest($first_team, $second_team, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -5369,10 +5278,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixturesHeadToHeadWithHttpInfo(
-                        $version,
-                        $sport,
                         $first_team,
                         $second_team,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -5462,20 +5371,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Head to Head
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $first_team The ID of the first team retrieve fixtures from. (required)
      * @param  int $second_team The ID of the second team retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesHeadToHead'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesHeadToHeadAsync(
-        $version,
-        $sport,
         $first_team,
         $second_team,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesHeadToHead'][0]
@@ -5483,7 +5392,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixturesHeadToHeadAsyncWithHttpInfo($version, $sport, $first_team, $second_team, $contentType)
+        return $this->fixturesHeadToHeadAsyncWithHttpInfo($first_team, $second_team, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -5496,19 +5405,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Head to Head
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $first_team The ID of the first team retrieve fixtures from. (required)
      * @param  int $second_team The ID of the second team retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesHeadToHead'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesHeadToHeadAsyncWithHttpInfo($version, $sport, $first_team, $second_team, string $contentType = self::contentTypes['fixturesHeadToHead'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesHeadToHeadAsyncWithHttpInfo($first_team, $second_team, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesHeadToHead'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixturesHeadToHeadResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesHeadToHeadRequest($version, $sport, $first_team, $second_team, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesHeadToHeadRequest($first_team, $second_team, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -5552,38 +5461,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesHeadToHead'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $first_team The ID of the first team retrieve fixtures from. (required)
      * @param  int $second_team The ID of the second team retrieve fixtures from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesHeadToHead'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesHeadToHeadRequest($version, $sport, $first_team, $second_team, string $contentType = self::contentTypes['fixturesHeadToHead'][0])
+    public function fixturesHeadToHeadRequest($first_team, $second_team, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesHeadToHead'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesHeadToHead'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesHeadToHead'
-            );
-        }
         // verify the required parameter 'first_team' is set
         if ($first_team === SENTINEL_VALUE || (is_array($first_team) && count($first_team) === 0)) {
             throw new \InvalidArgumentException(
@@ -5595,6 +5484,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter second_team when calling fixturesHeadToHead'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -5672,6 +5569,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -5705,8 +5607,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -5714,8 +5616,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return string
      */
     public function fixturesLatest(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesLatest'][0]
@@ -5732,15 +5634,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesLatestWithHttpInfo($version, $sport, string $contentType = self::contentTypes['fixturesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesLatestWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['fixturesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesLatestRequest($version, $sport, $contentType);
 
@@ -5849,16 +5751,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesLatestAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesLatest'][0]
@@ -5879,14 +5781,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesLatestAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['fixturesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesLatestAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['fixturesLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'string';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesLatestRequest($version, $sport, $contentType);
@@ -5933,35 +5835,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesLatest'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesLatestRequest($version, $sport, string $contentType = self::contentTypes['fixturesLatest'][0])
+    public function fixturesLatestRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesLatest'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesLatest'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesLatest'
-            );
         }
 
 
@@ -6023,6 +5913,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -6056,9 +5951,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -6066,9 +5961,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportFixturesSearchResponse
      */
     public function fixturesSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesSearch'][0]
@@ -6076,7 +5971,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->fixturesSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->fixturesSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -6085,18 +5980,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportFixturesSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function fixturesSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['fixturesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -6112,9 +6007,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->fixturesSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -6204,18 +6099,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function fixturesSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['fixturesSearch'][0]
@@ -6223,7 +6118,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->fixturesSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->fixturesSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -6236,18 +6131,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function fixturesSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['fixturesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function fixturesSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['fixturesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportFixturesSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->fixturesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -6291,37 +6186,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'fixturesSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['fixturesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function fixturesSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['fixturesSearch'][0])
+    public function fixturesSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['fixturesSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling fixturesSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling fixturesSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -6331,6 +6206,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling fixturesSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -6400,6 +6283,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -6433,9 +6321,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -6443,9 +6331,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLeagueByIdResponse
      */
     public function leagueById(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagueById'][0]
@@ -6453,7 +6341,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leagueByIdWithHttpInfo($version, $sport, $league_id, $contentType);
+        list($response) = $this->leagueByIdWithHttpInfo($league_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -6462,18 +6350,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLeagueByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leagueByIdWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['leagueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leagueByIdWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['leagueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueByIdRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueByIdRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -6489,9 +6377,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leagueByIdWithHttpInfo(
+                        $league_id,
                         $version,
                         $sport,
-                        $league_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -6581,18 +6469,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leagueByIdAsync(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagueById'][0]
@@ -6600,7 +6488,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leagueByIdAsyncWithHttpInfo($version, $sport, $league_id, $contentType)
+        return $this->leagueByIdAsyncWithHttpInfo($league_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -6613,18 +6501,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leagueByIdAsyncWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['leagueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leagueByIdAsyncWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['leagueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLeagueByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueByIdRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueByIdRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -6668,42 +6556,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leagueById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leagueByIdRequest($version, $sport, $league_id, string $contentType = self::contentTypes['leagueById'][0])
+    public function leagueByIdRequest($league_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leagueById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leagueById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leagueById'
-            );
-        }
         // verify the required parameter 'league_id' is set
         if ($league_id === SENTINEL_VALUE || (is_array($league_id) && count($league_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter league_id when calling leagueById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -6773,6 +6649,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -6806,9 +6687,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Enrichments
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve enrichments from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueEnrichments'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -6816,9 +6697,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function leagueEnrichments(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagueEnrichments'][0]
@@ -6826,7 +6707,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leagueEnrichmentsWithHttpInfo($version, $sport, $league_id, $contentType);
+        list($response) = $this->leagueEnrichmentsWithHttpInfo($league_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -6835,18 +6716,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Enrichments
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve enrichments from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueEnrichments'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leagueEnrichmentsWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['leagueEnrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leagueEnrichmentsWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['leagueEnrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueEnrichmentsRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueEnrichmentsRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -6862,9 +6743,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leagueEnrichmentsWithHttpInfo(
+                        $league_id,
                         $version,
                         $sport,
-                        $league_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -6954,18 +6835,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Enrichments
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve enrichments from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueEnrichments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leagueEnrichmentsAsync(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagueEnrichments'][0]
@@ -6973,7 +6854,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leagueEnrichmentsAsyncWithHttpInfo($version, $sport, $league_id, $contentType)
+        return $this->leagueEnrichmentsAsyncWithHttpInfo($league_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -6986,18 +6867,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Enrichments
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve enrichments from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueEnrichments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leagueEnrichmentsAsyncWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['leagueEnrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leagueEnrichmentsAsyncWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['leagueEnrichments'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueEnrichmentsRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueEnrichmentsRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -7041,42 +6922,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leagueEnrichments'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve enrichments from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueEnrichments'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leagueEnrichmentsRequest($version, $sport, $league_id, string $contentType = self::contentTypes['leagueEnrichments'][0])
+    public function leagueEnrichmentsRequest($league_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leagueEnrichments'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leagueEnrichments'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leagueEnrichments'
-            );
-        }
         // verify the required parameter 'league_id' is set
         if ($league_id === SENTINEL_VALUE || (is_array($league_id) && count($league_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter league_id when calling leagueEnrichments'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -7146,6 +7015,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -7179,9 +7053,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Shirts By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueShirts'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -7189,9 +7063,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function leagueShirts(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagueShirts'][0]
@@ -7199,7 +7073,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leagueShirtsWithHttpInfo($version, $sport, $league_id, $contentType);
+        list($response) = $this->leagueShirtsWithHttpInfo($league_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -7208,18 +7082,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Shirts By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueShirts'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leagueShirtsWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['leagueShirts'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leagueShirtsWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['leagueShirts'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueShirtsRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueShirtsRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -7235,9 +7109,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leagueShirtsWithHttpInfo(
+                        $league_id,
                         $version,
                         $sport,
-                        $league_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -7327,18 +7201,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Shirts By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueShirts'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leagueShirtsAsync(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leagueShirts'][0]
@@ -7346,7 +7220,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leagueShirtsAsyncWithHttpInfo($version, $sport, $league_id, $contentType)
+        return $this->leagueShirtsAsyncWithHttpInfo($league_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -7359,18 +7233,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Shirts By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueShirts'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leagueShirtsAsyncWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['leagueShirts'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leagueShirtsAsyncWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['leagueShirts'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueShirtsRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leagueShirtsRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -7414,42 +7288,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leagueShirts'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leagueShirts'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leagueShirtsRequest($version, $sport, $league_id, string $contentType = self::contentTypes['leagueShirts'][0])
+    public function leagueShirtsRequest($league_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leagueShirts'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leagueShirts'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leagueShirts'
-            );
-        }
         // verify the required parameter 'league_id' is set
         if ($league_id === SENTINEL_VALUE || (is_array($league_id) && count($league_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter league_id when calling leagueShirts'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -7519,6 +7381,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -7552,8 +7419,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -7561,8 +7428,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLeaguesAllResponse
      */
     public function leaguesAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesAll'][0]
@@ -7579,15 +7446,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLeaguesAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['leaguesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['leaguesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesAllRequest($version, $sport, $contentType);
 
@@ -7696,16 +7563,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesAll'][0]
@@ -7726,14 +7593,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['leaguesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['leaguesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLeaguesAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesAllRequest($version, $sport, $contentType);
@@ -7780,35 +7647,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leaguesAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesAllRequest($version, $sport, string $contentType = self::contentTypes['leaguesAll'][0])
+    public function leaguesAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leaguesAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leaguesAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leaguesAll'
-            );
         }
 
 
@@ -7870,6 +7725,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -7903,9 +7763,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -7913,9 +7773,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLeaguesByCountryIdResponse
      */
     public function leaguesByCountryId(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesByCountryId'][0]
@@ -7923,7 +7783,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leaguesByCountryIdWithHttpInfo($version, $sport, $country_id, $contentType);
+        list($response) = $this->leaguesByCountryIdWithHttpInfo($country_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -7932,18 +7792,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLeaguesByCountryIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesByCountryIdWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['leaguesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesByCountryIdWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -7959,9 +7819,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leaguesByCountryIdWithHttpInfo(
+                        $country_id,
                         $version,
                         $sport,
-                        $country_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -8051,18 +7911,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesByCountryIdAsync(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesByCountryId'][0]
@@ -8070,7 +7930,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leaguesByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, $contentType)
+        return $this->leaguesByCountryIdAsyncWithHttpInfo($country_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -8083,18 +7943,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['leaguesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesByCountryIdAsyncWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLeaguesByCountryIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -8138,42 +7998,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leaguesByCountryId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesByCountryIdRequest($version, $sport, $country_id, string $contentType = self::contentTypes['leaguesByCountryId'][0])
+    public function leaguesByCountryIdRequest($country_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leaguesByCountryId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leaguesByCountryId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leaguesByCountryId'
-            );
-        }
         // verify the required parameter 'country_id' is set
         if ($country_id === SENTINEL_VALUE || (is_array($country_id) && count($country_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter country_id when calling leaguesByCountryId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -8243,6 +8091,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -8276,9 +8129,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date of fixtures you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByDate'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -8286,9 +8139,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLeaguesByDateResponse
      */
     public function leaguesByDate(
-        $version,
-        $sport,
         $date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesByDate'][0]
@@ -8296,7 +8149,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leaguesByDateWithHttpInfo($version, $sport, $date, $contentType);
+        list($response) = $this->leaguesByDateWithHttpInfo($date, $version, $sport, $contentType);
         return $response;
     }
 
@@ -8305,18 +8158,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date of fixtures you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByDate'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLeaguesByDateResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesByDateWithHttpInfo($version, $sport, $date, string $contentType = self::contentTypes['leaguesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesByDateWithHttpInfo($date, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByDateRequest($version, $sport, $date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByDateRequest($date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -8332,9 +8185,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leaguesByDateWithHttpInfo(
+                        $date,
                         $version,
                         $sport,
-                        $date,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -8424,18 +8277,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date of fixtures you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByDate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesByDateAsync(
-        $version,
-        $sport,
         $date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesByDate'][0]
@@ -8443,7 +8296,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leaguesByDateAsyncWithHttpInfo($version, $sport, $date, $contentType)
+        return $this->leaguesByDateAsyncWithHttpInfo($date, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -8456,18 +8309,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date of fixtures you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByDate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesByDateAsyncWithHttpInfo($version, $sport, $date, string $contentType = self::contentTypes['leaguesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesByDateAsyncWithHttpInfo($date, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesByDate'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLeaguesByDateResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByDateRequest($version, $sport, $date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByDateRequest($date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -8511,37 +8364,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leaguesByDate'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $date The date of fixtures you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByDate'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesByDateRequest($version, $sport, $date, string $contentType = self::contentTypes['leaguesByDate'][0])
+    public function leaguesByDateRequest($date, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leaguesByDate'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leaguesByDate'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leaguesByDate'
-            );
-        }
         // Check if $date is a string
         if ($date !== SENTINEL_VALUE && !is_string($date)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($date, true), gettype($date)));
@@ -8551,6 +8384,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter date when calling leaguesByDate'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -8620,6 +8461,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -8653,9 +8499,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -8663,9 +8509,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function leaguesByTeamId(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesByTeamId'][0]
@@ -8673,7 +8519,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leaguesByTeamIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->leaguesByTeamIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -8682,18 +8528,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesByTeamIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['leaguesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesByTeamIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -8709,9 +8555,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leaguesByTeamIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -8801,18 +8647,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesByTeamIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesByTeamId'][0]
@@ -8820,7 +8666,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leaguesByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->leaguesByTeamIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -8833,18 +8679,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['leaguesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesByTeamIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -8888,42 +8734,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leaguesByTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesByTeamIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['leaguesByTeamId'][0])
+    public function leaguesByTeamIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leaguesByTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leaguesByTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leaguesByTeamId'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling leaguesByTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -8993,6 +8827,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -9026,9 +8865,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Current Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve current leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesCurrentByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -9036,9 +8875,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function leaguesCurrentByTeamId(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0]
@@ -9046,7 +8885,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leaguesCurrentByTeamIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->leaguesCurrentByTeamIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -9055,18 +8894,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Current Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve current leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesCurrentByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesCurrentByTeamIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesCurrentByTeamIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesCurrentByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesCurrentByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -9082,9 +8921,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leaguesCurrentByTeamIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -9174,18 +9013,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Current Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve current leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesCurrentByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesCurrentByTeamIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0]
@@ -9193,7 +9032,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leaguesCurrentByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->leaguesCurrentByTeamIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -9206,18 +9045,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Current Leagues By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve current leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesCurrentByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesCurrentByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesCurrentByTeamIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesCurrentByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesCurrentByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -9261,42 +9100,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leaguesCurrentByTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve current leagues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesCurrentByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesCurrentByTeamIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0])
+    public function leaguesCurrentByTeamIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leaguesCurrentByTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leaguesCurrentByTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leaguesCurrentByTeamId'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling leaguesCurrentByTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -9366,6 +9193,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -9399,8 +9231,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Live
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesLive'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -9408,8 +9240,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLeaguesLiveResponse
      */
     public function leaguesLive(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesLive'][0]
@@ -9426,15 +9258,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Live
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesLive'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLeaguesLiveResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesLiveWithHttpInfo($version, $sport, string $contentType = self::contentTypes['leaguesLive'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesLiveWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['leaguesLive'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesLiveRequest($version, $sport, $contentType);
 
@@ -9543,16 +9375,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Live
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesLive'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesLiveAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesLive'][0]
@@ -9573,14 +9405,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Live
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesLive'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesLiveAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['leaguesLive'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesLiveAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['leaguesLive'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLeaguesLiveResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesLiveRequest($version, $sport, $contentType);
@@ -9627,35 +9459,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leaguesLive'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesLive'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesLiveRequest($version, $sport, string $contentType = self::contentTypes['leaguesLive'][0])
+    public function leaguesLiveRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leaguesLive'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leaguesLive'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leaguesLive'
-            );
         }
 
 
@@ -9717,6 +9537,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -9750,9 +9575,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -9760,9 +9585,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLeaguesSearchResponse
      */
     public function leaguesSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesSearch'][0]
@@ -9770,7 +9595,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->leaguesSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->leaguesSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -9779,18 +9604,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLeaguesSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function leaguesSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['leaguesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -9806,9 +9631,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->leaguesSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -9898,18 +9723,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function leaguesSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['leaguesSearch'][0]
@@ -9917,7 +9742,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->leaguesSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->leaguesSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -9930,18 +9755,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function leaguesSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['leaguesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function leaguesSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['leaguesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLeaguesSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->leaguesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -9985,37 +9810,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'leaguesSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['leaguesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function leaguesSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['leaguesSearch'][0])
+    public function leaguesSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['leaguesSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling leaguesSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling leaguesSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -10025,6 +9830,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling leaguesSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -10094,6 +9907,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -10127,8 +9945,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -10136,8 +9954,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLivescoresAllResponse
      */
     public function livescoresAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['livescoresAll'][0]
@@ -10154,15 +9972,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLivescoresAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function livescoresAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['livescoresAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function livescoresAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['livescoresAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->livescoresAllRequest($version, $sport, $contentType);
 
@@ -10271,16 +10089,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function livescoresAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['livescoresAll'][0]
@@ -10301,14 +10119,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function livescoresAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['livescoresAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function livescoresAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['livescoresAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLivescoresAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->livescoresAllRequest($version, $sport, $contentType);
@@ -10355,35 +10173,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'livescoresAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function livescoresAllRequest($version, $sport, string $contentType = self::contentTypes['livescoresAll'][0])
+    public function livescoresAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['livescoresAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling livescoresAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling livescoresAll'
-            );
         }
 
 
@@ -10445,6 +10251,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -10478,8 +10289,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAllInPlay'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -10487,8 +10298,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLivescoresAllInPlayResponse
      */
     public function livescoresAllInPlay(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['livescoresAllInPlay'][0]
@@ -10505,15 +10316,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAllInPlay'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLivescoresAllInPlayResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function livescoresAllInPlayWithHttpInfo($version, $sport, string $contentType = self::contentTypes['livescoresAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function livescoresAllInPlayWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['livescoresAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->livescoresAllInPlayRequest($version, $sport, $contentType);
 
@@ -10622,16 +10433,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAllInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function livescoresAllInPlayAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['livescoresAllInPlay'][0]
@@ -10652,14 +10463,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAllInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function livescoresAllInPlayAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['livescoresAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function livescoresAllInPlayAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['livescoresAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLivescoresAllInPlayResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->livescoresAllInPlayRequest($version, $sport, $contentType);
@@ -10706,35 +10517,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'livescoresAllInPlay'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresAllInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function livescoresAllInPlayRequest($version, $sport, string $contentType = self::contentTypes['livescoresAllInPlay'][0])
+    public function livescoresAllInPlayRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['livescoresAllInPlay'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling livescoresAllInPlay'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling livescoresAllInPlay'
-            );
         }
 
 
@@ -10796,6 +10595,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -10829,8 +10633,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -10838,8 +10642,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportLivescoresLatestResponse
      */
     public function livescoresLatest(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['livescoresLatest'][0]
@@ -10856,15 +10660,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportLivescoresLatestResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function livescoresLatestWithHttpInfo($version, $sport, string $contentType = self::contentTypes['livescoresLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function livescoresLatestWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['livescoresLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->livescoresLatestRequest($version, $sport, $contentType);
 
@@ -10973,16 +10777,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function livescoresLatestAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['livescoresLatest'][0]
@@ -11003,14 +10807,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function livescoresLatestAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['livescoresLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function livescoresLatestAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['livescoresLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportLivescoresLatestResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->livescoresLatestRequest($version, $sport, $contentType);
@@ -11057,35 +10861,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'livescoresLatest'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['livescoresLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function livescoresLatestRequest($version, $sport, string $contentType = self::contentTypes['livescoresLatest'][0])
+    public function livescoresLatestRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['livescoresLatest'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling livescoresLatest'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling livescoresLatest'
-            );
         }
 
 
@@ -11147,6 +10939,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -11180,8 +10977,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPostMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -11189,8 +10986,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return string
      */
     public function newsAllPostMatch(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsAllPostMatch'][0]
@@ -11207,15 +11004,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPostMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function newsAllPostMatchWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsAllPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsAllPostMatchWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsAllPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsAllPostMatchRequest($version, $sport, $contentType);
 
@@ -11324,16 +11121,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPostMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function newsAllPostMatchAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsAllPostMatch'][0]
@@ -11354,14 +11151,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPostMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function newsAllPostMatchAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsAllPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsAllPostMatchAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsAllPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'string';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsAllPostMatchRequest($version, $sport, $contentType);
@@ -11408,35 +11205,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'newsAllPostMatch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPostMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function newsAllPostMatchRequest($version, $sport, string $contentType = self::contentTypes['newsAllPostMatch'][0])
+    public function newsAllPostMatchRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['newsAllPostMatch'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling newsAllPostMatch'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling newsAllPostMatch'
-            );
         }
 
 
@@ -11498,6 +11283,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -11531,8 +11321,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -11540,8 +11330,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportNewsAllPreMatchResponse
      */
     public function newsAllPreMatch(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsAllPreMatch'][0]
@@ -11558,15 +11348,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportNewsAllPreMatchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function newsAllPreMatchWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsAllPreMatchWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsAllPreMatchRequest($version, $sport, $contentType);
 
@@ -11675,16 +11465,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function newsAllPreMatchAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsAllPreMatch'][0]
@@ -11705,14 +11495,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function newsAllPreMatchAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsAllPreMatchAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportNewsAllPreMatchResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsAllPreMatchRequest($version, $sport, $contentType);
@@ -11759,35 +11549,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'newsAllPreMatch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function newsAllPreMatchRequest($version, $sport, string $contentType = self::contentTypes['newsAllPreMatch'][0])
+    public function newsAllPreMatchRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['newsAllPreMatch'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling newsAllPreMatch'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling newsAllPreMatch'
-            );
         }
 
 
@@ -11849,6 +11627,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -11882,9 +11665,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Post Match by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPostMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -11892,9 +11675,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return string
      */
     public function newsPostMatchBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0]
@@ -11902,7 +11685,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->newsPostMatchBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->newsPostMatchBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -11911,18 +11694,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Post Match by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPostMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function newsPostMatchBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsPostMatchBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPostMatchBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPostMatchBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -11938,9 +11721,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->newsPostMatchBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -12030,18 +11813,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Post Match by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPostMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function newsPostMatchBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0]
@@ -12049,7 +11832,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->newsPostMatchBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->newsPostMatchBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -12062,18 +11845,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Post Match by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPostMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function newsPostMatchBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsPostMatchBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'string';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPostMatchBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPostMatchBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -12117,42 +11900,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'newsPostMatchBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPostMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function newsPostMatchBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0])
+    public function newsPostMatchBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['newsPostMatchBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling newsPostMatchBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling newsPostMatchBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling newsPostMatchBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -12222,6 +11993,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -12255,9 +12031,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPreMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -12265,9 +12041,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportNewsPreMatchBySeasonIdResponse
      */
     public function newsPreMatchBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0]
@@ -12275,7 +12051,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->newsPreMatchBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->newsPreMatchBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -12284,18 +12060,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPreMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportNewsPreMatchBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function newsPreMatchBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsPreMatchBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPreMatchBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPreMatchBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -12311,9 +12087,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->newsPreMatchBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -12403,18 +12179,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPreMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function newsPreMatchBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0]
@@ -12422,7 +12198,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->newsPreMatchBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->newsPreMatchBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -12435,18 +12211,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPreMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function newsPreMatchBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsPreMatchBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportNewsPreMatchBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPreMatchBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->newsPreMatchBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -12490,42 +12266,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'newsPreMatchBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve post-match news from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsPreMatchBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function newsPreMatchBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0])
+    public function newsPreMatchBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['newsPreMatchBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling newsPreMatchBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling newsPreMatchBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling newsPreMatchBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -12595,6 +12359,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -12628,8 +12397,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPostMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -12637,8 +12406,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return string
      */
     public function newsUpcomingPostMatch(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsUpcomingPostMatch'][0]
@@ -12655,15 +12424,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPostMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of string, HTTP status code, HTTP response headers (array of strings)
      */
-    public function newsUpcomingPostMatchWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsUpcomingPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsUpcomingPostMatchWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsUpcomingPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsUpcomingPostMatchRequest($version, $sport, $contentType);
 
@@ -12772,16 +12541,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPostMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function newsUpcomingPostMatchAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsUpcomingPostMatch'][0]
@@ -12802,14 +12571,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Post Match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPostMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function newsUpcomingPostMatchAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsUpcomingPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsUpcomingPostMatchAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsUpcomingPostMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'string';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsUpcomingPostMatchRequest($version, $sport, $contentType);
@@ -12856,35 +12625,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'newsUpcomingPostMatch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPostMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function newsUpcomingPostMatchRequest($version, $sport, string $contentType = self::contentTypes['newsUpcomingPostMatch'][0])
+    public function newsUpcomingPostMatchRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['newsUpcomingPostMatch'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling newsUpcomingPostMatch'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling newsUpcomingPostMatch'
-            );
         }
 
 
@@ -12946,6 +12703,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -12979,8 +12741,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -12988,8 +12750,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportNewsUpcomingPreMatchResponse
      */
     public function newsUpcomingPreMatch(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsUpcomingPreMatch'][0]
@@ -13006,15 +12768,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportNewsUpcomingPreMatchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function newsUpcomingPreMatchWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsUpcomingPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsUpcomingPreMatchWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsUpcomingPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsUpcomingPreMatchRequest($version, $sport, $contentType);
 
@@ -13123,16 +12885,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function newsUpcomingPreMatchAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['newsUpcomingPreMatch'][0]
@@ -13153,14 +12915,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Upcoming Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function newsUpcomingPreMatchAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['newsUpcomingPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function newsUpcomingPreMatchAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['newsUpcomingPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportNewsUpcomingPreMatchResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->newsUpcomingPreMatchRequest($version, $sport, $contentType);
@@ -13207,35 +12969,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'newsUpcomingPreMatch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['newsUpcomingPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function newsUpcomingPreMatchRequest($version, $sport, string $contentType = self::contentTypes['newsUpcomingPreMatch'][0])
+    public function newsUpcomingPreMatchRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['newsUpcomingPreMatch'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling newsUpcomingPreMatch'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling newsUpcomingPreMatch'
-            );
         }
 
 
@@ -13297,6 +13047,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -13330,8 +13085,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllInPlay'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -13339,8 +13094,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportOddsAllInPlayResponse
      */
     public function oddsAllInPlay(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsAllInPlay'][0]
@@ -13357,15 +13112,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllInPlay'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportOddsAllInPlayResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsAllInPlayWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsAllInPlayWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsAllInPlayRequest($version, $sport, $contentType);
 
@@ -13474,16 +13229,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsAllInPlayAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsAllInPlay'][0]
@@ -13504,14 +13259,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsAllInPlayAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsAllInPlayAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsAllInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportOddsAllInPlayResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsAllInPlayRequest($version, $sport, $contentType);
@@ -13558,35 +13313,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsAllInPlay'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsAllInPlayRequest($version, $sport, string $contentType = self::contentTypes['oddsAllInPlay'][0])
+    public function oddsAllInPlayRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsAllInPlay'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsAllInPlay'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsAllInPlay'
-            );
         }
 
 
@@ -13648,6 +13391,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -13681,8 +13429,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -13690,8 +13438,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportOddsAllPreMatchResponse
      */
     public function oddsAllPreMatch(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsAllPreMatch'][0]
@@ -13708,15 +13456,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportOddsAllPreMatchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsAllPreMatchWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsAllPreMatchWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsAllPreMatchRequest($version, $sport, $contentType);
 
@@ -13825,16 +13573,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsAllPreMatchAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsAllPreMatch'][0]
@@ -13855,14 +13603,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsAllPreMatchAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsAllPreMatchAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsAllPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportOddsAllPreMatchResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsAllPreMatchRequest($version, $sport, $contentType);
@@ -13909,35 +13657,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsAllPreMatch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsAllPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsAllPreMatchRequest($version, $sport, string $contentType = self::contentTypes['oddsAllPreMatch'][0])
+    public function oddsAllPreMatchRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsAllPreMatch'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsAllPreMatch'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsAllPreMatch'
-            );
         }
 
 
@@ -13999,6 +13735,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -14032,10 +13773,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -14043,10 +13784,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function oddsInPlayByFixtureAndBookmakerId(
-        $version,
-        $sport,
         $fixture_id,
         $bookmaker_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0]
@@ -14054,7 +13795,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->oddsInPlayByFixtureAndBookmakerIdWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, $contentType);
+        list($response) = $this->oddsInPlayByFixtureAndBookmakerIdWithHttpInfo($fixture_id, $bookmaker_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -14063,19 +13804,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsInPlayByFixtureAndBookmakerIdWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsInPlayByFixtureAndBookmakerIdWithHttpInfo($fixture_id, $bookmaker_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndBookmakerIdRequest($version, $sport, $fixture_id, $bookmaker_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndBookmakerIdRequest($fixture_id, $bookmaker_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -14091,10 +13832,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->oddsInPlayByFixtureAndBookmakerIdWithHttpInfo(
-                        $version,
-                        $sport,
                         $fixture_id,
                         $bookmaker_id,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -14184,20 +13925,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsInPlayByFixtureAndBookmakerIdAsync(
-        $version,
-        $sport,
         $fixture_id,
         $bookmaker_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0]
@@ -14205,7 +13946,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->oddsInPlayByFixtureAndBookmakerIdAsyncWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, $contentType)
+        return $this->oddsInPlayByFixtureAndBookmakerIdAsyncWithHttpInfo($fixture_id, $bookmaker_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -14218,19 +13959,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsInPlayByFixtureAndBookmakerIdAsyncWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsInPlayByFixtureAndBookmakerIdAsyncWithHttpInfo($fixture_id, $bookmaker_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndBookmakerIdRequest($version, $sport, $fixture_id, $bookmaker_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndBookmakerIdRequest($fixture_id, $bookmaker_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -14274,38 +14015,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsInPlayByFixtureAndBookmakerId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsInPlayByFixtureAndBookmakerIdRequest($version, $sport, $fixture_id, $bookmaker_id, string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0])
+    public function oddsInPlayByFixtureAndBookmakerIdRequest($fixture_id, $bookmaker_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsInPlayByFixtureAndBookmakerId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsInPlayByFixtureAndBookmakerId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsInPlayByFixtureAndBookmakerId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -14317,6 +14038,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter bookmaker_id when calling oddsInPlayByFixtureAndBookmakerId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -14394,6 +14123,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -14427,10 +14161,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -14438,10 +14172,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function oddsInPlayByFixtureAndMarketId(
-        $version,
-        $sport,
         $fixture_id,
         $market_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0]
@@ -14449,7 +14183,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->oddsInPlayByFixtureAndMarketIdWithHttpInfo($version, $sport, $fixture_id, $market_id, $contentType);
+        list($response) = $this->oddsInPlayByFixtureAndMarketIdWithHttpInfo($fixture_id, $market_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -14458,19 +14192,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsInPlayByFixtureAndMarketIdWithHttpInfo($version, $sport, $fixture_id, $market_id, string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsInPlayByFixtureAndMarketIdWithHttpInfo($fixture_id, $market_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndMarketIdRequest($version, $sport, $fixture_id, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndMarketIdRequest($fixture_id, $market_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -14486,10 +14220,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->oddsInPlayByFixtureAndMarketIdWithHttpInfo(
-                        $version,
-                        $sport,
                         $fixture_id,
                         $market_id,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -14579,20 +14313,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsInPlayByFixtureAndMarketIdAsync(
-        $version,
-        $sport,
         $fixture_id,
         $market_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0]
@@ -14600,7 +14334,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->oddsInPlayByFixtureAndMarketIdAsyncWithHttpInfo($version, $sport, $fixture_id, $market_id, $contentType)
+        return $this->oddsInPlayByFixtureAndMarketIdAsyncWithHttpInfo($fixture_id, $market_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -14613,19 +14347,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsInPlayByFixtureAndMarketIdAsyncWithHttpInfo($version, $sport, $fixture_id, $market_id, string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsInPlayByFixtureAndMarketIdAsyncWithHttpInfo($fixture_id, $market_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndMarketIdRequest($version, $sport, $fixture_id, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureAndMarketIdRequest($fixture_id, $market_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -14669,38 +14403,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsInPlayByFixtureAndMarketId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsInPlayByFixtureAndMarketIdRequest($version, $sport, $fixture_id, $market_id, string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0])
+    public function oddsInPlayByFixtureAndMarketIdRequest($fixture_id, $market_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsInPlayByFixtureAndMarketId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsInPlayByFixtureAndMarketId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsInPlayByFixtureAndMarketId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -14712,6 +14426,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter market_id when calling oddsInPlayByFixtureAndMarketId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -14789,6 +14511,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -14822,9 +14549,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -14832,9 +14559,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportOddsInPlayByFixtureIdResponse
      */
     public function oddsInPlayByFixtureId(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0]
@@ -14842,7 +14569,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->oddsInPlayByFixtureIdWithHttpInfo($version, $sport, $fixture_id, $contentType);
+        list($response) = $this->oddsInPlayByFixtureIdWithHttpInfo($fixture_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -14851,18 +14578,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportOddsInPlayByFixtureIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsInPlayByFixtureIdWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsInPlayByFixtureIdWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -14878,9 +14605,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->oddsInPlayByFixtureIdWithHttpInfo(
+                        $fixture_id,
                         $version,
                         $sport,
-                        $fixture_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -14970,18 +14697,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsInPlayByFixtureIdAsync(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0]
@@ -14989,7 +14716,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->oddsInPlayByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, $contentType)
+        return $this->oddsInPlayByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -15002,18 +14729,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * In-play by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsInPlayByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsInPlayByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportOddsInPlayByFixtureIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsInPlayByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -15057,42 +14784,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsInPlayByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve in-play odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsInPlayByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsInPlayByFixtureIdRequest($version, $sport, $fixture_id, string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0])
+    public function oddsInPlayByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsInPlayByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsInPlayByFixtureId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsInPlayByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling oddsInPlayByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -15162,6 +14877,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -15195,8 +14915,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestInPlay'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -15204,8 +14924,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function oddsLatestInPlay(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsLatestInPlay'][0]
@@ -15222,15 +14942,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestInPlay'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsLatestInPlayWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsLatestInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsLatestInPlayWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsLatestInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsLatestInPlayRequest($version, $sport, $contentType);
 
@@ -15339,16 +15059,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsLatestInPlayAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsLatestInPlay'][0]
@@ -15369,14 +15089,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest In-play
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsLatestInPlayAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsLatestInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsLatestInPlayAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsLatestInPlay'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsLatestInPlayRequest($version, $sport, $contentType);
@@ -15423,35 +15143,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsLatestInPlay'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestInPlay'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsLatestInPlayRequest($version, $sport, string $contentType = self::contentTypes['oddsLatestInPlay'][0])
+    public function oddsLatestInPlayRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsLatestInPlay'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsLatestInPlay'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsLatestInPlay'
-            );
         }
 
 
@@ -15513,6 +15221,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -15546,8 +15259,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -15555,8 +15268,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function oddsLatestPreMatch(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsLatestPreMatch'][0]
@@ -15573,15 +15286,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestPreMatch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsLatestPreMatchWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsLatestPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsLatestPreMatchWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsLatestPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsLatestPreMatchRequest($version, $sport, $contentType);
 
@@ -15690,16 +15403,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsLatestPreMatchAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsLatestPreMatch'][0]
@@ -15720,14 +15433,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated Pre-match
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsLatestPreMatchAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['oddsLatestPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsLatestPreMatchAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['oddsLatestPreMatch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsLatestPreMatchRequest($version, $sport, $contentType);
@@ -15774,35 +15487,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsLatestPreMatch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsLatestPreMatch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsLatestPreMatchRequest($version, $sport, string $contentType = self::contentTypes['oddsLatestPreMatch'][0])
+    public function oddsLatestPreMatchRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsLatestPreMatch'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsLatestPreMatch'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsLatestPreMatch'
-            );
         }
 
 
@@ -15864,6 +15565,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -15897,10 +15603,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -15908,10 +15614,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponse
      */
     public function oddsPreMatchByFixtureAndBookmakerId(
-        $version,
-        $sport,
         $fixture_id,
         $bookmaker_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0]
@@ -15919,7 +15625,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->oddsPreMatchByFixtureAndBookmakerIdWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, $contentType);
+        list($response) = $this->oddsPreMatchByFixtureAndBookmakerIdWithHttpInfo($fixture_id, $bookmaker_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -15928,19 +15634,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsPreMatchByFixtureAndBookmakerIdWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsPreMatchByFixtureAndBookmakerIdWithHttpInfo($fixture_id, $bookmaker_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndBookmakerIdRequest($version, $sport, $fixture_id, $bookmaker_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndBookmakerIdRequest($fixture_id, $bookmaker_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -15956,10 +15662,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->oddsPreMatchByFixtureAndBookmakerIdWithHttpInfo(
-                        $version,
-                        $sport,
                         $fixture_id,
                         $bookmaker_id,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -16049,20 +15755,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsPreMatchByFixtureAndBookmakerIdAsync(
-        $version,
-        $sport,
         $fixture_id,
         $bookmaker_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0]
@@ -16070,7 +15776,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->oddsPreMatchByFixtureAndBookmakerIdAsyncWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, $contentType)
+        return $this->oddsPreMatchByFixtureAndBookmakerIdAsyncWithHttpInfo($fixture_id, $bookmaker_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -16083,19 +15789,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Bookmaker ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsPreMatchByFixtureAndBookmakerIdAsyncWithHttpInfo($version, $sport, $fixture_id, $bookmaker_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsPreMatchByFixtureAndBookmakerIdAsyncWithHttpInfo($fixture_id, $bookmaker_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndBookmakerIdRequest($version, $sport, $fixture_id, $bookmaker_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndBookmakerIdRequest($fixture_id, $bookmaker_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -16139,38 +15845,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsPreMatchByFixtureAndBookmakerId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $bookmaker_id The ID of the bookmaker you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsPreMatchByFixtureAndBookmakerIdRequest($version, $sport, $fixture_id, $bookmaker_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0])
+    public function oddsPreMatchByFixtureAndBookmakerIdRequest($fixture_id, $bookmaker_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndBookmakerId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsPreMatchByFixtureAndBookmakerId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsPreMatchByFixtureAndBookmakerId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -16182,6 +15868,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter bookmaker_id when calling oddsPreMatchByFixtureAndBookmakerId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -16259,6 +15953,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -16292,10 +15991,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -16303,10 +16002,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportOddsPreMatchByFixtureAndMarketIdResponse
      */
     public function oddsPreMatchByFixtureAndMarketId(
-        $version,
-        $sport,
         $fixture_id,
         $market_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0]
@@ -16314,7 +16013,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->oddsPreMatchByFixtureAndMarketIdWithHttpInfo($version, $sport, $fixture_id, $market_id, $contentType);
+        list($response) = $this->oddsPreMatchByFixtureAndMarketIdWithHttpInfo($fixture_id, $market_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -16323,19 +16022,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportOddsPreMatchByFixtureAndMarketIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsPreMatchByFixtureAndMarketIdWithHttpInfo($version, $sport, $fixture_id, $market_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsPreMatchByFixtureAndMarketIdWithHttpInfo($fixture_id, $market_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndMarketIdRequest($version, $sport, $fixture_id, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndMarketIdRequest($fixture_id, $market_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -16351,10 +16050,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->oddsPreMatchByFixtureAndMarketIdWithHttpInfo(
-                        $version,
-                        $sport,
                         $fixture_id,
                         $market_id,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -16444,20 +16143,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsPreMatchByFixtureAndMarketIdAsync(
-        $version,
-        $sport,
         $fixture_id,
         $market_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0]
@@ -16465,7 +16164,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->oddsPreMatchByFixtureAndMarketIdAsyncWithHttpInfo($version, $sport, $fixture_id, $market_id, $contentType)
+        return $this->oddsPreMatchByFixtureAndMarketIdAsyncWithHttpInfo($fixture_id, $market_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -16478,19 +16177,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture and Market ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsPreMatchByFixtureAndMarketIdAsyncWithHttpInfo($version, $sport, $fixture_id, $market_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsPreMatchByFixtureAndMarketIdAsyncWithHttpInfo($fixture_id, $market_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportOddsPreMatchByFixtureAndMarketIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndMarketIdRequest($version, $sport, $fixture_id, $market_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureAndMarketIdRequest($fixture_id, $market_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -16534,38 +16233,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsPreMatchByFixtureAndMarketId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
      * @param  int $market_id The ID of the market you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureAndMarketId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsPreMatchByFixtureAndMarketIdRequest($version, $sport, $fixture_id, $market_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0])
+    public function oddsPreMatchByFixtureAndMarketIdRequest($fixture_id, $market_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsPreMatchByFixtureAndMarketId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsPreMatchByFixtureAndMarketId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsPreMatchByFixtureAndMarketId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -16577,6 +16256,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter market_id when calling oddsPreMatchByFixtureAndMarketId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -16654,6 +16341,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -16687,9 +16379,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -16697,9 +16389,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportOddsPreMatchByFixtureIdResponse
      */
     public function oddsPreMatchByFixtureId(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0]
@@ -16707,7 +16399,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->oddsPreMatchByFixtureIdWithHttpInfo($version, $sport, $fixture_id, $contentType);
+        list($response) = $this->oddsPreMatchByFixtureIdWithHttpInfo($fixture_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -16716,18 +16408,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportOddsPreMatchByFixtureIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function oddsPreMatchByFixtureIdWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsPreMatchByFixtureIdWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -16743,9 +16435,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->oddsPreMatchByFixtureIdWithHttpInfo(
+                        $fixture_id,
                         $version,
                         $sport,
-                        $fixture_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -16835,18 +16527,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function oddsPreMatchByFixtureIdAsync(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0]
@@ -16854,7 +16546,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->oddsPreMatchByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, $contentType)
+        return $this->oddsPreMatchByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -16867,18 +16559,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Pre-match by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function oddsPreMatchByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function oddsPreMatchByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportOddsPreMatchByFixtureIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->oddsPreMatchByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -16922,42 +16614,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'oddsPreMatchByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve pre-match odds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['oddsPreMatchByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function oddsPreMatchByFixtureIdRequest($version, $sport, $fixture_id, string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0])
+    public function oddsPreMatchByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['oddsPreMatchByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling oddsPreMatchByFixtureId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling oddsPreMatchByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling oddsPreMatchByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -17027,6 +16707,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -17060,9 +16745,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playerById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -17070,9 +16755,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPlayerByIdResponse
      */
     public function playerById(
-        $version,
-        $sport,
         $player_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playerById'][0]
@@ -17080,7 +16765,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->playerByIdWithHttpInfo($version, $sport, $player_id, $contentType);
+        list($response) = $this->playerByIdWithHttpInfo($player_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -17089,18 +16774,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playerById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPlayerByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function playerByIdWithHttpInfo($version, $sport, $player_id, string $contentType = self::contentTypes['playerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playerByIdWithHttpInfo($player_id, $version = null, $sport = null, string $contentType = self::contentTypes['playerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->playerByIdRequest($version, $sport, $player_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->playerByIdRequest($player_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -17116,9 +16801,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->playerByIdWithHttpInfo(
+                        $player_id,
                         $version,
                         $sport,
-                        $player_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -17208,18 +16893,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playerById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function playerByIdAsync(
-        $version,
-        $sport,
         $player_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playerById'][0]
@@ -17227,7 +16912,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->playerByIdAsyncWithHttpInfo($version, $sport, $player_id, $contentType)
+        return $this->playerByIdAsyncWithHttpInfo($player_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -17240,18 +16925,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playerById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function playerByIdAsyncWithHttpInfo($version, $sport, $player_id, string $contentType = self::contentTypes['playerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playerByIdAsyncWithHttpInfo($player_id, $version = null, $sport = null, string $contentType = self::contentTypes['playerById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPlayerByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->playerByIdRequest($version, $sport, $player_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->playerByIdRequest($player_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -17295,42 +16980,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'playerById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playerById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function playerByIdRequest($version, $sport, $player_id, string $contentType = self::contentTypes['playerById'][0])
+    public function playerByIdRequest($player_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['playerById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling playerById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling playerById'
-            );
-        }
         // verify the required parameter 'player_id' is set
         if ($player_id === SENTINEL_VALUE || (is_array($player_id) && count($player_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter player_id when calling playerById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -17400,6 +17073,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -17433,8 +17111,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -17442,8 +17120,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPlayersAllResponse
      */
     public function playersAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersAll'][0]
@@ -17460,15 +17138,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPlayersAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function playersAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['playersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['playersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->playersAllRequest($version, $sport, $contentType);
 
@@ -17577,16 +17255,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function playersAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersAll'][0]
@@ -17607,14 +17285,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function playersAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['playersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['playersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPlayersAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->playersAllRequest($version, $sport, $contentType);
@@ -17661,35 +17339,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'playersAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function playersAllRequest($version, $sport, string $contentType = self::contentTypes['playersAll'][0])
+    public function playersAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['playersAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling playersAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling playersAll'
-            );
         }
 
 
@@ -17751,6 +17417,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -17784,9 +17455,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve players from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -17794,9 +17465,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPlayersByCountryIdResponse
      */
     public function playersByCountryId(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersByCountryId'][0]
@@ -17804,7 +17475,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->playersByCountryIdWithHttpInfo($version, $sport, $country_id, $contentType);
+        list($response) = $this->playersByCountryIdWithHttpInfo($country_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -17813,18 +17484,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve players from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPlayersByCountryIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function playersByCountryIdWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['playersByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersByCountryIdWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['playersByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -17840,9 +17511,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->playersByCountryIdWithHttpInfo(
+                        $country_id,
                         $version,
                         $sport,
-                        $country_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -17932,18 +17603,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve players from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function playersByCountryIdAsync(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersByCountryId'][0]
@@ -17951,7 +17622,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->playersByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, $contentType)
+        return $this->playersByCountryIdAsyncWithHttpInfo($country_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -17964,18 +17635,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve players from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function playersByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['playersByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersByCountryIdAsyncWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['playersByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPlayersByCountryIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -18019,42 +17690,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'playersByCountryId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve players from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function playersByCountryIdRequest($version, $sport, $country_id, string $contentType = self::contentTypes['playersByCountryId'][0])
+    public function playersByCountryIdRequest($country_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['playersByCountryId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling playersByCountryId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling playersByCountryId'
-            );
-        }
         // verify the required parameter 'country_id' is set
         if ($country_id === SENTINEL_VALUE || (is_array($country_id) && count($country_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter country_id when calling playersByCountryId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -18124,6 +17783,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -18157,8 +17821,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -18166,8 +17830,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPlayersLatestResponse
      */
     public function playersLatest(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersLatest'][0]
@@ -18184,15 +17848,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPlayersLatestResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function playersLatestWithHttpInfo($version, $sport, string $contentType = self::contentTypes['playersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersLatestWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['playersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->playersLatestRequest($version, $sport, $contentType);
 
@@ -18301,16 +17965,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function playersLatestAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersLatest'][0]
@@ -18331,14 +17995,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Latest Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function playersLatestAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['playersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersLatestAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['playersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPlayersLatestResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->playersLatestRequest($version, $sport, $contentType);
@@ -18385,35 +18049,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'playersLatest'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function playersLatestRequest($version, $sport, string $contentType = self::contentTypes['playersLatest'][0])
+    public function playersLatestRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['playersLatest'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling playersLatest'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling playersLatest'
-            );
         }
 
 
@@ -18475,6 +18127,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -18508,9 +18165,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -18518,9 +18175,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPlayersSearchResponse
      */
     public function playersSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersSearch'][0]
@@ -18528,7 +18185,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->playersSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->playersSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -18537,18 +18194,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPlayersSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function playersSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['playersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['playersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -18564,9 +18221,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->playersSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -18656,18 +18313,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function playersSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['playersSearch'][0]
@@ -18675,7 +18332,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->playersSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->playersSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -18688,18 +18345,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function playersSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['playersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function playersSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['playersSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPlayersSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->playersSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -18743,37 +18400,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'playersSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['playersSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function playersSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['playersSearch'][0])
+    public function playersSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['playersSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling playersSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling playersSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -18783,6 +18420,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling playersSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -18852,6 +18497,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -18885,8 +18535,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -18894,8 +18544,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPredictionsAllResponse
      */
     public function predictionsAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsAll'][0]
@@ -18912,15 +18562,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPredictionsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function predictionsAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['predictionsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['predictionsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsAllRequest($version, $sport, $contentType);
 
@@ -19029,16 +18679,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function predictionsAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsAll'][0]
@@ -19059,14 +18709,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function predictionsAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['predictionsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['predictionsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPredictionsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsAllRequest($version, $sport, $contentType);
@@ -19113,35 +18763,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'predictionsAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function predictionsAllRequest($version, $sport, string $contentType = self::contentTypes['predictionsAll'][0])
+    public function predictionsAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['predictionsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling predictionsAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling predictionsAll'
-            );
         }
 
 
@@ -19203,6 +18841,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -19236,8 +18879,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Value Bets
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAllValueBets'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -19245,8 +18888,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPredictionsAllValueBetsResponse
      */
     public function predictionsAllValueBets(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsAllValueBets'][0]
@@ -19263,15 +18906,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Value Bets
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAllValueBets'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPredictionsAllValueBetsResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function predictionsAllValueBetsWithHttpInfo($version, $sport, string $contentType = self::contentTypes['predictionsAllValueBets'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsAllValueBetsWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['predictionsAllValueBets'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsAllValueBetsRequest($version, $sport, $contentType);
 
@@ -19380,16 +19023,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Value Bets
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAllValueBets'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function predictionsAllValueBetsAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsAllValueBets'][0]
@@ -19410,14 +19053,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All Value Bets
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAllValueBets'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function predictionsAllValueBetsAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['predictionsAllValueBets'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsAllValueBetsAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['predictionsAllValueBets'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPredictionsAllValueBetsResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsAllValueBetsRequest($version, $sport, $contentType);
@@ -19464,35 +19107,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'predictionsAllValueBets'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsAllValueBets'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function predictionsAllValueBetsRequest($version, $sport, string $contentType = self::contentTypes['predictionsAllValueBets'][0])
+    public function predictionsAllValueBetsRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['predictionsAllValueBets'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling predictionsAllValueBets'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling predictionsAllValueBets'
-            );
         }
 
 
@@ -19554,6 +19185,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -19587,9 +19223,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve predictions from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -19597,9 +19233,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportPredictionsByFixtureIdResponse
      */
     public function predictionsByFixtureId(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsByFixtureId'][0]
@@ -19607,7 +19243,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->predictionsByFixtureIdWithHttpInfo($version, $sport, $fixture_id, $contentType);
+        list($response) = $this->predictionsByFixtureIdWithHttpInfo($fixture_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -19616,18 +19252,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve predictions from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportPredictionsByFixtureIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function predictionsByFixtureIdWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['predictionsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsByFixtureIdWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['predictionsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -19643,9 +19279,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->predictionsByFixtureIdWithHttpInfo(
+                        $fixture_id,
                         $version,
                         $sport,
-                        $fixture_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -19735,18 +19371,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve predictions from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function predictionsByFixtureIdAsync(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsByFixtureId'][0]
@@ -19754,7 +19390,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->predictionsByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, $contentType)
+        return $this->predictionsByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -19767,18 +19403,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve predictions from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function predictionsByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['predictionsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['predictionsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportPredictionsByFixtureIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -19822,42 +19458,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'predictionsByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve predictions from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function predictionsByFixtureIdRequest($version, $sport, $fixture_id, string $contentType = self::contentTypes['predictionsByFixtureId'][0])
+    public function predictionsByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['predictionsByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling predictionsByFixtureId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling predictionsByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling predictionsByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -19927,6 +19551,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -19960,9 +19589,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Value Bets by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve value bets from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsValueBetsByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -19970,9 +19599,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function predictionsValueBetsByFixtureId(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0]
@@ -19980,7 +19609,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->predictionsValueBetsByFixtureIdWithHttpInfo($version, $sport, $fixture_id, $contentType);
+        list($response) = $this->predictionsValueBetsByFixtureIdWithHttpInfo($fixture_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -19989,18 +19618,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Value Bets by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve value bets from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsValueBetsByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function predictionsValueBetsByFixtureIdWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsValueBetsByFixtureIdWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsValueBetsByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsValueBetsByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -20016,9 +19645,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->predictionsValueBetsByFixtureIdWithHttpInfo(
+                        $fixture_id,
                         $version,
                         $sport,
-                        $fixture_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -20108,18 +19737,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Value Bets by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve value bets from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsValueBetsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function predictionsValueBetsByFixtureIdAsync(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0]
@@ -20127,7 +19756,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->predictionsValueBetsByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, $contentType)
+        return $this->predictionsValueBetsByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -20140,18 +19769,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Value Bets by Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve value bets from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsValueBetsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function predictionsValueBetsByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function predictionsValueBetsByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsValueBetsByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->predictionsValueBetsByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -20195,42 +19824,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'predictionsValueBetsByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve value bets from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['predictionsValueBetsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function predictionsValueBetsByFixtureIdRequest($version, $sport, $fixture_id, string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0])
+    public function predictionsValueBetsByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['predictionsValueBetsByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling predictionsValueBetsByFixtureId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling predictionsValueBetsByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling predictionsValueBetsByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -20300,6 +19917,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -20333,9 +19955,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $referee_id The ID of the referee you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereeById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -20343,9 +19965,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRefereeByIdResponse
      */
     public function refereeById(
-        $version,
-        $sport,
         $referee_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereeById'][0]
@@ -20353,7 +19975,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->refereeByIdWithHttpInfo($version, $sport, $referee_id, $contentType);
+        list($response) = $this->refereeByIdWithHttpInfo($referee_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -20362,18 +19984,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $referee_id The ID of the referee you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereeById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRefereeByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function refereeByIdWithHttpInfo($version, $sport, $referee_id, string $contentType = self::contentTypes['refereeById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereeByIdWithHttpInfo($referee_id, $version = null, $sport = null, string $contentType = self::contentTypes['refereeById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereeByIdRequest($version, $sport, $referee_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereeByIdRequest($referee_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -20389,9 +20011,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->refereeByIdWithHttpInfo(
+                        $referee_id,
                         $version,
                         $sport,
-                        $referee_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -20481,18 +20103,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $referee_id The ID of the referee you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereeById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function refereeByIdAsync(
-        $version,
-        $sport,
         $referee_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereeById'][0]
@@ -20500,7 +20122,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->refereeByIdAsyncWithHttpInfo($version, $sport, $referee_id, $contentType)
+        return $this->refereeByIdAsyncWithHttpInfo($referee_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -20513,18 +20135,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $referee_id The ID of the referee you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereeById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function refereeByIdAsyncWithHttpInfo($version, $sport, $referee_id, string $contentType = self::contentTypes['refereeById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereeByIdAsyncWithHttpInfo($referee_id, $version = null, $sport = null, string $contentType = self::contentTypes['refereeById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRefereeByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereeByIdRequest($version, $sport, $referee_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereeByIdRequest($referee_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -20568,42 +20190,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'refereeById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $referee_id The ID of the referee you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereeById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function refereeByIdRequest($version, $sport, $referee_id, string $contentType = self::contentTypes['refereeById'][0])
+    public function refereeByIdRequest($referee_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['refereeById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling refereeById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling refereeById'
-            );
-        }
         // verify the required parameter 'referee_id' is set
         if ($referee_id === SENTINEL_VALUE || (is_array($referee_id) && count($referee_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter referee_id when calling refereeById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -20673,6 +20283,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -20706,8 +20321,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -20715,8 +20330,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRefereesAllResponse
      */
     public function refereesAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesAll'][0]
@@ -20733,15 +20348,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRefereesAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function refereesAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['refereesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['refereesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesAllRequest($version, $sport, $contentType);
 
@@ -20850,16 +20465,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function refereesAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesAll'][0]
@@ -20880,14 +20495,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function refereesAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['refereesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['refereesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRefereesAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesAllRequest($version, $sport, $contentType);
@@ -20934,35 +20549,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'refereesAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function refereesAllRequest($version, $sport, string $contentType = self::contentTypes['refereesAll'][0])
+    public function refereesAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['refereesAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling refereesAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling refereesAll'
-            );
         }
 
 
@@ -21024,6 +20627,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -21057,9 +20665,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -21067,9 +20675,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRefereesByCountryIdResponse
      */
     public function refereesByCountryId(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesByCountryId'][0]
@@ -21077,7 +20685,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->refereesByCountryIdWithHttpInfo($version, $sport, $country_id, $contentType);
+        list($response) = $this->refereesByCountryIdWithHttpInfo($country_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -21086,18 +20694,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRefereesByCountryIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function refereesByCountryIdWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['refereesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesByCountryIdWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['refereesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -21113,9 +20721,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->refereesByCountryIdWithHttpInfo(
+                        $country_id,
                         $version,
                         $sport,
-                        $country_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -21205,18 +20813,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function refereesByCountryIdAsync(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesByCountryId'][0]
@@ -21224,7 +20832,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->refereesByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, $contentType)
+        return $this->refereesByCountryIdAsyncWithHttpInfo($country_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -21237,18 +20845,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function refereesByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['refereesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesByCountryIdAsyncWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['refereesByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRefereesByCountryIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -21292,42 +20900,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'refereesByCountryId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function refereesByCountryIdRequest($version, $sport, $country_id, string $contentType = self::contentTypes['refereesByCountryId'][0])
+    public function refereesByCountryIdRequest($country_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['refereesByCountryId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling refereesByCountryId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling refereesByCountryId'
-            );
-        }
         // verify the required parameter 'country_id' is set
         if ($country_id === SENTINEL_VALUE || (is_array($country_id) && count($country_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter country_id when calling refereesByCountryId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -21397,6 +20993,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -21430,9 +21031,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -21440,9 +21041,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRefereesBySeasonIdResponse
      */
     public function refereesBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesBySeasonId'][0]
@@ -21450,7 +21051,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->refereesBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->refereesBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -21459,18 +21060,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRefereesBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function refereesBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['refereesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['refereesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -21486,9 +21087,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->refereesBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -21578,18 +21179,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function refereesBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesBySeasonId'][0]
@@ -21597,7 +21198,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->refereesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->refereesBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -21610,18 +21211,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function refereesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['refereesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['refereesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRefereesBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -21665,42 +21266,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'refereesBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve referees from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function refereesBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['refereesBySeasonId'][0])
+    public function refereesBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['refereesBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling refereesBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling refereesBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling refereesBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -21770,6 +21359,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -21803,9 +21397,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -21813,9 +21407,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRefereesSearchResponse
      */
     public function refereesSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesSearch'][0]
@@ -21823,7 +21417,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->refereesSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->refereesSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -21832,18 +21426,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRefereesSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function refereesSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['refereesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['refereesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -21859,9 +21453,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->refereesSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -21951,18 +21545,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function refereesSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['refereesSearch'][0]
@@ -21970,7 +21564,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->refereesSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->refereesSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -21983,18 +21577,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function refereesSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['refereesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function refereesSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['refereesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRefereesSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->refereesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -22038,37 +21632,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'refereesSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['refereesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function refereesSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['refereesSearch'][0])
+    public function refereesSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['refereesSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling refereesSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling refereesSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -22078,6 +21652,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling refereesSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -22147,6 +21729,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -22180,8 +21767,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -22189,8 +21776,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRivalsAllResponse
      */
     public function rivalsAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['rivalsAll'][0]
@@ -22207,15 +21794,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRivalsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function rivalsAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['rivalsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function rivalsAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['rivalsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->rivalsAllRequest($version, $sport, $contentType);
 
@@ -22324,16 +21911,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function rivalsAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['rivalsAll'][0]
@@ -22354,14 +21941,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function rivalsAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['rivalsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function rivalsAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['rivalsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRivalsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->rivalsAllRequest($version, $sport, $contentType);
@@ -22408,35 +21995,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'rivalsAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function rivalsAllRequest($version, $sport, string $contentType = self::contentTypes['rivalsAll'][0])
+    public function rivalsAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['rivalsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling rivalsAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling rivalsAll'
-            );
         }
 
 
@@ -22498,6 +22073,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -22531,9 +22111,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve rivals from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -22541,9 +22121,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRivalsByTeamIdResponse
      */
     public function rivalsByTeamId(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['rivalsByTeamId'][0]
@@ -22551,7 +22131,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->rivalsByTeamIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->rivalsByTeamIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -22560,18 +22140,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve rivals from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRivalsByTeamIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function rivalsByTeamIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['rivalsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function rivalsByTeamIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['rivalsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->rivalsByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->rivalsByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -22587,9 +22167,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->rivalsByTeamIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -22679,18 +22259,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve rivals from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function rivalsByTeamIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['rivalsByTeamId'][0]
@@ -22698,7 +22278,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->rivalsByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->rivalsByTeamIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -22711,18 +22291,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve rivals from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function rivalsByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['rivalsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function rivalsByTeamIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['rivalsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRivalsByTeamIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->rivalsByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->rivalsByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -22766,42 +22346,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'rivalsByTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve rivals from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['rivalsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function rivalsByTeamIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['rivalsByTeamId'][0])
+    public function rivalsByTeamIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['rivalsByTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling rivalsByTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling rivalsByTeamId'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling rivalsByTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -22871,6 +22439,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -22904,9 +22477,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -22914,9 +22487,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRoundByIdResponse
      */
     public function roundById(
-        $version,
-        $sport,
         $round_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundById'][0]
@@ -22924,7 +22497,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->roundByIdWithHttpInfo($version, $sport, $round_id, $contentType);
+        list($response) = $this->roundByIdWithHttpInfo($round_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -22933,18 +22506,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRoundByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function roundByIdWithHttpInfo($version, $sport, $round_id, string $contentType = self::contentTypes['roundById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundByIdWithHttpInfo($round_id, $version = null, $sport = null, string $contentType = self::contentTypes['roundById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundByIdRequest($version, $sport, $round_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundByIdRequest($round_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -22960,9 +22533,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->roundByIdWithHttpInfo(
+                        $round_id,
                         $version,
                         $sport,
-                        $round_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -23052,18 +22625,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function roundByIdAsync(
-        $version,
-        $sport,
         $round_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundById'][0]
@@ -23071,7 +22644,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->roundByIdAsyncWithHttpInfo($version, $sport, $round_id, $contentType)
+        return $this->roundByIdAsyncWithHttpInfo($round_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -23084,18 +22657,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function roundByIdAsyncWithHttpInfo($version, $sport, $round_id, string $contentType = self::contentTypes['roundById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundByIdAsyncWithHttpInfo($round_id, $version = null, $sport = null, string $contentType = self::contentTypes['roundById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRoundByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundByIdRequest($version, $sport, $round_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundByIdRequest($round_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -23139,42 +22712,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'roundById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function roundByIdRequest($version, $sport, $round_id, string $contentType = self::contentTypes['roundById'][0])
+    public function roundByIdRequest($round_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['roundById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling roundById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling roundById'
-            );
-        }
         // verify the required parameter 'round_id' is set
         if ($round_id === SENTINEL_VALUE || (is_array($round_id) && count($round_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter round_id when calling roundById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -23244,6 +22805,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -23277,8 +22843,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -23286,8 +22852,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRoundsAllResponse
      */
     public function roundsAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundsAll'][0]
@@ -23304,15 +22870,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRoundsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function roundsAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['roundsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundsAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['roundsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsAllRequest($version, $sport, $contentType);
 
@@ -23421,16 +22987,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function roundsAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundsAll'][0]
@@ -23451,14 +23017,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function roundsAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['roundsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundsAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['roundsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRoundsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsAllRequest($version, $sport, $contentType);
@@ -23505,35 +23071,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'roundsAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function roundsAllRequest($version, $sport, string $contentType = self::contentTypes['roundsAll'][0])
+    public function roundsAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['roundsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling roundsAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling roundsAll'
-            );
         }
 
 
@@ -23595,6 +23149,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -23628,9 +23187,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve rounds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -23638,9 +23197,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRoundsBySeasonIdResponse
      */
     public function roundsBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundsBySeasonId'][0]
@@ -23648,7 +23207,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->roundsBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->roundsBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -23657,18 +23216,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve rounds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRoundsBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function roundsBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['roundsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundsBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['roundsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -23684,9 +23243,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->roundsBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -23776,18 +23335,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve rounds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function roundsBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundsBySeasonId'][0]
@@ -23795,7 +23354,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->roundsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->roundsBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -23808,18 +23367,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve rounds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function roundsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['roundsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundsBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['roundsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRoundsBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -23863,42 +23422,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'roundsBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve rounds from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function roundsBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['roundsBySeasonId'][0])
+    public function roundsBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['roundsBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling roundsBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling roundsBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling roundsBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -23968,6 +23515,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -24001,9 +23553,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -24011,9 +23563,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportRoundsSearchResponse
      */
     public function roundsSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundsSearch'][0]
@@ -24021,7 +23573,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->roundsSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->roundsSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -24030,18 +23582,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportRoundsSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function roundsSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['roundsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundsSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['roundsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -24057,9 +23609,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->roundsSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -24149,18 +23701,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function roundsSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['roundsSearch'][0]
@@ -24168,7 +23720,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->roundsSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->roundsSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -24181,18 +23733,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function roundsSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['roundsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function roundsSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['roundsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportRoundsSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->roundsSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -24236,42 +23788,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'roundsSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['roundsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function roundsSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['roundsSearch'][0])
+    public function roundsSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['roundsSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling roundsSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling roundsSearch'
-            );
-        }
         // verify the required parameter 'name' is set
         if ($name === SENTINEL_VALUE || (is_array($name) && count($name) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling roundsSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -24341,6 +23881,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -24374,9 +23919,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id season_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -24384,9 +23929,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSchedulesBySeasonIdResponse
      */
     public function schedulesBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['schedulesBySeasonId'][0]
@@ -24394,7 +23939,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->schedulesBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->schedulesBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -24403,18 +23948,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSchedulesBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function schedulesBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['schedulesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function schedulesBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['schedulesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -24430,9 +23975,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->schedulesBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -24522,18 +24067,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function schedulesBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['schedulesBySeasonId'][0]
@@ -24541,7 +24086,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->schedulesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->schedulesBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -24554,18 +24099,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function schedulesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['schedulesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function schedulesBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['schedulesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSchedulesBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -24609,42 +24154,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'schedulesBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function schedulesBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['schedulesBySeasonId'][0])
+    public function schedulesBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['schedulesBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling schedulesBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling schedulesBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling schedulesBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -24714,6 +24247,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -24747,10 +24285,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team and Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve schedule from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamAndSeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -24758,10 +24296,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSchedulesByTeamAndSeasonIdResponse
      */
     public function schedulesByTeamAndSeasonId(
-        $version,
-        $sport,
         $season_id,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0]
@@ -24769,7 +24307,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->schedulesByTeamAndSeasonIdWithHttpInfo($version, $sport, $season_id, $team_id, $contentType);
+        list($response) = $this->schedulesByTeamAndSeasonIdWithHttpInfo($season_id, $team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -24778,19 +24316,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team and Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve schedule from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamAndSeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSchedulesByTeamAndSeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function schedulesByTeamAndSeasonIdWithHttpInfo($version, $sport, $season_id, $team_id, string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function schedulesByTeamAndSeasonIdWithHttpInfo($season_id, $team_id, $version = null, $sport = null, string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamAndSeasonIdRequest($version, $sport, $season_id, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamAndSeasonIdRequest($season_id, $team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -24806,10 +24344,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->schedulesByTeamAndSeasonIdWithHttpInfo(
-                        $version,
-                        $sport,
                         $season_id,
                         $team_id,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -24899,20 +24437,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team and Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve schedule from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamAndSeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function schedulesByTeamAndSeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0]
@@ -24920,7 +24458,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->schedulesByTeamAndSeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $team_id, $contentType)
+        return $this->schedulesByTeamAndSeasonIdAsyncWithHttpInfo($season_id, $team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -24933,19 +24471,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team and Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve schedule from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamAndSeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function schedulesByTeamAndSeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $team_id, string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function schedulesByTeamAndSeasonIdAsyncWithHttpInfo($season_id, $team_id, $version = null, $sport = null, string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSchedulesByTeamAndSeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamAndSeasonIdRequest($version, $sport, $season_id, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamAndSeasonIdRequest($season_id, $team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -24989,38 +24527,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'schedulesByTeamAndSeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve schedule from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamAndSeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function schedulesByTeamAndSeasonIdRequest($version, $sport, $season_id, $team_id, string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0])
+    public function schedulesByTeamAndSeasonIdRequest($season_id, $team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['schedulesByTeamAndSeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling schedulesByTeamAndSeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling schedulesByTeamAndSeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -25032,6 +24550,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling schedulesByTeamAndSeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -25109,6 +24635,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -25142,9 +24673,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -25152,9 +24683,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSchedulesByTeamIdResponse
      */
     public function schedulesByTeamId(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['schedulesByTeamId'][0]
@@ -25162,7 +24693,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->schedulesByTeamIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->schedulesByTeamIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -25171,18 +24702,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSchedulesByTeamIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function schedulesByTeamIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['schedulesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function schedulesByTeamIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['schedulesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -25198,9 +24729,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->schedulesByTeamIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -25290,18 +24821,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function schedulesByTeamIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['schedulesByTeamId'][0]
@@ -25309,7 +24840,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->schedulesByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->schedulesByTeamIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -25322,18 +24853,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function schedulesByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['schedulesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function schedulesByTeamIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['schedulesByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSchedulesByTeamIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->schedulesByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -25377,42 +24908,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'schedulesByTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve schedule from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['schedulesByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function schedulesByTeamIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['schedulesByTeamId'][0])
+    public function schedulesByTeamIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['schedulesByTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling schedulesByTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling schedulesByTeamId'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling schedulesByTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -25482,6 +25001,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -25515,9 +25039,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -25525,9 +25049,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSeasonByIdResponse
      */
     public function seasonById(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonById'][0]
@@ -25535,7 +25059,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->seasonByIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->seasonByIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -25544,18 +25068,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSeasonByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function seasonByIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['seasonById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonByIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['seasonById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonByIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonByIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -25571,9 +25095,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->seasonByIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -25663,18 +25187,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function seasonByIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonById'][0]
@@ -25682,7 +25206,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->seasonByIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->seasonByIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -25695,18 +25219,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function seasonByIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['seasonById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonByIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['seasonById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSeasonByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonByIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonByIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -25750,42 +25274,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'seasonById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function seasonByIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['seasonById'][0])
+    public function seasonByIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['seasonById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling seasonById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling seasonById'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling seasonById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -25855,6 +25367,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -25888,8 +25405,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -25897,8 +25414,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSeasonsAllResponse
      */
     public function seasonsAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonsAll'][0]
@@ -25915,15 +25432,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSeasonsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function seasonsAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['seasonsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonsAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['seasonsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsAllRequest($version, $sport, $contentType);
 
@@ -26032,16 +25549,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function seasonsAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonsAll'][0]
@@ -26062,14 +25579,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function seasonsAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['seasonsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonsAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['seasonsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSeasonsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsAllRequest($version, $sport, $contentType);
@@ -26116,35 +25633,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'seasonsAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function seasonsAllRequest($version, $sport, string $contentType = self::contentTypes['seasonsAll'][0])
+    public function seasonsAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['seasonsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling seasonsAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling seasonsAll'
-            );
         }
 
 
@@ -26206,6 +25711,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -26239,9 +25749,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve seasons from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -26249,9 +25759,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return object
      */
     public function seasonsByTeamId(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonsByTeamId'][0]
@@ -26259,7 +25769,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->seasonsByTeamIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->seasonsByTeamIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -26268,18 +25778,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve seasons from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of object, HTTP status code, HTTP response headers (array of strings)
      */
-    public function seasonsByTeamIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['seasonsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonsByTeamIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['seasonsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -26295,9 +25805,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->seasonsByTeamIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -26387,18 +25897,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve seasons from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function seasonsByTeamIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonsByTeamId'][0]
@@ -26406,7 +25916,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->seasonsByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->seasonsByTeamIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -26419,18 +25929,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve seasons from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function seasonsByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['seasonsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonsByTeamIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['seasonsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = 'object';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -26474,42 +25984,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'seasonsByTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve seasons from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function seasonsByTeamIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['seasonsByTeamId'][0])
+    public function seasonsByTeamIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['seasonsByTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling seasonsByTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling seasonsByTeamId'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling seasonsByTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -26579,6 +26077,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -26612,9 +26115,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -26622,9 +26125,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSeasonsSearchResponse
      */
     public function seasonsSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonsSearch'][0]
@@ -26632,7 +26135,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->seasonsSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->seasonsSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -26641,18 +26144,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSeasonsSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function seasonsSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['seasonsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonsSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['seasonsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -26668,9 +26171,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->seasonsSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -26760,18 +26263,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function seasonsSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['seasonsSearch'][0]
@@ -26779,7 +26282,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->seasonsSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->seasonsSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -26792,18 +26295,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function seasonsSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['seasonsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function seasonsSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['seasonsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSeasonsSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->seasonsSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -26847,42 +26350,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'seasonsSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['seasonsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function seasonsSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['seasonsSearch'][0])
+    public function seasonsSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['seasonsSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling seasonsSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling seasonsSearch'
-            );
-        }
         // verify the required parameter 'name' is set
         if ($name === SENTINEL_VALUE || (is_array($name) && count($name) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling seasonsSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -26952,6 +26443,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -26985,10 +26481,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season and Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve squads from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsBySeasonAndTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -26996,10 +26492,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSquadsBySeasonAndTeamIdResponse
      */
     public function squadsBySeasonAndTeamId(
-        $version,
-        $sport,
         $season_id,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0]
@@ -27007,7 +26503,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->squadsBySeasonAndTeamIdWithHttpInfo($version, $sport, $season_id, $team_id, $contentType);
+        list($response) = $this->squadsBySeasonAndTeamIdWithHttpInfo($season_id, $team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -27016,19 +26512,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season and Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve squads from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsBySeasonAndTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSquadsBySeasonAndTeamIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function squadsBySeasonAndTeamIdWithHttpInfo($version, $sport, $season_id, $team_id, string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function squadsBySeasonAndTeamIdWithHttpInfo($season_id, $team_id, $version = null, $sport = null, string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsBySeasonAndTeamIdRequest($version, $sport, $season_id, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsBySeasonAndTeamIdRequest($season_id, $team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -27044,10 +26540,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->squadsBySeasonAndTeamIdWithHttpInfo(
-                        $version,
-                        $sport,
                         $season_id,
                         $team_id,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -27137,20 +26633,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season and Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve squads from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsBySeasonAndTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function squadsBySeasonAndTeamIdAsync(
-        $version,
-        $sport,
         $season_id,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0]
@@ -27158,7 +26654,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->squadsBySeasonAndTeamIdAsyncWithHttpInfo($version, $sport, $season_id, $team_id, $contentType)
+        return $this->squadsBySeasonAndTeamIdAsyncWithHttpInfo($season_id, $team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -27171,19 +26667,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season and Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve squads from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsBySeasonAndTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function squadsBySeasonAndTeamIdAsyncWithHttpInfo($version, $sport, $season_id, $team_id, string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function squadsBySeasonAndTeamIdAsyncWithHttpInfo($season_id, $team_id, $version = null, $sport = null, string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSquadsBySeasonAndTeamIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsBySeasonAndTeamIdRequest($version, $sport, $season_id, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsBySeasonAndTeamIdRequest($season_id, $team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -27227,38 +26723,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'squadsBySeasonAndTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve squads from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsBySeasonAndTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function squadsBySeasonAndTeamIdRequest($version, $sport, $season_id, $team_id, string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0])
+    public function squadsBySeasonAndTeamIdRequest($season_id, $team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['squadsBySeasonAndTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling squadsBySeasonAndTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling squadsBySeasonAndTeamId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
@@ -27270,6 +26746,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling squadsBySeasonAndTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -27347,6 +26831,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -27380,9 +26869,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -27390,9 +26879,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportSquadsByTeamIdResponse
      */
     public function squadsByTeamId(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['squadsByTeamId'][0]
@@ -27400,7 +26889,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->squadsByTeamIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->squadsByTeamIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -27409,18 +26898,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportSquadsByTeamIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function squadsByTeamIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['squadsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function squadsByTeamIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['squadsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -27436,9 +26925,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->squadsByTeamIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -27528,18 +27017,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function squadsByTeamIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['squadsByTeamId'][0]
@@ -27547,7 +27036,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->squadsByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->squadsByTeamIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -27560,18 +27049,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function squadsByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['squadsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function squadsByTeamIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['squadsByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportSquadsByTeamIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->squadsByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -27615,42 +27104,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'squadsByTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve squads from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['squadsByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function squadsByTeamIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['squadsByTeamId'][0])
+    public function squadsByTeamIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['squadsByTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling squadsByTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling squadsByTeamId'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling squadsByTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -27720,6 +27197,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -27753,9 +27235,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stageById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -27763,9 +27245,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStageByIdResponse
      */
     public function stageById(
-        $version,
-        $sport,
         $stage_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stageById'][0]
@@ -27773,7 +27255,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->stageByIdWithHttpInfo($version, $sport, $stage_id, $contentType);
+        list($response) = $this->stageByIdWithHttpInfo($stage_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -27782,18 +27264,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stageById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStageByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function stageByIdWithHttpInfo($version, $sport, $stage_id, string $contentType = self::contentTypes['stageById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stageByIdWithHttpInfo($stage_id, $version = null, $sport = null, string $contentType = self::contentTypes['stageById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stageByIdRequest($version, $sport, $stage_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stageByIdRequest($stage_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -27809,9 +27291,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->stageByIdWithHttpInfo(
+                        $stage_id,
                         $version,
                         $sport,
-                        $stage_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -27901,18 +27383,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stageById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function stageByIdAsync(
-        $version,
-        $sport,
         $stage_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stageById'][0]
@@ -27920,7 +27402,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->stageByIdAsyncWithHttpInfo($version, $sport, $stage_id, $contentType)
+        return $this->stageByIdAsyncWithHttpInfo($stage_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -27933,18 +27415,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stageById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function stageByIdAsyncWithHttpInfo($version, $sport, $stage_id, string $contentType = self::contentTypes['stageById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stageByIdAsyncWithHttpInfo($stage_id, $version = null, $sport = null, string $contentType = self::contentTypes['stageById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStageByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stageByIdRequest($version, $sport, $stage_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stageByIdRequest($stage_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -27988,42 +27470,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'stageById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stageById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function stageByIdRequest($version, $sport, $stage_id, string $contentType = self::contentTypes['stageById'][0])
+    public function stageByIdRequest($stage_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['stageById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling stageById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling stageById'
-            );
-        }
         // verify the required parameter 'stage_id' is set
         if ($stage_id === SENTINEL_VALUE || (is_array($stage_id) && count($stage_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter stage_id when calling stageById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -28093,6 +27563,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -28126,8 +27601,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -28135,8 +27610,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStagesAllResponse
      */
     public function stagesAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stagesAll'][0]
@@ -28153,15 +27628,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStagesAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function stagesAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['stagesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stagesAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['stagesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesAllRequest($version, $sport, $contentType);
 
@@ -28270,16 +27745,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function stagesAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stagesAll'][0]
@@ -28300,14 +27775,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function stagesAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['stagesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stagesAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['stagesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStagesAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesAllRequest($version, $sport, $contentType);
@@ -28354,35 +27829,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'stagesAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function stagesAllRequest($version, $sport, string $contentType = self::contentTypes['stagesAll'][0])
+    public function stagesAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['stagesAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling stagesAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling stagesAll'
-            );
         }
 
 
@@ -28444,6 +27907,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -28477,9 +27945,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve stages from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -28487,9 +27955,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStagesBySeasonIdResponse
      */
     public function stagesBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stagesBySeasonId'][0]
@@ -28497,7 +27965,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->stagesBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->stagesBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -28506,18 +27974,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve stages from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStagesBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function stagesBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['stagesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stagesBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['stagesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -28533,9 +28001,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->stagesBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -28625,18 +28093,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve stages from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function stagesBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stagesBySeasonId'][0]
@@ -28644,7 +28112,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->stagesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->stagesBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -28657,18 +28125,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve stages from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function stagesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['stagesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stagesBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['stagesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStagesBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -28712,42 +28180,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'stagesBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve stages from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function stagesBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['stagesBySeasonId'][0])
+    public function stagesBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['stagesBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling stagesBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling stagesBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling stagesBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -28817,6 +28273,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -28850,9 +28311,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -28860,9 +28321,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStagesSearchResponse
      */
     public function stagesSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stagesSearch'][0]
@@ -28870,7 +28331,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->stagesSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->stagesSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -28879,18 +28340,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStagesSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function stagesSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['stagesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stagesSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['stagesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -28906,9 +28367,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->stagesSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -28998,18 +28459,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function stagesSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stagesSearch'][0]
@@ -29017,7 +28478,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->stagesSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->stagesSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -29030,18 +28491,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function stagesSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['stagesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stagesSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['stagesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStagesSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stagesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -29085,37 +28546,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'stagesSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stagesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function stagesSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['stagesSearch'][0])
+    public function stagesSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['stagesSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling stagesSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling stagesSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -29125,6 +28566,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling stagesSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -29194,6 +28643,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -29227,9 +28681,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Correction by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing corrections from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingCorrectionsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -29237,9 +28691,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStandingCorrectionsBySeasonIdResponse
      */
     public function standingCorrectionsBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0]
@@ -29247,7 +28701,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->standingCorrectionsBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->standingCorrectionsBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -29256,18 +28710,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Correction by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing corrections from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingCorrectionsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStandingCorrectionsBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function standingCorrectionsBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingCorrectionsBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingCorrectionsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingCorrectionsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -29283,9 +28737,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->standingCorrectionsBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -29375,18 +28829,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Correction by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing corrections from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingCorrectionsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function standingCorrectionsBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0]
@@ -29394,7 +28848,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->standingCorrectionsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->standingCorrectionsBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -29407,18 +28861,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Correction by Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing corrections from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingCorrectionsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function standingCorrectionsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingCorrectionsBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStandingCorrectionsBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingCorrectionsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingCorrectionsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -29462,42 +28916,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'standingCorrectionsBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing corrections from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingCorrectionsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function standingCorrectionsBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0])
+    public function standingCorrectionsBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['standingCorrectionsBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling standingCorrectionsBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling standingCorrectionsBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling standingCorrectionsBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -29567,6 +29009,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -29600,8 +29047,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -29609,8 +29056,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStandingsAllResponse
      */
     public function standingsAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsAll'][0]
@@ -29627,15 +29074,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStandingsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function standingsAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['standingsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['standingsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsAllRequest($version, $sport, $contentType);
 
@@ -29744,16 +29191,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function standingsAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsAll'][0]
@@ -29774,14 +29221,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function standingsAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['standingsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['standingsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStandingsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsAllRequest($version, $sport, $contentType);
@@ -29828,35 +29275,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'standingsAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function standingsAllRequest($version, $sport, string $contentType = self::contentTypes['standingsAll'][0])
+    public function standingsAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['standingsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling standingsAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling standingsAll'
-            );
         }
 
 
@@ -29918,6 +29353,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -29951,9 +29391,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Round ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsByRoundId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -29961,9 +29401,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStandingsByRoundIdResponse
      */
     public function standingsByRoundId(
-        $version,
-        $sport,
         $round_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsByRoundId'][0]
@@ -29971,7 +29411,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->standingsByRoundIdWithHttpInfo($version, $sport, $round_id, $contentType);
+        list($response) = $this->standingsByRoundIdWithHttpInfo($round_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -29980,18 +29420,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Round ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsByRoundId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStandingsByRoundIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function standingsByRoundIdWithHttpInfo($version, $sport, $round_id, string $contentType = self::contentTypes['standingsByRoundId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsByRoundIdWithHttpInfo($round_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingsByRoundId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsByRoundIdRequest($version, $sport, $round_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsByRoundIdRequest($round_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -30007,9 +29447,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->standingsByRoundIdWithHttpInfo(
+                        $round_id,
                         $version,
                         $sport,
-                        $round_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -30099,18 +29539,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Round ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsByRoundId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function standingsByRoundIdAsync(
-        $version,
-        $sport,
         $round_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsByRoundId'][0]
@@ -30118,7 +29558,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->standingsByRoundIdAsyncWithHttpInfo($version, $sport, $round_id, $contentType)
+        return $this->standingsByRoundIdAsyncWithHttpInfo($round_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -30131,18 +29571,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Round ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsByRoundId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function standingsByRoundIdAsyncWithHttpInfo($version, $sport, $round_id, string $contentType = self::contentTypes['standingsByRoundId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsByRoundIdAsyncWithHttpInfo($round_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingsByRoundId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStandingsByRoundIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsByRoundIdRequest($version, $sport, $round_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsByRoundIdRequest($round_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -30186,42 +29626,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'standingsByRoundId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $round_id The ID of the round you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsByRoundId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function standingsByRoundIdRequest($version, $sport, $round_id, string $contentType = self::contentTypes['standingsByRoundId'][0])
+    public function standingsByRoundIdRequest($round_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['standingsByRoundId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling standingsByRoundId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling standingsByRoundId'
-            );
-        }
         // verify the required parameter 'round_id' is set
         if ($round_id === SENTINEL_VALUE || (is_array($round_id) && count($round_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter round_id when calling standingsByRoundId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -30291,6 +29719,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -30324,9 +29757,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -30334,9 +29767,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStandingsBySeasonIdResponse
      */
     public function standingsBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsBySeasonId'][0]
@@ -30344,7 +29777,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->standingsBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->standingsBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -30353,18 +29786,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStandingsBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function standingsBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['standingsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -30380,9 +29813,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->standingsBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -30472,18 +29905,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function standingsBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsBySeasonId'][0]
@@ -30491,7 +29924,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->standingsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->standingsBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -30504,18 +29937,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function standingsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['standingsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStandingsBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -30559,42 +29992,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'standingsBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve standing from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function standingsBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['standingsBySeasonId'][0])
+    public function standingsBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['standingsBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling standingsBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling standingsBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling standingsBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -30664,6 +30085,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -30697,9 +30123,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve standings from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsLiveByLeagueId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -30707,9 +30133,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStandingsLiveByLeagueIdResponse
      */
     public function standingsLiveByLeagueId(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsLiveByLeagueId'][0]
@@ -30717,7 +30143,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->standingsLiveByLeagueIdWithHttpInfo($version, $sport, $league_id, $contentType);
+        list($response) = $this->standingsLiveByLeagueIdWithHttpInfo($league_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -30726,18 +30152,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve standings from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsLiveByLeagueId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStandingsLiveByLeagueIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function standingsLiveByLeagueIdWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['standingsLiveByLeagueId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsLiveByLeagueIdWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingsLiveByLeagueId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsLiveByLeagueIdRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsLiveByLeagueIdRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -30753,9 +30179,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->standingsLiveByLeagueIdWithHttpInfo(
+                        $league_id,
                         $version,
                         $sport,
-                        $league_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -30845,18 +30271,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve standings from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsLiveByLeagueId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function standingsLiveByLeagueIdAsync(
-        $version,
-        $sport,
         $league_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['standingsLiveByLeagueId'][0]
@@ -30864,7 +30290,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->standingsLiveByLeagueIdAsyncWithHttpInfo($version, $sport, $league_id, $contentType)
+        return $this->standingsLiveByLeagueIdAsyncWithHttpInfo($league_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -30877,18 +30303,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By League ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve standings from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsLiveByLeagueId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function standingsLiveByLeagueIdAsyncWithHttpInfo($version, $sport, $league_id, string $contentType = self::contentTypes['standingsLiveByLeagueId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function standingsLiveByLeagueIdAsyncWithHttpInfo($league_id, $version = null, $sport = null, string $contentType = self::contentTypes['standingsLiveByLeagueId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStandingsLiveByLeagueIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsLiveByLeagueIdRequest($version, $sport, $league_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->standingsLiveByLeagueIdRequest($league_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -30932,42 +30358,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'standingsLiveByLeagueId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $league_id The ID of the league you want to retrieve standings from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['standingsLiveByLeagueId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function standingsLiveByLeagueIdRequest($version, $sport, $league_id, string $contentType = self::contentTypes['standingsLiveByLeagueId'][0])
+    public function standingsLiveByLeagueIdRequest($league_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['standingsLiveByLeagueId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling standingsLiveByLeagueId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling standingsLiveByLeagueId'
-            );
-        }
         // verify the required parameter 'league_id' is set
         if ($league_id === SENTINEL_VALUE || (is_array($league_id) && count($league_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter league_id when calling standingsLiveByLeagueId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -31037,6 +30451,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -31070,9 +30489,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $state_id The ID of the state you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stateById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -31080,9 +30499,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStateByIdResponse
      */
     public function stateById(
-        $version,
-        $sport,
         $state_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stateById'][0]
@@ -31090,7 +30509,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->stateByIdWithHttpInfo($version, $sport, $state_id, $contentType);
+        list($response) = $this->stateByIdWithHttpInfo($state_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -31099,18 +30518,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $state_id The ID of the state you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stateById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStateByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function stateByIdWithHttpInfo($version, $sport, $state_id, string $contentType = self::contentTypes['stateById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stateByIdWithHttpInfo($state_id, $version = null, $sport = null, string $contentType = self::contentTypes['stateById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stateByIdRequest($version, $sport, $state_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stateByIdRequest($state_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -31126,9 +30545,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->stateByIdWithHttpInfo(
+                        $state_id,
                         $version,
                         $sport,
-                        $state_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -31218,18 +30637,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $state_id The ID of the state you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stateById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function stateByIdAsync(
-        $version,
-        $sport,
         $state_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['stateById'][0]
@@ -31237,7 +30656,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->stateByIdAsyncWithHttpInfo($version, $sport, $state_id, $contentType)
+        return $this->stateByIdAsyncWithHttpInfo($state_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -31250,18 +30669,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $state_id The ID of the state you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stateById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function stateByIdAsyncWithHttpInfo($version, $sport, $state_id, string $contentType = self::contentTypes['stateById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function stateByIdAsyncWithHttpInfo($state_id, $version = null, $sport = null, string $contentType = self::contentTypes['stateById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStateByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->stateByIdRequest($version, $sport, $state_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->stateByIdRequest($state_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -31305,42 +30724,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'stateById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $state_id The ID of the state you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['stateById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function stateByIdRequest($version, $sport, $state_id, string $contentType = self::contentTypes['stateById'][0])
+    public function stateByIdRequest($state_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['stateById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling stateById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling stateById'
-            );
-        }
         // verify the required parameter 'state_id' is set
         if ($state_id === SENTINEL_VALUE || (is_array($state_id) && count($state_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter state_id when calling stateById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -31410,6 +30817,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -31443,8 +30855,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Sport
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['statesBySport'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -31452,8 +30864,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportStatesBySportResponse
      */
     public function statesBySport(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['statesBySport'][0]
@@ -31470,15 +30882,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Sport
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['statesBySport'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportStatesBySportResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function statesBySportWithHttpInfo($version, $sport, string $contentType = self::contentTypes['statesBySport'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function statesBySportWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['statesBySport'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->statesBySportRequest($version, $sport, $contentType);
 
@@ -31587,16 +30999,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Sport
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['statesBySport'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function statesBySportAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['statesBySport'][0]
@@ -31617,14 +31029,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Sport
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['statesBySport'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function statesBySportAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['statesBySport'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function statesBySportAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['statesBySport'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportStatesBySportResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->statesBySportRequest($version, $sport, $contentType);
@@ -31671,35 +31083,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'statesBySport'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['statesBySport'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function statesBySportRequest($version, $sport, string $contentType = self::contentTypes['statesBySport'][0])
+    public function statesBySportRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['statesBySport'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling statesBySport'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling statesBySport'
-            );
         }
 
 
@@ -31761,6 +31161,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -31794,8 +31199,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -31803,8 +31208,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTeamsAllResponse
      */
     public function teamsAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsAll'][0]
@@ -31821,15 +31226,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTeamsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function teamsAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['teamsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['teamsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsAllRequest($version, $sport, $contentType);
 
@@ -31938,16 +31343,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function teamsAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsAll'][0]
@@ -31968,14 +31373,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function teamsAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['teamsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['teamsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTeamsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsAllRequest($version, $sport, $contentType);
@@ -32022,35 +31427,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'teamsAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function teamsAllRequest($version, $sport, string $contentType = self::contentTypes['teamsAll'][0])
+    public function teamsAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['teamsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling teamsAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling teamsAll'
-            );
         }
 
 
@@ -32112,6 +31505,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -32145,9 +31543,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -32155,9 +31553,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTeamsByCountryIdResponse
      */
     public function teamsByCountryId(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsByCountryId'][0]
@@ -32165,7 +31563,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->teamsByCountryIdWithHttpInfo($version, $sport, $country_id, $contentType);
+        list($response) = $this->teamsByCountryIdWithHttpInfo($country_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -32174,18 +31572,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsByCountryId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTeamsByCountryIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function teamsByCountryIdWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['teamsByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsByCountryIdWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['teamsByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -32201,9 +31599,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->teamsByCountryIdWithHttpInfo(
+                        $country_id,
                         $version,
                         $sport,
-                        $country_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -32293,18 +31691,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function teamsByCountryIdAsync(
-        $version,
-        $sport,
         $country_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsByCountryId'][0]
@@ -32312,7 +31710,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->teamsByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, $contentType)
+        return $this->teamsByCountryIdAsyncWithHttpInfo($country_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -32325,18 +31723,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Country ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function teamsByCountryIdAsyncWithHttpInfo($version, $sport, $country_id, string $contentType = self::contentTypes['teamsByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsByCountryIdAsyncWithHttpInfo($country_id, $version = null, $sport = null, string $contentType = self::contentTypes['teamsByCountryId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTeamsByCountryIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByCountryIdRequest($version, $sport, $country_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByCountryIdRequest($country_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -32380,42 +31778,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'teamsByCountryId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $country_id The ID of the country you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsByCountryId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function teamsByCountryIdRequest($version, $sport, $country_id, string $contentType = self::contentTypes['teamsByCountryId'][0])
+    public function teamsByCountryIdRequest($country_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['teamsByCountryId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling teamsByCountryId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling teamsByCountryId'
-            );
-        }
         // verify the required parameter 'country_id' is set
         if ($country_id === SENTINEL_VALUE || (is_array($country_id) && count($country_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter country_id when calling teamsByCountryId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -32485,6 +31871,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -32518,9 +31909,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -32528,9 +31919,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTeamsByIdResponse
      */
     public function teamsById(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsById'][0]
@@ -32538,7 +31929,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->teamsByIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->teamsByIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -32547,18 +31938,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTeamsByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function teamsByIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['teamsById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsByIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['teamsById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -32574,9 +31965,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->teamsByIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -32666,18 +32057,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function teamsByIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsById'][0]
@@ -32685,7 +32076,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->teamsByIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->teamsByIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -32698,18 +32089,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function teamsByIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['teamsById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsByIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['teamsById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTeamsByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsByIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -32753,42 +32144,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'teamsById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function teamsByIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['teamsById'][0])
+    public function teamsByIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['teamsById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling teamsById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling teamsById'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling teamsById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -32858,6 +32237,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -32891,9 +32275,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -32901,9 +32285,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTeamsBySeasonIdResponse
      */
     public function teamsBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsBySeasonId'][0]
@@ -32911,7 +32295,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->teamsBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->teamsBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -32920,18 +32304,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTeamsBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function teamsBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['teamsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['teamsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -32947,9 +32331,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->teamsBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -33039,18 +32423,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function teamsBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsBySeasonId'][0]
@@ -33058,7 +32442,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->teamsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->teamsBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -33071,18 +32455,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function teamsBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['teamsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['teamsBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTeamsBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -33126,42 +32510,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'teamsBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve teams from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function teamsBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['teamsBySeasonId'][0])
+    public function teamsBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['teamsBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling teamsBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling teamsBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling teamsBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -33231,6 +32603,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -33264,9 +32641,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -33274,9 +32651,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTeamsSearchResponse
      */
     public function teamsSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsSearch'][0]
@@ -33284,7 +32661,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->teamsSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->teamsSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -33293,18 +32670,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTeamsSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function teamsSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['teamsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['teamsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -33320,9 +32697,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->teamsSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -33412,18 +32789,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function teamsSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['teamsSearch'][0]
@@ -33431,7 +32808,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->teamsSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->teamsSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -33444,18 +32821,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function teamsSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['teamsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function teamsSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['teamsSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTeamsSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->teamsSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -33499,37 +32876,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'teamsSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['teamsSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function teamsSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['teamsSearch'][0])
+    public function teamsSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['teamsSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling teamsSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling teamsSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -33539,6 +32896,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling teamsSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -33608,6 +32973,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -33641,9 +33011,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -33651,9 +33021,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTopScorersBySeasonIdResponse
      */
     public function topScorersBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['topScorersBySeasonId'][0]
@@ -33661,7 +33031,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->topScorersBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->topScorersBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -33670,18 +33040,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTopScorersBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function topScorersBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['topScorersBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function topScorersBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['topScorersBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -33697,9 +33067,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->topScorersBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -33789,18 +33159,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function topScorersBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['topScorersBySeasonId'][0]
@@ -33808,7 +33178,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->topScorersBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->topScorersBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -33821,18 +33191,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function topScorersBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['topScorersBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function topScorersBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['topScorersBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTopScorersBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -33876,42 +33246,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'topScorersBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function topScorersBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['topScorersBySeasonId'][0])
+    public function topScorersBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['topScorersBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling topScorersBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling topScorersBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling topScorersBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -33981,6 +33339,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -34014,9 +33377,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Stage ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersByStageId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -34024,9 +33387,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTopScorersByStageIdResponse
      */
     public function topScorersByStageId(
-        $version,
-        $sport,
         $stage_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['topScorersByStageId'][0]
@@ -34034,7 +33397,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->topScorersByStageIdWithHttpInfo($version, $sport, $stage_id, $contentType);
+        list($response) = $this->topScorersByStageIdWithHttpInfo($stage_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -34043,18 +33406,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Stage ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersByStageId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTopScorersByStageIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function topScorersByStageIdWithHttpInfo($version, $sport, $stage_id, string $contentType = self::contentTypes['topScorersByStageId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function topScorersByStageIdWithHttpInfo($stage_id, $version = null, $sport = null, string $contentType = self::contentTypes['topScorersByStageId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersByStageIdRequest($version, $sport, $stage_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersByStageIdRequest($stage_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -34070,9 +33433,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->topScorersByStageIdWithHttpInfo(
+                        $stage_id,
                         $version,
                         $sport,
-                        $stage_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -34162,18 +33525,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Stage ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersByStageId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function topScorersByStageIdAsync(
-        $version,
-        $sport,
         $stage_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['topScorersByStageId'][0]
@@ -34181,7 +33544,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->topScorersByStageIdAsyncWithHttpInfo($version, $sport, $stage_id, $contentType)
+        return $this->topScorersByStageIdAsyncWithHttpInfo($stage_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -34194,18 +33557,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Stage ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersByStageId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function topScorersByStageIdAsyncWithHttpInfo($version, $sport, $stage_id, string $contentType = self::contentTypes['topScorersByStageId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function topScorersByStageIdAsyncWithHttpInfo($stage_id, $version = null, $sport = null, string $contentType = self::contentTypes['topScorersByStageId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTopScorersByStageIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersByStageIdRequest($version, $sport, $stage_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->topScorersByStageIdRequest($stage_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -34249,42 +33612,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'topScorersByStageId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $stage_id The ID of the stage you want to retrieve topscorers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['topScorersByStageId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function topScorersByStageIdRequest($version, $sport, $stage_id, string $contentType = self::contentTypes['topScorersByStageId'][0])
+    public function topScorersByStageIdRequest($stage_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['topScorersByStageId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling topScorersByStageId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling topScorersByStageId'
-            );
-        }
         // verify the required parameter 'stage_id' is set
         if ($stage_id === SENTINEL_VALUE || (is_array($stage_id) && count($stage_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter stage_id when calling topScorersByStageId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -34354,6 +33705,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -34387,10 +33743,10 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve transfers from. (required)
      * @param  string $end_date The end date you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tranfersByDateRange'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -34398,10 +33754,10 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTranfersByDateRangeResponse
      */
     public function tranfersByDateRange(
-        $version,
-        $sport,
         $start_date,
         $end_date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tranfersByDateRange'][0]
@@ -34409,7 +33765,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->tranfersByDateRangeWithHttpInfo($version, $sport, $start_date, $end_date, $contentType);
+        list($response) = $this->tranfersByDateRangeWithHttpInfo($start_date, $end_date, $version, $sport, $contentType);
         return $response;
     }
 
@@ -34418,19 +33774,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve transfers from. (required)
      * @param  string $end_date The end date you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tranfersByDateRange'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTranfersByDateRangeResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function tranfersByDateRangeWithHttpInfo($version, $sport, $start_date, $end_date, string $contentType = self::contentTypes['tranfersByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tranfersByDateRangeWithHttpInfo($start_date, $end_date, $version = null, $sport = null, string $contentType = self::contentTypes['tranfersByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->tranfersByDateRangeRequest($version, $sport, $start_date, $end_date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->tranfersByDateRangeRequest($start_date, $end_date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -34446,10 +33802,10 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->tranfersByDateRangeWithHttpInfo(
-                        $version,
-                        $sport,
                         $start_date,
                         $end_date,
+                        $version,
+                        $sport,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -34539,20 +33895,20 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve transfers from. (required)
      * @param  string $end_date The end date you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tranfersByDateRange'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function tranfersByDateRangeAsync(
-        $version,
-        $sport,
         $start_date,
         $end_date,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tranfersByDateRange'][0]
@@ -34560,7 +33916,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->tranfersByDateRangeAsyncWithHttpInfo($version, $sport, $start_date, $end_date, $contentType)
+        return $this->tranfersByDateRangeAsyncWithHttpInfo($start_date, $end_date, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -34573,19 +33929,19 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Date Range
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve transfers from. (required)
      * @param  string $end_date The end date you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tranfersByDateRange'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function tranfersByDateRangeAsyncWithHttpInfo($version, $sport, $start_date, $end_date, string $contentType = self::contentTypes['tranfersByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tranfersByDateRangeAsyncWithHttpInfo($start_date, $end_date, $version = null, $sport = null, string $contentType = self::contentTypes['tranfersByDateRange'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTranfersByDateRangeResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->tranfersByDateRangeRequest($version, $sport, $start_date, $end_date, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->tranfersByDateRangeRequest($start_date, $end_date, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -34629,38 +33985,18 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'tranfersByDateRange'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $start_date The start date you want to retrieve transfers from. (required)
      * @param  string $end_date The end date you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tranfersByDateRange'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function tranfersByDateRangeRequest($version, $sport, $start_date, $end_date, string $contentType = self::contentTypes['tranfersByDateRange'][0])
+    public function tranfersByDateRangeRequest($start_date, $end_date, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['tranfersByDateRange'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling tranfersByDateRange'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling tranfersByDateRange'
-            );
-        }
         // Check if $start_date is a string
         if ($start_date !== SENTINEL_VALUE && !is_string($start_date)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($start_date, true), gettype($start_date)));
@@ -34680,6 +34016,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter end_date when calling tranfersByDateRange'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -34757,6 +34101,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -34790,9 +34139,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $transfer_id transfer_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transferById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -34800,9 +34149,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTransferByIdResponse
      */
     public function transferById(
-        $version,
-        $sport,
         $transfer_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transferById'][0]
@@ -34810,7 +34159,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->transferByIdWithHttpInfo($version, $sport, $transfer_id, $contentType);
+        list($response) = $this->transferByIdWithHttpInfo($transfer_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -34819,18 +34168,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $transfer_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transferById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTransferByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function transferByIdWithHttpInfo($version, $sport, $transfer_id, string $contentType = self::contentTypes['transferById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transferByIdWithHttpInfo($transfer_id, $version = null, $sport = null, string $contentType = self::contentTypes['transferById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->transferByIdRequest($version, $sport, $transfer_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->transferByIdRequest($transfer_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -34846,9 +34195,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->transferByIdWithHttpInfo(
+                        $transfer_id,
                         $version,
                         $sport,
-                        $transfer_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -34938,18 +34287,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $transfer_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transferById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function transferByIdAsync(
-        $version,
-        $sport,
         $transfer_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transferById'][0]
@@ -34957,7 +34306,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->transferByIdAsyncWithHttpInfo($version, $sport, $transfer_id, $contentType)
+        return $this->transferByIdAsyncWithHttpInfo($transfer_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -34970,18 +34319,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $transfer_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transferById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function transferByIdAsyncWithHttpInfo($version, $sport, $transfer_id, string $contentType = self::contentTypes['transferById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transferByIdAsyncWithHttpInfo($transfer_id, $version = null, $sport = null, string $contentType = self::contentTypes['transferById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTransferByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->transferByIdRequest($version, $sport, $transfer_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->transferByIdRequest($transfer_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -35025,42 +34374,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'transferById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $transfer_id (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transferById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function transferByIdRequest($version, $sport, $transfer_id, string $contentType = self::contentTypes['transferById'][0])
+    public function transferByIdRequest($transfer_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['transferById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling transferById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling transferById'
-            );
-        }
         // verify the required parameter 'transfer_id' is set
         if ($transfer_id === SENTINEL_VALUE || (is_array($transfer_id) && count($transfer_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter transfer_id when calling transferById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -35130,6 +34467,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -35163,8 +34505,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -35172,8 +34514,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTransfersAllResponse
      */
     public function transfersAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersAll'][0]
@@ -35190,15 +34532,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTransfersAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function transfersAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['transfersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['transfersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersAllRequest($version, $sport, $contentType);
 
@@ -35307,16 +34649,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function transfersAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersAll'][0]
@@ -35337,14 +34679,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function transfersAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['transfersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['transfersAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTransfersAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersAllRequest($version, $sport, $contentType);
@@ -35391,35 +34733,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'transfersAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function transfersAllRequest($version, $sport, string $contentType = self::contentTypes['transfersAll'][0])
+    public function transfersAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['transfersAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling transfersAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling transfersAll'
-            );
         }
 
 
@@ -35481,6 +34811,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -35514,9 +34849,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Player ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByPlayerId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -35524,9 +34859,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTransfersByPlayerIdResponse
      */
     public function transfersByPlayerId(
-        $version,
-        $sport,
         $player_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersByPlayerId'][0]
@@ -35534,7 +34869,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->transfersByPlayerIdWithHttpInfo($version, $sport, $player_id, $contentType);
+        list($response) = $this->transfersByPlayerIdWithHttpInfo($player_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -35543,18 +34878,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Player ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByPlayerId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTransfersByPlayerIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function transfersByPlayerIdWithHttpInfo($version, $sport, $player_id, string $contentType = self::contentTypes['transfersByPlayerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersByPlayerIdWithHttpInfo($player_id, $version = null, $sport = null, string $contentType = self::contentTypes['transfersByPlayerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByPlayerIdRequest($version, $sport, $player_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByPlayerIdRequest($player_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -35570,9 +34905,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->transfersByPlayerIdWithHttpInfo(
+                        $player_id,
                         $version,
                         $sport,
-                        $player_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -35662,18 +34997,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Player ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByPlayerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function transfersByPlayerIdAsync(
-        $version,
-        $sport,
         $player_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersByPlayerId'][0]
@@ -35681,7 +35016,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->transfersByPlayerIdAsyncWithHttpInfo($version, $sport, $player_id, $contentType)
+        return $this->transfersByPlayerIdAsyncWithHttpInfo($player_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -35694,18 +35029,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Player ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByPlayerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function transfersByPlayerIdAsyncWithHttpInfo($version, $sport, $player_id, string $contentType = self::contentTypes['transfersByPlayerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersByPlayerIdAsyncWithHttpInfo($player_id, $version = null, $sport = null, string $contentType = self::contentTypes['transfersByPlayerId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTransfersByPlayerIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByPlayerIdRequest($version, $sport, $player_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByPlayerIdRequest($player_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -35749,42 +35084,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'transfersByPlayerId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $player_id The ID of the player you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByPlayerId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function transfersByPlayerIdRequest($version, $sport, $player_id, string $contentType = self::contentTypes['transfersByPlayerId'][0])
+    public function transfersByPlayerIdRequest($player_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['transfersByPlayerId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling transfersByPlayerId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling transfersByPlayerId'
-            );
-        }
         // verify the required parameter 'player_id' is set
         if ($player_id === SENTINEL_VALUE || (is_array($player_id) && count($player_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter player_id when calling transfersByPlayerId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -35854,6 +35177,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -35887,9 +35215,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -35897,9 +35225,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTransfersByTeamIdResponse
      */
     public function transfersByTeamId(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersByTeamId'][0]
@@ -35907,7 +35235,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->transfersByTeamIdWithHttpInfo($version, $sport, $team_id, $contentType);
+        list($response) = $this->transfersByTeamIdWithHttpInfo($team_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -35916,18 +35244,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByTeamId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTransfersByTeamIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function transfersByTeamIdWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['transfersByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersByTeamIdWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['transfersByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -35943,9 +35271,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->transfersByTeamIdWithHttpInfo(
+                        $team_id,
                         $version,
                         $sport,
-                        $team_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -36035,18 +35363,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function transfersByTeamIdAsync(
-        $version,
-        $sport,
         $team_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersByTeamId'][0]
@@ -36054,7 +35382,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->transfersByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, $contentType)
+        return $this->transfersByTeamIdAsyncWithHttpInfo($team_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -36067,18 +35395,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Team ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function transfersByTeamIdAsyncWithHttpInfo($version, $sport, $team_id, string $contentType = self::contentTypes['transfersByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersByTeamIdAsyncWithHttpInfo($team_id, $version = null, $sport = null, string $contentType = self::contentTypes['transfersByTeamId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTransfersByTeamIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByTeamIdRequest($version, $sport, $team_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersByTeamIdRequest($team_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -36122,42 +35450,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'transfersByTeamId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $team_id The ID of the team you want to retrieve transfers from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersByTeamId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function transfersByTeamIdRequest($version, $sport, $team_id, string $contentType = self::contentTypes['transfersByTeamId'][0])
+    public function transfersByTeamIdRequest($team_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['transfersByTeamId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling transfersByTeamId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling transfersByTeamId'
-            );
-        }
         // verify the required parameter 'team_id' is set
         if ($team_id === SENTINEL_VALUE || (is_array($team_id) && count($team_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter team_id when calling transfersByTeamId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -36227,6 +35543,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -36260,8 +35581,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -36269,8 +35590,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTransfersLatestResponse
      */
     public function transfersLatest(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersLatest'][0]
@@ -36287,15 +35608,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersLatest'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTransfersLatestResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function transfersLatestWithHttpInfo($version, $sport, string $contentType = self::contentTypes['transfersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersLatestWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['transfersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersLatestRequest($version, $sport, $contentType);
 
@@ -36404,16 +35725,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function transfersLatestAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['transfersLatest'][0]
@@ -36434,14 +35755,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Last Updated
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function transfersLatestAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['transfersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function transfersLatestAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['transfersLatest'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTransfersLatestResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->transfersLatestRequest($version, $sport, $contentType);
@@ -36488,35 +35809,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'transfersLatest'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['transfersLatest'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function transfersLatestRequest($version, $sport, string $contentType = self::contentTypes['transfersLatest'][0])
+    public function transfersLatestRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['transfersLatest'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling transfersLatest'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling transfersLatest'
-            );
         }
 
 
@@ -36578,6 +35887,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -36611,9 +35925,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $tv_station_id The ID of the tv station you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -36621,9 +35935,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTvStationByIdResponse
      */
     public function tvStationById(
-        $version,
-        $sport,
         $tv_station_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tvStationById'][0]
@@ -36631,7 +35945,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->tvStationByIdWithHttpInfo($version, $sport, $tv_station_id, $contentType);
+        list($response) = $this->tvStationByIdWithHttpInfo($tv_station_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -36640,18 +35954,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $tv_station_id The ID of the tv station you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTvStationByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function tvStationByIdWithHttpInfo($version, $sport, $tv_station_id, string $contentType = self::contentTypes['tvStationById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tvStationByIdWithHttpInfo($tv_station_id, $version = null, $sport = null, string $contentType = self::contentTypes['tvStationById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationByIdRequest($version, $sport, $tv_station_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationByIdRequest($tv_station_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -36667,9 +35981,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->tvStationByIdWithHttpInfo(
+                        $tv_station_id,
                         $version,
                         $sport,
-                        $tv_station_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -36759,18 +36073,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $tv_station_id The ID of the tv station you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function tvStationByIdAsync(
-        $version,
-        $sport,
         $tv_station_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tvStationById'][0]
@@ -36778,7 +36092,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->tvStationByIdAsyncWithHttpInfo($version, $sport, $tv_station_id, $contentType)
+        return $this->tvStationByIdAsyncWithHttpInfo($tv_station_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -36791,18 +36105,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $tv_station_id The ID of the tv station you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function tvStationByIdAsyncWithHttpInfo($version, $sport, $tv_station_id, string $contentType = self::contentTypes['tvStationById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tvStationByIdAsyncWithHttpInfo($tv_station_id, $version = null, $sport = null, string $contentType = self::contentTypes['tvStationById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTvStationByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationByIdRequest($version, $sport, $tv_station_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationByIdRequest($tv_station_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -36846,42 +36160,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'tvStationById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $tv_station_id The ID of the tv station you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function tvStationByIdRequest($version, $sport, $tv_station_id, string $contentType = self::contentTypes['tvStationById'][0])
+    public function tvStationByIdRequest($tv_station_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['tvStationById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling tvStationById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling tvStationById'
-            );
-        }
         // verify the required parameter 'tv_station_id' is set
         if ($tv_station_id === SENTINEL_VALUE || (is_array($tv_station_id) && count($tv_station_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter tv_station_id when calling tvStationById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -36951,6 +36253,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -36984,8 +36291,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -36993,8 +36300,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTvStationsAllResponse
      */
     public function tvStationsAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tvStationsAll'][0]
@@ -37011,15 +36318,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTvStationsAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function tvStationsAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['tvStationsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tvStationsAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['tvStationsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationsAllRequest($version, $sport, $contentType);
 
@@ -37128,16 +36435,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function tvStationsAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tvStationsAll'][0]
@@ -37158,14 +36465,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function tvStationsAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['tvStationsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tvStationsAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['tvStationsAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTvStationsAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationsAllRequest($version, $sport, $contentType);
@@ -37212,35 +36519,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'tvStationsAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function tvStationsAllRequest($version, $sport, string $contentType = self::contentTypes['tvStationsAll'][0])
+    public function tvStationsAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['tvStationsAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling tvStationsAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling tvStationsAll'
-            );
         }
 
 
@@ -37302,6 +36597,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -37335,9 +36635,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve tv-stations from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -37345,9 +36645,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportTvStationsByFixtureIdResponse
      */
     public function tvStationsByFixtureId(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tvStationsByFixtureId'][0]
@@ -37355,7 +36655,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->tvStationsByFixtureIdWithHttpInfo($version, $sport, $fixture_id, $contentType);
+        list($response) = $this->tvStationsByFixtureIdWithHttpInfo($fixture_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -37364,18 +36664,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve tv-stations from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsByFixtureId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportTvStationsByFixtureIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function tvStationsByFixtureIdWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['tvStationsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tvStationsByFixtureIdWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['tvStationsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationsByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationsByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -37391,9 +36691,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->tvStationsByFixtureIdWithHttpInfo(
+                        $fixture_id,
                         $version,
                         $sport,
-                        $fixture_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -37483,18 +36783,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve tv-stations from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function tvStationsByFixtureIdAsync(
-        $version,
-        $sport,
         $fixture_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['tvStationsByFixtureId'][0]
@@ -37502,7 +36802,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->tvStationsByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, $contentType)
+        return $this->tvStationsByFixtureIdAsyncWithHttpInfo($fixture_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -37515,18 +36815,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Fixture ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve tv-stations from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function tvStationsByFixtureIdAsyncWithHttpInfo($version, $sport, $fixture_id, string $contentType = self::contentTypes['tvStationsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function tvStationsByFixtureIdAsyncWithHttpInfo($fixture_id, $version = null, $sport = null, string $contentType = self::contentTypes['tvStationsByFixtureId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportTvStationsByFixtureIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationsByFixtureIdRequest($version, $sport, $fixture_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->tvStationsByFixtureIdRequest($fixture_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -37570,42 +36870,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'tvStationsByFixtureId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $fixture_id The ID of the fixture you want to retrieve tv-stations from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['tvStationsByFixtureId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function tvStationsByFixtureIdRequest($version, $sport, $fixture_id, string $contentType = self::contentTypes['tvStationsByFixtureId'][0])
+    public function tvStationsByFixtureIdRequest($fixture_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['tvStationsByFixtureId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling tvStationsByFixtureId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling tvStationsByFixtureId'
-            );
-        }
         // verify the required parameter 'fixture_id' is set
         if ($fixture_id === SENTINEL_VALUE || (is_array($fixture_id) && count($fixture_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter fixture_id when calling tvStationsByFixtureId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -37675,6 +36963,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -37708,9 +37001,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $venue_id The ID of the venue you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venueById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -37718,9 +37011,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportVenueByIdResponse
      */
     public function venueById(
-        $version,
-        $sport,
         $venue_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venueById'][0]
@@ -37728,7 +37021,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->venueByIdWithHttpInfo($version, $sport, $venue_id, $contentType);
+        list($response) = $this->venueByIdWithHttpInfo($venue_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -37737,18 +37030,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $venue_id The ID of the venue you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venueById'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportVenueByIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function venueByIdWithHttpInfo($version, $sport, $venue_id, string $contentType = self::contentTypes['venueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venueByIdWithHttpInfo($venue_id, $version = null, $sport = null, string $contentType = self::contentTypes['venueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->venueByIdRequest($version, $sport, $venue_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->venueByIdRequest($venue_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -37764,9 +37057,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->venueByIdWithHttpInfo(
+                        $venue_id,
                         $version,
                         $sport,
-                        $venue_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -37856,18 +37149,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $venue_id The ID of the venue you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venueById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function venueByIdAsync(
-        $version,
-        $sport,
         $venue_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venueById'][0]
@@ -37875,7 +37168,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->venueByIdAsyncWithHttpInfo($version, $sport, $venue_id, $contentType)
+        return $this->venueByIdAsyncWithHttpInfo($venue_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -37888,18 +37181,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $venue_id The ID of the venue you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venueById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function venueByIdAsyncWithHttpInfo($version, $sport, $venue_id, string $contentType = self::contentTypes['venueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venueByIdAsyncWithHttpInfo($venue_id, $version = null, $sport = null, string $contentType = self::contentTypes['venueById'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportVenueByIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->venueByIdRequest($version, $sport, $venue_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->venueByIdRequest($venue_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -37943,42 +37236,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'venueById'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $venue_id The ID of the venue you want to retrieve. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venueById'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function venueByIdRequest($version, $sport, $venue_id, string $contentType = self::contentTypes['venueById'][0])
+    public function venueByIdRequest($venue_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['venueById'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling venueById'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling venueById'
-            );
-        }
         // verify the required parameter 'venue_id' is set
         if ($venue_id === SENTINEL_VALUE || (is_array($venue_id) && count($venue_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter venue_id when calling venueById'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -38048,6 +37329,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -38081,8 +37367,8 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -38090,8 +37376,8 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportVenuesAllResponse
      */
     public function venuesAll(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venuesAll'][0]
@@ -38108,15 +37394,15 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesAll'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportVenuesAllResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function venuesAllWithHttpInfo($version, $sport, string $contentType = self::contentTypes['venuesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venuesAllWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['venuesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesAllRequest($version, $sport, $contentType);
 
@@ -38225,16 +37511,16 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function venuesAllAsync(
-        $version,
-        $sport,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venuesAll'][0]
@@ -38255,14 +37541,14 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * All
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function venuesAllAsyncWithHttpInfo($version, $sport, string $contentType = self::contentTypes['venuesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venuesAllAsyncWithHttpInfo($version = null, $sport = null, string $contentType = self::contentTypes['venuesAll'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportVenuesAllResponse';
         ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesAllRequest($version, $sport, $contentType);
@@ -38309,35 +37595,23 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'venuesAll'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesAll'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function venuesAllRequest($version, $sport, string $contentType = self::contentTypes['venuesAll'][0])
+    public function venuesAllRequest($version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['venuesAll'][0])
     {
 
         // Check if $version is a string
         if ($version !== SENTINEL_VALUE && !is_string($version)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
         }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling venuesAll'
-            );
-        }
         // Check if $sport is a string
         if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling venuesAll'
-            );
         }
 
 
@@ -38399,6 +37673,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -38432,9 +37711,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve venues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -38442,9 +37721,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportVenuesBySeasonIdResponse
      */
     public function venuesBySeasonId(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venuesBySeasonId'][0]
@@ -38452,7 +37731,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->venuesBySeasonIdWithHttpInfo($version, $sport, $season_id, $contentType);
+        list($response) = $this->venuesBySeasonIdWithHttpInfo($season_id, $version, $sport, $contentType);
         return $response;
     }
 
@@ -38461,18 +37740,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve venues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesBySeasonId'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportVenuesBySeasonIdResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function venuesBySeasonIdWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['venuesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venuesBySeasonIdWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['venuesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -38488,9 +37767,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->venuesBySeasonIdWithHttpInfo(
+                        $season_id,
                         $version,
                         $sport,
-                        $season_id,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -38580,18 +37859,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve venues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function venuesBySeasonIdAsync(
-        $version,
-        $sport,
         $season_id,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venuesBySeasonId'][0]
@@ -38599,7 +37878,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->venuesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, $contentType)
+        return $this->venuesBySeasonIdAsyncWithHttpInfo($season_id, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -38612,18 +37891,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * By Season ID
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve venues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function venuesBySeasonIdAsyncWithHttpInfo($version, $sport, $season_id, string $contentType = self::contentTypes['venuesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venuesBySeasonIdAsyncWithHttpInfo($season_id, $version = null, $sport = null, string $contentType = self::contentTypes['venuesBySeasonId'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportVenuesBySeasonIdResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesBySeasonIdRequest($version, $sport, $season_id, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesBySeasonIdRequest($season_id, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -38667,42 +37946,30 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'venuesBySeasonId'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  int $season_id The ID of the season you want to retrieve venues from. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesBySeasonId'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function venuesBySeasonIdRequest($version, $sport, $season_id, string $contentType = self::contentTypes['venuesBySeasonId'][0])
+    public function venuesBySeasonIdRequest($season_id, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['venuesBySeasonId'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling venuesBySeasonId'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling venuesBySeasonId'
-            );
-        }
         // verify the required parameter 'season_id' is set
         if ($season_id === SENTINEL_VALUE || (is_array($season_id) && count($season_id) === 0)) {
             throw new \InvalidArgumentException(
                 'Missing the required parameter season_id when calling venuesBySeasonId'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -38772,6 +38039,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {
@@ -38805,9 +38077,9 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
@@ -38815,9 +38087,9 @@ class SportApi extends \Sportmonks\CustomApi
      * @return \Sportmonks\Model\SportVenuesSearchResponse
      */
     public function venuesSearch(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venuesSearch'][0]
@@ -38825,7 +38097,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        list($response) = $this->venuesSearchWithHttpInfo($version, $sport, $name, $contentType);
+        list($response) = $this->venuesSearchWithHttpInfo($name, $version, $sport, $contentType);
         return $response;
     }
 
@@ -38834,18 +38106,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesSearch'] to see the possible values for this operation
      *
      * @throws \Sportmonks\ApiException on non-2xx response
      * @throws \InvalidArgumentException
      * @return array of \Sportmonks\Model\SportVenuesSearchResponse, HTTP status code, HTTP response headers (array of strings)
      */
-    public function venuesSearchWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['venuesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venuesSearchWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['venuesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -38861,9 +38133,9 @@ class SportApi extends \Sportmonks\CustomApi
                     $requestOptions->shouldRetryOAuth()
                 ) {
                     return $this->venuesSearchWithHttpInfo(
+                        $name,
                         $version,
                         $sport,
-                        $name,
                         $contentType,
                         $requestOptions->setRetryOAuth(false)
                     );
@@ -38953,18 +38225,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
     public function venuesSearchAsync(
-        $version,
-        $sport,
         $name,
+        $version = SENTINEL_VALUE,
+        $sport = SENTINEL_VALUE,
 
 
         string $contentType = self::contentTypes['venuesSearch'][0]
@@ -38972,7 +38244,7 @@ class SportApi extends \Sportmonks\CustomApi
     )
     {
 
-        return $this->venuesSearchAsyncWithHttpInfo($version, $sport, $name, $contentType)
+        return $this->venuesSearchAsyncWithHttpInfo($name, $version, $sport, $contentType)
             ->then(
                 function ($response) {
                     return $response[0];
@@ -38985,18 +38257,18 @@ class SportApi extends \Sportmonks\CustomApi
      *
      * Search
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Promise\PromiseInterface
      */
-    public function venuesSearchAsyncWithHttpInfo($version, $sport, $name, string $contentType = self::contentTypes['venuesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
+    public function venuesSearchAsyncWithHttpInfo($name, $version = null, $sport = null, string $contentType = self::contentTypes['venuesSearch'][0], \Sportmonks\RequestOptions $requestOptions = new \Sportmonks\RequestOptions())
     {
         $returnType = '\Sportmonks\Model\SportVenuesSearchResponse';
-        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesSearchRequest($version, $sport, $name, $contentType);
+        ["request" => $request, "serializedBody" => $serializedBody] = $this->venuesSearchRequest($name, $version, $sport, $contentType);
 
         // Customization hook
         $this->beforeSendHook($request, $requestOptions, $this->config);
@@ -39040,37 +38312,17 @@ class SportApi extends \Sportmonks\CustomApi
     /**
      * Create request for operation 'venuesSearch'
      *
-     * @param  string $version The version of the API. (required)
-     * @param  string $sport The sport you want retrieve entities from. (required)
      * @param  string $name The name you want to search on. (required)
+     * @param  string $version The version of the API. (optional)
+     * @param  string $sport The sport you want retrieve entities from. (optional)
      * @param  string $contentType The value for the Content-Type header. Check self::contentTypes['venuesSearch'] to see the possible values for this operation
      *
      * @throws \InvalidArgumentException
      * @return \GuzzleHttp\Psr7\Request
      */
-    public function venuesSearchRequest($version, $sport, $name, string $contentType = self::contentTypes['venuesSearch'][0])
+    public function venuesSearchRequest($name, $version = SENTINEL_VALUE, $sport = SENTINEL_VALUE, string $contentType = self::contentTypes['venuesSearch'][0])
     {
 
-        // Check if $version is a string
-        if ($version !== SENTINEL_VALUE && !is_string($version)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
-        }
-        // verify the required parameter 'version' is set
-        if ($version === SENTINEL_VALUE || (is_array($version) && count($version) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter version when calling venuesSearch'
-            );
-        }
-        // Check if $sport is a string
-        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
-            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
-        }
-        // verify the required parameter 'sport' is set
-        if ($sport === SENTINEL_VALUE || (is_array($sport) && count($sport) === 0)) {
-            throw new \InvalidArgumentException(
-                'Missing the required parameter sport when calling venuesSearch'
-            );
-        }
         // Check if $name is a string
         if ($name !== SENTINEL_VALUE && !is_string($name)) {
             throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($name, true), gettype($name)));
@@ -39080,6 +38332,14 @@ class SportApi extends \Sportmonks\CustomApi
             throw new \InvalidArgumentException(
                 'Missing the required parameter name when calling venuesSearch'
             );
+        }
+        // Check if $version is a string
+        if ($version !== SENTINEL_VALUE && !is_string($version)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($version, true), gettype($version)));
+        }
+        // Check if $sport is a string
+        if ($sport !== SENTINEL_VALUE && !is_string($sport)) {
+            throw new \InvalidArgumentException(sprintf('Invalid value %s, please provide a string, %s given', var_export($sport, true), gettype($sport)));
         }
 
 
@@ -39149,6 +38409,11 @@ class SportApi extends \Sportmonks\CustomApi
             }
         }
 
+        // this endpoint requires API key authentication
+        $apiKey = $this->config->getApiKeyWithPrefix('Authorization');
+        if ($apiKey !== null) {
+            $headers['Authorization'] = $apiKey;
+        }
 
         $defaultHeaders = [];
         if ($this->config->getUserAgent()) {

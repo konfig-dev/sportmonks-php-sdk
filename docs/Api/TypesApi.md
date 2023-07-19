@@ -23,6 +23,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -46,7 +49,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -68,7 +71,7 @@ try {
 ## `getById()`
 
 ```php
-getById($version, $type_id): \Sportmonks\Model\TypesGetByIdResponse
+getById($type_id, $version): \Sportmonks\Model\TypesGetByIdResponse
 ```
 
 By ID
@@ -80,15 +83,18 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $type_id = 1; // The ID of the type you want to retrieve
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->types->getById(
-        version: $version, 
-        type_id: $type_id
+        type_id: $type_id, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -104,8 +110,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **type_id** | **int**| The ID of the type you want to retrieve | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 

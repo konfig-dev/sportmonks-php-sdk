@@ -18,7 +18,7 @@ All URIs are relative to https://api.sportmonks.com, except if the operation def
 ## `bookmakerById()`
 
 ```php
-bookmakerById($version, $bookmaker_id): \Sportmonks\Model\OddsBookmakerByIdResponse
+bookmakerById($bookmaker_id, $version): \Sportmonks\Model\OddsBookmakerByIdResponse
 ```
 
 By ID
@@ -30,15 +30,18 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $bookmaker_id = 1; // The ID of the bookmaker you want to retrieve.
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->odds->bookmakerById(
-        version: $version, 
-        bookmaker_id: $bookmaker_id
+        bookmaker_id: $bookmaker_id, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -54,8 +57,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **bookmaker_id** | **int**| The ID of the bookmaker you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -89,6 +92,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -112,7 +118,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -134,7 +140,7 @@ try {
 ## `bookmakersByFixtureId()`
 
 ```php
-bookmakersByFixtureId($version, $fixture_id): \Sportmonks\Model\OddsBookmakersByFixtureIdResponse
+bookmakersByFixtureId($fixture_id, $version): \Sportmonks\Model\OddsBookmakersByFixtureIdResponse
 ```
 
 By Fixture ID
@@ -146,15 +152,18 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $fixture_id = 18528479; // The ID of the bookmaker you want to retrieve.
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->odds->bookmakersByFixtureId(
-        version: $version, 
-        fixture_id: $fixture_id
+        fixture_id: $fixture_id, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -171,8 +180,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **fixture_id** | **int**| The ID of the bookmaker you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -194,7 +203,7 @@ try {
 ## `bookmakersMappingByFixtureId()`
 
 ```php
-bookmakersMappingByFixtureId($version, $fixture_id): \Sportmonks\Model\OddsBookmakersMappingByFixtureIdResponse
+bookmakersMappingByFixtureId($fixture_id, $version): \Sportmonks\Model\OddsBookmakersMappingByFixtureIdResponse
 ```
 
 Mapping by Fixture ID
@@ -206,15 +215,18 @@ Mapping by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $fixture_id = 18528479; // The fixtureId you want to retrieve the bookmaker mapping from.
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->odds->bookmakersMappingByFixtureId(
-        version: $version, 
-        fixture_id: $fixture_id
+        fixture_id: $fixture_id, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -230,8 +242,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **fixture_id** | **int**| The fixtureId you want to retrieve the bookmaker mapping from. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -253,7 +265,7 @@ try {
 ## `bookmakersSearch()`
 
 ```php
-bookmakersSearch($version, $name): \Sportmonks\Model\OddsBookmakersSearchResponse
+bookmakersSearch($name, $version): \Sportmonks\Model\OddsBookmakersSearchResponse
 ```
 
 Search
@@ -265,15 +277,18 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $name = "Bet"; // The name you want to search on
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->odds->bookmakersSearch(
-        version: $version, 
-        name: $name
+        name: $name, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -290,8 +305,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **name** | **string**| The name you want to search on | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -313,7 +328,7 @@ try {
 ## `fixturesUpcomingByMarketId()`
 
 ```php
-fixturesUpcomingByMarketId($version, $sport, $market_id): \Sportmonks\Model\OddsFixturesUpcomingByMarketIdResponse
+fixturesUpcomingByMarketId($market_id, $version, $sport): \Sportmonks\Model\OddsFixturesUpcomingByMarketIdResponse
 ```
 
 Upcoming Fixtures by Market ID
@@ -325,17 +340,20 @@ Upcoming Fixtures by Market ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
+$market_id = 1; // The ID of the market you want to retrieve upcoming fixtures from.
 $version = "v3"; // The sport you want to retrieve upcoming fixtures from.
 $sport = "football";
-$market_id = 1; // The ID of the market you want to retrieve upcoming fixtures from.
 
 try {
     $result = $sportmonks->odds->fixturesUpcomingByMarketId(
+        market_id: $market_id, 
         version: $version, 
-        sport: $sport, 
-        market_id: $market_id
+        sport: $sport
     );
     print_r($result->$getData());
     print_r($result->$getMessage());
@@ -352,9 +370,9 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The sport you want to retrieve upcoming fixtures from. | |
-| **sport** | **string**|  | |
 | **market_id** | **int**| The ID of the market you want to retrieve upcoming fixtures from. | |
+| **version** | **string**| The sport you want to retrieve upcoming fixtures from. | [optional] |
+| **sport** | **string**|  | [optional] |
 
 ### Return type
 
@@ -376,7 +394,7 @@ try {
 ## `marketById()`
 
 ```php
-marketById($version, $market_id): \Sportmonks\Model\OddsMarketByIdResponse
+marketById($market_id, $version): \Sportmonks\Model\OddsMarketByIdResponse
 ```
 
 By ID
@@ -388,15 +406,18 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $market_id = 1; // The ID of the market you want to retrieve.
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->odds->marketById(
-        version: $version, 
-        market_id: $market_id
+        market_id: $market_id, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getSubscription());
@@ -412,8 +433,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **market_id** | **int**| The ID of the market you want to retrieve. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -447,6 +468,9 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
 $version = "v3"; // The version of the API.
@@ -470,7 +494,7 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 
@@ -492,7 +516,7 @@ try {
 ## `marketsSearch()`
 
 ```php
-marketsSearch($version, $name): \Sportmonks\Model\OddsMarketsSearchResponse
+marketsSearch($name, $version): \Sportmonks\Model\OddsMarketsSearchResponse
 ```
 
 Search
@@ -504,15 +528,18 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
+    version: "VERSION",
+    sport: "SPORT",
+    apiKey: "AUTHORIZATION",
 );
 
-$version = "v3"; // The version of the API.
 $name = "Over"; // The name you want to search on
+$version = "v3"; // The version of the API.
 
 try {
     $result = $sportmonks->odds->marketsSearch(
-        version: $version, 
-        name: $name
+        name: $name, 
+        version: $version
     );
     print_r($result->$getData());
     print_r($result->$getPagination());
@@ -529,8 +556,8 @@ try {
 
 | Name | Type | Description  | Notes |
 | ------------- | ------------- | ------------- | ------------- |
-| **version** | **string**| The version of the API. | |
 | **name** | **string**| The name you want to search on | |
+| **version** | **string**| The version of the API. | [optional] |
 
 ### Return type
 

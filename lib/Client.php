@@ -25,6 +25,9 @@ class Client
      * Constructor
      */
     public function __construct(
+        string $version = null,
+        string $sport = null,
+        string $apiKey = null,
         bool $verifySsl = null,
         string $host = 'https://api.sportmonks.com',
         \Sportmonks\Configuration $config = null
@@ -32,6 +35,9 @@ class Client
     {
         if ($config == null) {
             $config = new \Sportmonks\Configuration(
+                version: $version,
+                sport: $sport,
+                apiKey: $apiKey,
             );
             if ($host !== null) $config->setHost($host);
             if ($verifySsl !== null) $config->setVerifySsl($verifySsl);
