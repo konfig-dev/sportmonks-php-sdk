@@ -22,7 +22,7 @@ To install the bindings via [Composer](https://getcomposer.org/), add the follow
     }
   ],
   "require": {
-    "konfig/sportmonks-php-sdk": "1.0.0"
+    "konfig/sportmonks-php-sdk": "0.1.0"
   }
 }
 ```
