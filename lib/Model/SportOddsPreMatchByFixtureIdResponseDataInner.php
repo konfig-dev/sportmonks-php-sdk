@@ -62,7 +62,7 @@ class SportOddsPreMatchByFixtureIdResponseDataInner implements ModelInterface, A
         'dp3' => 'string',
         'fractional' => 'string',
         'american' => 'string',
-        'winning' => '\Sportmonks\Model\SportOddsPreMatchByFixtureIdResponseDataInnerWinning',
+        'winning' => 'bool',
         'stopped' => 'bool',
         'total' => 'string',
         'handicap' => 'string',
@@ -124,7 +124,7 @@ class SportOddsPreMatchByFixtureIdResponseDataInner implements ModelInterface, A
 		'dp3' => false,
 		'fractional' => false,
 		'american' => false,
-		'winning' => false,
+		'winning' => true,
 		'stopped' => false,
 		'total' => true,
 		'handicap' => true,
@@ -815,7 +815,7 @@ class SportOddsPreMatchByFixtureIdResponseDataInner implements ModelInterface, A
     /**
      * Gets winning
      *
-     * @return \Sportmonks\Model\SportOddsPreMatchByFixtureIdResponseDataInnerWinning|null
+     * @return bool|null
      */
     public function getWinning()
     {
@@ -825,7 +825,7 @@ class SportOddsPreMatchByFixtureIdResponseDataInner implements ModelInterface, A
     /**
      * Sets winning
      *
-     * @param \Sportmonks\Model\SportOddsPreMatchByFixtureIdResponseDataInnerWinning|null $winning winning
+     * @param bool|null $winning winning
      *
      * @return self
      */
@@ -833,7 +833,14 @@ class SportOddsPreMatchByFixtureIdResponseDataInner implements ModelInterface, A
     {
 
         if (is_null($winning)) {
-            throw new \InvalidArgumentException('non-nullable winning cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'winning');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('winning', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['winning'] = $winning;

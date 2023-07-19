@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **stage_id** | **float** |  | [optional]
 **group_id** | **string** |  | [optional]
 **round_id** | **float** |  | [optional]
-**standing_rule_id** | [**\Sportmonks\Model\SportStandingsAllResponseDataInnerStandingRuleId**](SportStandingsAllResponseDataInnerStandingRuleId.md) |  | [optional]
+**standing_rule_id** | **float** |  | [optional]
 **position** | **float** |  | [optional]
 **result** | **string** |  | [optional]
 **points** | **float** |  | [optional]

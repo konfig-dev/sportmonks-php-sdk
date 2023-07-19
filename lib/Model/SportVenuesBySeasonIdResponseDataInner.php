@@ -50,8 +50,8 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
       */
     protected static $openAPITypes = [
         'id' => 'float',
-        'country_id' => '\Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCountryId',
-        'city_id' => '\Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCityId',
+        'country_id' => 'float',
+        'city_id' => 'float',
         'name' => 'string',
         'address' => 'string',
         'zipcode' => 'string',
@@ -94,8 +94,8 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'country_id' => false,
-		'city_id' => false,
+		'country_id' => true,
+		'city_id' => true,
 		'name' => false,
 		'address' => false,
 		'zipcode' => true,
@@ -397,7 +397,7 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
     /**
      * Gets country_id
      *
-     * @return \Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCountryId|null
+     * @return float|null
      */
     public function getCountryId()
     {
@@ -407,7 +407,7 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
     /**
      * Sets country_id
      *
-     * @param \Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCountryId|null $country_id country_id
+     * @param float|null $country_id country_id
      *
      * @return self
      */
@@ -415,7 +415,14 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
     {
 
         if (is_null($country_id)) {
-            throw new \InvalidArgumentException('non-nullable country_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'country_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('country_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['country_id'] = $country_id;
@@ -426,7 +433,7 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
     /**
      * Gets city_id
      *
-     * @return \Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCityId|null
+     * @return float|null
      */
     public function getCityId()
     {
@@ -436,7 +443,7 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
     /**
      * Sets city_id
      *
-     * @param \Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCityId|null $city_id city_id
+     * @param float|null $city_id city_id
      *
      * @return self
      */
@@ -444,7 +451,14 @@ class SportVenuesBySeasonIdResponseDataInner implements ModelInterface, ArrayAcc
     {
 
         if (is_null($city_id)) {
-            throw new \InvalidArgumentException('non-nullable city_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'city_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('city_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['city_id'] = $city_id;

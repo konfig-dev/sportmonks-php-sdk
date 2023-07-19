@@ -16,8 +16,8 @@ Name | Type | Description | Notes
 **name** | **string** |  | [optional]
 **display_name** | **string** |  | [optional]
 **image_path** | **string** |  | [optional]
-**height** | [**\Sportmonks\Model\SportCoachesAllResponseDataInnerHeight**](SportCoachesAllResponseDataInnerHeight.md) |  | [optional]
-**weight** | [**\Sportmonks\Model\SportCoachesAllResponseDataInnerWeight**](SportCoachesAllResponseDataInnerWeight.md) |  | [optional]
+**height** | **float** |  | [optional]
+**weight** | **float** |  | [optional]
 **date_of_birth** | **string** |  | [optional]
 **gender** | **string** |  | [optional]
 

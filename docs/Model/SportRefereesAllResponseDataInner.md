@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **float** |  | [optional]
 **sport_id** | **float** |  | [optional]
-**country_id** | [**\Sportmonks\Model\SportRefereesAllResponseDataInnerCountryId**](SportRefereesAllResponseDataInnerCountryId.md) |  | [optional]
+**country_id** | **float** |  | [optional]
 **city_id** | **string** |  | [optional]
 **common_name** | **string** |  | [optional]
 **firstname** | **string** |  | [optional]

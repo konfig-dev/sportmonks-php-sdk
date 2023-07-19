@@ -54,8 +54,8 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
         'country_id' => 'float',
         'nationality_id' => 'float',
         'city_id' => 'string',
-        'position_id' => '\Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerPositionId',
-        'detailed_position_id' => '\Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerDetailedPositionId',
+        'position_id' => 'float',
+        'detailed_position_id' => 'float',
         'type_id' => 'float',
         'common_name' => 'string',
         'firstname' => 'string',
@@ -63,8 +63,8 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
         'name' => 'string',
         'display_name' => 'string',
         'image_path' => 'string',
-        'height' => '\Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerHeight',
-        'weight' => '\Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerWeight',
+        'height' => 'float',
+        'weight' => 'float',
         'date_of_birth' => 'string',
         'gender' => 'string'
     ];
@@ -108,8 +108,8 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
 		'country_id' => false,
 		'nationality_id' => false,
 		'city_id' => true,
-		'position_id' => false,
-		'detailed_position_id' => false,
+		'position_id' => true,
+		'detailed_position_id' => true,
 		'type_id' => false,
 		'common_name' => false,
 		'firstname' => false,
@@ -117,8 +117,8 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
 		'name' => false,
 		'display_name' => false,
 		'image_path' => false,
-		'height' => false,
-		'weight' => false,
+		'height' => true,
+		'weight' => true,
 		'date_of_birth' => false,
 		'gender' => false
     ];
@@ -555,7 +555,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Gets position_id
      *
-     * @return \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerPositionId|null
+     * @return float|null
      */
     public function getPositionId()
     {
@@ -565,7 +565,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Sets position_id
      *
-     * @param \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerPositionId|null $position_id position_id
+     * @param float|null $position_id position_id
      *
      * @return self
      */
@@ -573,7 +573,14 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     {
 
         if (is_null($position_id)) {
-            throw new \InvalidArgumentException('non-nullable position_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'position_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('position_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['position_id'] = $position_id;
@@ -584,7 +591,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Gets detailed_position_id
      *
-     * @return \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerDetailedPositionId|null
+     * @return float|null
      */
     public function getDetailedPositionId()
     {
@@ -594,7 +601,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Sets detailed_position_id
      *
-     * @param \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerDetailedPositionId|null $detailed_position_id detailed_position_id
+     * @param float|null $detailed_position_id detailed_position_id
      *
      * @return self
      */
@@ -602,7 +609,14 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     {
 
         if (is_null($detailed_position_id)) {
-            throw new \InvalidArgumentException('non-nullable detailed_position_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'detailed_position_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('detailed_position_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['detailed_position_id'] = $detailed_position_id;
@@ -816,7 +830,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Gets height
      *
-     * @return \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerHeight|null
+     * @return float|null
      */
     public function getHeight()
     {
@@ -826,7 +840,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Sets height
      *
-     * @param \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerHeight|null $height height
+     * @param float|null $height height
      *
      * @return self
      */
@@ -834,7 +848,14 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     {
 
         if (is_null($height)) {
-            throw new \InvalidArgumentException('non-nullable height cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'height');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('height', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['height'] = $height;
@@ -845,7 +866,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Gets weight
      *
-     * @return \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerWeight|null
+     * @return float|null
      */
     public function getWeight()
     {
@@ -855,7 +876,7 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     /**
      * Sets weight
      *
-     * @param \Sportmonks\Model\SportPlayersByCountryIdResponseDataInnerWeight|null $weight weight
+     * @param float|null $weight weight
      *
      * @return self
      */
@@ -863,7 +884,14 @@ class SportPlayersByCountryIdResponseDataInner implements ModelInterface, ArrayA
     {
 
         if (is_null($weight)) {
-            throw new \InvalidArgumentException('non-nullable weight cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'weight');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('weight', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['weight'] = $weight;

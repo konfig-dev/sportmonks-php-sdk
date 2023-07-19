@@ -55,8 +55,8 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
         'type_id' => 'float',
         'from_team_id' => 'float',
         'to_team_id' => 'float',
-        'position_id' => '\Sportmonks\Model\SportTransfersByTeamIdResponseDataInnerPositionId',
-        'detailed_position_id' => '\Sportmonks\Model\SportTransfersByTeamIdResponseDataInnerDetailedPositionId',
+        'position_id' => 'float',
+        'detailed_position_id' => 'float',
         'date' => 'string',
         'career_ended' => 'bool',
         'completed' => 'bool',
@@ -97,8 +97,8 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
 		'type_id' => false,
 		'from_team_id' => false,
 		'to_team_id' => false,
-		'position_id' => false,
-		'detailed_position_id' => false,
+		'position_id' => true,
+		'detailed_position_id' => true,
 		'date' => false,
 		'career_ended' => false,
 		'completed' => false,
@@ -535,7 +535,7 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
     /**
      * Gets position_id
      *
-     * @return \Sportmonks\Model\SportTransfersByTeamIdResponseDataInnerPositionId|null
+     * @return float|null
      */
     public function getPositionId()
     {
@@ -545,7 +545,7 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
     /**
      * Sets position_id
      *
-     * @param \Sportmonks\Model\SportTransfersByTeamIdResponseDataInnerPositionId|null $position_id position_id
+     * @param float|null $position_id position_id
      *
      * @return self
      */
@@ -553,7 +553,14 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
     {
 
         if (is_null($position_id)) {
-            throw new \InvalidArgumentException('non-nullable position_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'position_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('position_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['position_id'] = $position_id;
@@ -564,7 +571,7 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
     /**
      * Gets detailed_position_id
      *
-     * @return \Sportmonks\Model\SportTransfersByTeamIdResponseDataInnerDetailedPositionId|null
+     * @return float|null
      */
     public function getDetailedPositionId()
     {
@@ -574,7 +581,7 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
     /**
      * Sets detailed_position_id
      *
-     * @param \Sportmonks\Model\SportTransfersByTeamIdResponseDataInnerDetailedPositionId|null $detailed_position_id detailed_position_id
+     * @param float|null $detailed_position_id detailed_position_id
      *
      * @return self
      */
@@ -582,7 +589,14 @@ class SportTransfersByTeamIdResponseDataInner implements ModelInterface, ArrayAc
     {
 
         if (is_null($detailed_position_id)) {
-            throw new \InvalidArgumentException('non-nullable detailed_position_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'detailed_position_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('detailed_position_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['detailed_position_id'] = $detailed_position_id;

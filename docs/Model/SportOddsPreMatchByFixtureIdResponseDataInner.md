@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **dp3** | **string** |  | [optional]
 **fractional** | **string** |  | [optional]
 **american** | **string** |  | [optional]
-**winning** | [**\Sportmonks\Model\SportOddsPreMatchByFixtureIdResponseDataInnerWinning**](SportOddsPreMatchByFixtureIdResponseDataInnerWinning.md) |  | [optional]
+**winning** | **bool** |  | [optional]
 **stopped** | **bool** |  | [optional]
 **total** | **string** |  | [optional]
 **handicap** | **string** |  | [optional]

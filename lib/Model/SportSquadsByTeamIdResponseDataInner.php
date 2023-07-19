@@ -50,13 +50,13 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
       */
     protected static $openAPITypes = [
         'id' => 'float',
-        'transfer_id' => '\Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerTransferId',
+        'transfer_id' => 'float',
         'player_id' => 'float',
         'team_id' => 'float',
         'position_id' => 'float',
         'detailed_position_id' => 'float',
         'active' => 'bool',
-        'yersey_number' => '\Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerYerseyNumber',
+        'yersey_number' => 'float',
         'start' => 'string',
         'end' => 'string'
     ];
@@ -88,13 +88,13 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'transfer_id' => false,
+		'transfer_id' => true,
 		'player_id' => false,
 		'team_id' => false,
 		'position_id' => false,
 		'detailed_position_id' => false,
 		'active' => false,
-		'yersey_number' => false,
+		'yersey_number' => true,
 		'start' => false,
 		'end' => false
     ];
@@ -376,7 +376,7 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
     /**
      * Gets transfer_id
      *
-     * @return \Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerTransferId|null
+     * @return float|null
      */
     public function getTransferId()
     {
@@ -386,7 +386,7 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
     /**
      * Sets transfer_id
      *
-     * @param \Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerTransferId|null $transfer_id transfer_id
+     * @param float|null $transfer_id transfer_id
      *
      * @return self
      */
@@ -394,7 +394,14 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
     {
 
         if (is_null($transfer_id)) {
-            throw new \InvalidArgumentException('non-nullable transfer_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'transfer_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('transfer_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['transfer_id'] = $transfer_id;
@@ -550,7 +557,7 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
     /**
      * Gets yersey_number
      *
-     * @return \Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerYerseyNumber|null
+     * @return float|null
      */
     public function getYerseyNumber()
     {
@@ -560,7 +567,7 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
     /**
      * Sets yersey_number
      *
-     * @param \Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerYerseyNumber|null $yersey_number yersey_number
+     * @param float|null $yersey_number yersey_number
      *
      * @return self
      */
@@ -568,7 +575,14 @@ class SportSquadsByTeamIdResponseDataInner implements ModelInterface, ArrayAcces
     {
 
         if (is_null($yersey_number)) {
-            throw new \InvalidArgumentException('non-nullable yersey_number cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'yersey_number');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('yersey_number', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['yersey_number'] = $yersey_number;

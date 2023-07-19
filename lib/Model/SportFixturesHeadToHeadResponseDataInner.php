@@ -54,7 +54,7 @@ class SportFixturesHeadToHeadResponseDataInner implements ModelInterface, ArrayA
         'league_id' => 'float',
         'season_id' => 'float',
         'stage_id' => 'float',
-        'group_id' => '\Sportmonks\Model\SportFixturesHeadToHeadResponseDataInnerGroupId',
+        'group_id' => 'float',
         'aggregate_id' => 'string',
         'round_id' => 'float',
         'state_id' => 'float',
@@ -114,7 +114,7 @@ class SportFixturesHeadToHeadResponseDataInner implements ModelInterface, ArrayA
 		'league_id' => false,
 		'season_id' => false,
 		'stage_id' => false,
-		'group_id' => false,
+		'group_id' => true,
 		'aggregate_id' => true,
 		'round_id' => false,
 		'state_id' => false,
@@ -569,7 +569,7 @@ class SportFixturesHeadToHeadResponseDataInner implements ModelInterface, ArrayA
     /**
      * Gets group_id
      *
-     * @return \Sportmonks\Model\SportFixturesHeadToHeadResponseDataInnerGroupId|null
+     * @return float|null
      */
     public function getGroupId()
     {
@@ -579,7 +579,7 @@ class SportFixturesHeadToHeadResponseDataInner implements ModelInterface, ArrayA
     /**
      * Sets group_id
      *
-     * @param \Sportmonks\Model\SportFixturesHeadToHeadResponseDataInnerGroupId|null $group_id group_id
+     * @param float|null $group_id group_id
      *
      * @return self
      */
@@ -587,7 +587,14 @@ class SportFixturesHeadToHeadResponseDataInner implements ModelInterface, ArrayA
     {
 
         if (is_null($group_id)) {
-            throw new \InvalidArgumentException('non-nullable group_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'group_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('group_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['group_id'] = $group_id;

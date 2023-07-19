@@ -60,8 +60,8 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
         'state_id' => 'float',
         'venue_id' => 'float',
         'name' => 'string',
-        'home_score' => '\Sportmonks\Model\SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInnerHomeScore',
-        'away_score' => '\Sportmonks\Model\SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInnerAwayScore',
+        'home_score' => 'float',
+        'away_score' => 'float',
         'starting_at' => 'string',
         'result_info' => 'string',
         'leg' => 'string',
@@ -122,8 +122,8 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
 		'state_id' => false,
 		'venue_id' => false,
 		'name' => false,
-		'home_score' => false,
-		'away_score' => false,
+		'home_score' => true,
+		'away_score' => true,
 		'starting_at' => false,
 		'result_info' => true,
 		'leg' => false,
@@ -764,7 +764,7 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
     /**
      * Gets home_score
      *
-     * @return \Sportmonks\Model\SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInnerHomeScore|null
+     * @return float|null
      */
     public function getHomeScore()
     {
@@ -774,7 +774,7 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
     /**
      * Sets home_score
      *
-     * @param \Sportmonks\Model\SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInnerHomeScore|null $home_score home_score
+     * @param float|null $home_score home_score
      *
      * @return self
      */
@@ -782,7 +782,14 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
     {
 
         if (is_null($home_score)) {
-            throw new \InvalidArgumentException('non-nullable home_score cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'home_score');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('home_score', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['home_score'] = $home_score;
@@ -793,7 +800,7 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
     /**
      * Gets away_score
      *
-     * @return \Sportmonks\Model\SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInnerAwayScore|null
+     * @return float|null
      */
     public function getAwayScore()
     {
@@ -803,7 +810,7 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
     /**
      * Sets away_score
      *
-     * @param \Sportmonks\Model\SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInnerAwayScore|null $away_score away_score
+     * @param float|null $away_score away_score
      *
      * @return self
      */
@@ -811,7 +818,14 @@ class SportSchedulesBySeasonIdResponseDataInnerRoundsInnerFixturesInner implemen
     {
 
         if (is_null($away_score)) {
-            throw new \InvalidArgumentException('non-nullable away_score cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'away_score');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('away_score', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['away_score'] = $away_score;

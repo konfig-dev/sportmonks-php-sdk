@@ -57,7 +57,7 @@ class SportStandingsAllResponseDataInner implements ModelInterface, ArrayAccess,
         'stage_id' => 'float',
         'group_id' => 'string',
         'round_id' => 'float',
-        'standing_rule_id' => '\Sportmonks\Model\SportStandingsAllResponseDataInnerStandingRuleId',
+        'standing_rule_id' => 'float',
         'position' => 'float',
         'result' => 'string',
         'points' => 'float'
@@ -99,7 +99,7 @@ class SportStandingsAllResponseDataInner implements ModelInterface, ArrayAccess,
 		'stage_id' => false,
 		'group_id' => true,
 		'round_id' => false,
-		'standing_rule_id' => false,
+		'standing_rule_id' => true,
 		'position' => false,
 		'result' => false,
 		'points' => false
@@ -600,7 +600,7 @@ class SportStandingsAllResponseDataInner implements ModelInterface, ArrayAccess,
     /**
      * Gets standing_rule_id
      *
-     * @return \Sportmonks\Model\SportStandingsAllResponseDataInnerStandingRuleId|null
+     * @return float|null
      */
     public function getStandingRuleId()
     {
@@ -610,7 +610,7 @@ class SportStandingsAllResponseDataInner implements ModelInterface, ArrayAccess,
     /**
      * Sets standing_rule_id
      *
-     * @param \Sportmonks\Model\SportStandingsAllResponseDataInnerStandingRuleId|null $standing_rule_id standing_rule_id
+     * @param float|null $standing_rule_id standing_rule_id
      *
      * @return self
      */
@@ -618,7 +618,14 @@ class SportStandingsAllResponseDataInner implements ModelInterface, ArrayAccess,
     {
 
         if (is_null($standing_rule_id)) {
-            throw new \InvalidArgumentException('non-nullable standing_rule_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'standing_rule_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('standing_rule_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['standing_rule_id'] = $standing_rule_id;

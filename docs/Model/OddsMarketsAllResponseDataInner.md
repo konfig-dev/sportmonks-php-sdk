@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **float** |  | [optional]
-**legacy_id** | [**\Sportmonks\Model\OddsMarketsAllResponseDataInnerLegacyId**](OddsMarketsAllResponseDataInnerLegacyId.md) |  | [optional]
+**legacy_id** | **float** |  | [optional]
 **name** | **string** |  | [optional]
 **developer_name** | **string** |  | [optional]
 **has_winning_calculations** | **bool** |  | [optional]

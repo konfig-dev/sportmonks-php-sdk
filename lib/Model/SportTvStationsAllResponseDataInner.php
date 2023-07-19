@@ -54,7 +54,7 @@ class SportTvStationsAllResponseDataInner implements ModelInterface, ArrayAccess
         'url' => 'string',
         'image_path' => 'string',
         'type' => 'string',
-        'related_id' => '\Sportmonks\Model\SportTvStationsAllResponseDataInnerRelatedId'
+        'related_id' => 'float'
     ];
 
     /**
@@ -84,7 +84,7 @@ class SportTvStationsAllResponseDataInner implements ModelInterface, ArrayAccess
 		'url' => false,
 		'image_path' => true,
 		'type' => false,
-		'related_id' => false
+		'related_id' => true
     ];
 
     /**
@@ -471,7 +471,7 @@ class SportTvStationsAllResponseDataInner implements ModelInterface, ArrayAccess
     /**
      * Gets related_id
      *
-     * @return \Sportmonks\Model\SportTvStationsAllResponseDataInnerRelatedId|null
+     * @return float|null
      */
     public function getRelatedId()
     {
@@ -481,7 +481,7 @@ class SportTvStationsAllResponseDataInner implements ModelInterface, ArrayAccess
     /**
      * Sets related_id
      *
-     * @param \Sportmonks\Model\SportTvStationsAllResponseDataInnerRelatedId|null $related_id related_id
+     * @param float|null $related_id related_id
      *
      * @return self
      */
@@ -489,7 +489,14 @@ class SportTvStationsAllResponseDataInner implements ModelInterface, ArrayAccess
     {
 
         if (is_null($related_id)) {
-            throw new \InvalidArgumentException('non-nullable related_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'related_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('related_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['related_id'] = $related_id;

@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **float** |  | [optional]
-**country_id** | [**\Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCountryId**](SportVenuesBySeasonIdResponseDataInnerCountryId.md) |  | [optional]
-**city_id** | [**\Sportmonks\Model\SportVenuesBySeasonIdResponseDataInnerCityId**](SportVenuesBySeasonIdResponseDataInnerCityId.md) |  | [optional]
+**country_id** | **float** |  | [optional]
+**city_id** | **float** |  | [optional]
 **name** | **string** |  | [optional]
 **address** | **string** |  | [optional]
 **zipcode** | **string** |  | [optional]

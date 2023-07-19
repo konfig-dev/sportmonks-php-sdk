@@ -61,8 +61,8 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
         'name' => 'string',
         'display_name' => 'string',
         'image_path' => 'string',
-        'height' => '\Sportmonks\Model\SportCoachesAllResponseDataInnerHeight',
-        'weight' => '\Sportmonks\Model\SportCoachesAllResponseDataInnerWeight',
+        'height' => 'float',
+        'weight' => 'float',
         'date_of_birth' => 'string',
         'gender' => 'string'
     ];
@@ -111,8 +111,8 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
 		'name' => false,
 		'display_name' => false,
 		'image_path' => false,
-		'height' => false,
-		'weight' => false,
+		'height' => true,
+		'weight' => true,
 		'date_of_birth' => true,
 		'gender' => false
     ];
@@ -751,7 +751,7 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
     /**
      * Gets height
      *
-     * @return \Sportmonks\Model\SportCoachesAllResponseDataInnerHeight|null
+     * @return float|null
      */
     public function getHeight()
     {
@@ -761,7 +761,7 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
     /**
      * Sets height
      *
-     * @param \Sportmonks\Model\SportCoachesAllResponseDataInnerHeight|null $height height
+     * @param float|null $height height
      *
      * @return self
      */
@@ -769,7 +769,14 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
     {
 
         if (is_null($height)) {
-            throw new \InvalidArgumentException('non-nullable height cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'height');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('height', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['height'] = $height;
@@ -780,7 +787,7 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
     /**
      * Gets weight
      *
-     * @return \Sportmonks\Model\SportCoachesAllResponseDataInnerWeight|null
+     * @return float|null
      */
     public function getWeight()
     {
@@ -790,7 +797,7 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
     /**
      * Sets weight
      *
-     * @param \Sportmonks\Model\SportCoachesAllResponseDataInnerWeight|null $weight weight
+     * @param float|null $weight weight
      *
      * @return self
      */
@@ -798,7 +805,14 @@ class SportCoachesAllResponseDataInner implements ModelInterface, ArrayAccess, \
     {
 
         if (is_null($weight)) {
-            throw new \InvalidArgumentException('non-nullable weight cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'weight');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('weight', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['weight'] = $weight;

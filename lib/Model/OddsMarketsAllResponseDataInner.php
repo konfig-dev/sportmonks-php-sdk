@@ -50,7 +50,7 @@ class OddsMarketsAllResponseDataInner implements ModelInterface, ArrayAccess, \J
       */
     protected static $openAPITypes = [
         'id' => 'float',
-        'legacy_id' => '\Sportmonks\Model\OddsMarketsAllResponseDataInnerLegacyId',
+        'legacy_id' => 'float',
         'name' => 'string',
         'developer_name' => 'string',
         'has_winning_calculations' => 'bool'
@@ -78,7 +78,7 @@ class OddsMarketsAllResponseDataInner implements ModelInterface, ArrayAccess, \J
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'legacy_id' => false,
+		'legacy_id' => true,
 		'name' => false,
 		'developer_name' => false,
 		'has_winning_calculations' => false
@@ -341,7 +341,7 @@ class OddsMarketsAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Gets legacy_id
      *
-     * @return \Sportmonks\Model\OddsMarketsAllResponseDataInnerLegacyId|null
+     * @return float|null
      */
     public function getLegacyId()
     {
@@ -351,7 +351,7 @@ class OddsMarketsAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Sets legacy_id
      *
-     * @param \Sportmonks\Model\OddsMarketsAllResponseDataInnerLegacyId|null $legacy_id legacy_id
+     * @param float|null $legacy_id legacy_id
      *
      * @return self
      */
@@ -359,7 +359,14 @@ class OddsMarketsAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     {
 
         if (is_null($legacy_id)) {
-            throw new \InvalidArgumentException('non-nullable legacy_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'legacy_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('legacy_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['legacy_id'] = $legacy_id;

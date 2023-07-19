@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **float** |  | [optional]
-**transfer_id** | [**\Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerTransferId**](SportSquadsByTeamIdResponseDataInnerTransferId.md) |  | [optional]
+**transfer_id** | **float** |  | [optional]
 **player_id** | **float** |  | [optional]
 **team_id** | **float** |  | [optional]
 **position_id** | **float** |  | [optional]
 **detailed_position_id** | **float** |  | [optional]
 **active** | **bool** |  | [optional]
-**yersey_number** | [**\Sportmonks\Model\SportSquadsByTeamIdResponseDataInnerYerseyNumber**](SportSquadsByTeamIdResponseDataInnerYerseyNumber.md) |  | [optional]
+**yersey_number** | **float** |  | [optional]
 **start** | **string** |  | [optional]
 **end** | **string** |  | [optional]
 

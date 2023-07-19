@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **season_id** | **float** |  | [optional]
 **type_id** | **float** |  | [optional]
 **name** | **string** |  | [optional]
-**sort_order** | [**\Sportmonks\Model\SportStagesSearchResponseDataInnerSortOrder**](SportStagesSearchResponseDataInnerSortOrder.md) |  | [optional]
+**sort_order** | **float** |  | [optional]
 **finished** | **bool** |  | [optional]
 **is_current** | **bool** |  | [optional]
 **starting_at** | **string** |  | [optional]

@@ -55,7 +55,7 @@ class SportStagesSearchResponseDataInner implements ModelInterface, ArrayAccess,
         'season_id' => 'float',
         'type_id' => 'float',
         'name' => 'string',
-        'sort_order' => '\Sportmonks\Model\SportStagesSearchResponseDataInnerSortOrder',
+        'sort_order' => 'float',
         'finished' => 'bool',
         'is_current' => 'bool',
         'starting_at' => 'string',
@@ -95,7 +95,7 @@ class SportStagesSearchResponseDataInner implements ModelInterface, ArrayAccess,
 		'season_id' => false,
 		'type_id' => false,
 		'name' => false,
-		'sort_order' => false,
+		'sort_order' => true,
 		'finished' => false,
 		'is_current' => false,
 		'starting_at' => true,
@@ -528,7 +528,7 @@ class SportStagesSearchResponseDataInner implements ModelInterface, ArrayAccess,
     /**
      * Gets sort_order
      *
-     * @return \Sportmonks\Model\SportStagesSearchResponseDataInnerSortOrder|null
+     * @return float|null
      */
     public function getSortOrder()
     {
@@ -538,7 +538,7 @@ class SportStagesSearchResponseDataInner implements ModelInterface, ArrayAccess,
     /**
      * Sets sort_order
      *
-     * @param \Sportmonks\Model\SportStagesSearchResponseDataInnerSortOrder|null $sort_order sort_order
+     * @param float|null $sort_order sort_order
      *
      * @return self
      */
@@ -546,7 +546,14 @@ class SportStagesSearchResponseDataInner implements ModelInterface, ArrayAccess,
     {
 
         if (is_null($sort_order)) {
-            throw new \InvalidArgumentException('non-nullable sort_order cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'sort_order');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('sort_order', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['sort_order'] = $sort_order;

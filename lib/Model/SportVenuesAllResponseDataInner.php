@@ -50,14 +50,14 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
       */
     protected static $openAPITypes = [
         'id' => 'float',
-        'country_id' => '\Sportmonks\Model\SportVenuesAllResponseDataInnerCountryId',
-        'city_id' => '\Sportmonks\Model\SportVenuesAllResponseDataInnerCityId',
+        'country_id' => 'float',
+        'city_id' => 'float',
         'name' => 'string',
         'address' => 'string',
         'zipcode' => 'string',
         'latitude' => 'string',
         'longitude' => 'string',
-        'capacity' => '\Sportmonks\Model\SportVenuesAllResponseDataInnerCapacity',
+        'capacity' => 'float',
         'image_path' => 'string',
         'city_name' => 'string',
         'surface' => 'string',
@@ -94,14 +94,14 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
       */
     protected static array $openAPINullables = [
         'id' => false,
-		'country_id' => false,
-		'city_id' => false,
+		'country_id' => true,
+		'city_id' => true,
 		'name' => false,
 		'address' => true,
 		'zipcode' => true,
 		'latitude' => false,
 		'longitude' => false,
-		'capacity' => false,
+		'capacity' => true,
 		'image_path' => true,
 		'city_name' => false,
 		'surface' => true,
@@ -397,7 +397,7 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Gets country_id
      *
-     * @return \Sportmonks\Model\SportVenuesAllResponseDataInnerCountryId|null
+     * @return float|null
      */
     public function getCountryId()
     {
@@ -407,7 +407,7 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Sets country_id
      *
-     * @param \Sportmonks\Model\SportVenuesAllResponseDataInnerCountryId|null $country_id country_id
+     * @param float|null $country_id country_id
      *
      * @return self
      */
@@ -415,7 +415,14 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     {
 
         if (is_null($country_id)) {
-            throw new \InvalidArgumentException('non-nullable country_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'country_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('country_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['country_id'] = $country_id;
@@ -426,7 +433,7 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Gets city_id
      *
-     * @return \Sportmonks\Model\SportVenuesAllResponseDataInnerCityId|null
+     * @return float|null
      */
     public function getCityId()
     {
@@ -436,7 +443,7 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Sets city_id
      *
-     * @param \Sportmonks\Model\SportVenuesAllResponseDataInnerCityId|null $city_id city_id
+     * @param float|null $city_id city_id
      *
      * @return self
      */
@@ -444,7 +451,14 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     {
 
         if (is_null($city_id)) {
-            throw new \InvalidArgumentException('non-nullable city_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'city_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('city_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['city_id'] = $city_id;
@@ -614,7 +628,7 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Gets capacity
      *
-     * @return \Sportmonks\Model\SportVenuesAllResponseDataInnerCapacity|null
+     * @return float|null
      */
     public function getCapacity()
     {
@@ -624,7 +638,7 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     /**
      * Sets capacity
      *
-     * @param \Sportmonks\Model\SportVenuesAllResponseDataInnerCapacity|null $capacity capacity
+     * @param float|null $capacity capacity
      *
      * @return self
      */
@@ -632,7 +646,14 @@ class SportVenuesAllResponseDataInner implements ModelInterface, ArrayAccess, \J
     {
 
         if (is_null($capacity)) {
-            throw new \InvalidArgumentException('non-nullable capacity cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'capacity');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('capacity', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['capacity'] = $capacity;

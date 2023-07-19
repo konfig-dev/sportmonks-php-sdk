@@ -61,7 +61,7 @@ class SportStatesBySportResponseDataInner implements ModelInterface, ArrayAccess
         'is_cancelled' => 'bool',
         'is_final_standing_state' => 'bool',
         'is_completed' => 'bool',
-        'type_id' => '\Sportmonks\Model\SportStatesBySportResponseDataInnerTypeId',
+        'type_id' => 'float',
         'is_deleted' => 'bool',
         'is_notstarted' => 'bool',
         'sections_active' => 'bool',
@@ -113,7 +113,7 @@ class SportStatesBySportResponseDataInner implements ModelInterface, ArrayAccess
 		'is_cancelled' => false,
 		'is_final_standing_state' => false,
 		'is_completed' => false,
-		'type_id' => false,
+		'type_id' => true,
 		'is_deleted' => false,
 		'is_notstarted' => false,
 		'sections_active' => false,
@@ -744,7 +744,7 @@ class SportStatesBySportResponseDataInner implements ModelInterface, ArrayAccess
     /**
      * Gets type_id
      *
-     * @return \Sportmonks\Model\SportStatesBySportResponseDataInnerTypeId|null
+     * @return float|null
      */
     public function getTypeId()
     {
@@ -754,7 +754,7 @@ class SportStatesBySportResponseDataInner implements ModelInterface, ArrayAccess
     /**
      * Sets type_id
      *
-     * @param \Sportmonks\Model\SportStatesBySportResponseDataInnerTypeId|null $type_id type_id
+     * @param float|null $type_id type_id
      *
      * @return self
      */
@@ -762,7 +762,14 @@ class SportStatesBySportResponseDataInner implements ModelInterface, ArrayAccess
     {
 
         if (is_null($type_id)) {
-            throw new \InvalidArgumentException('non-nullable type_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'type_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('type_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['type_id'] = $type_id;

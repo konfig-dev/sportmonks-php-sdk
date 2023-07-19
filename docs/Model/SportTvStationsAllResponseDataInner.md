@@ -9,6 +9,6 @@ Name | Type | Description | Notes
 **url** | **string** |  | [optional]
 **image_path** | **string** |  | [optional]
 **type** | **string** |  | [optional]
-**related_id** | [**\Sportmonks\Model\SportTvStationsAllResponseDataInnerRelatedId**](SportTvStationsAllResponseDataInnerRelatedId.md) |  | [optional]
+**related_id** | **float** |  | [optional]
 
 [[Back to Model list]](../../README.md#models) [[Back to API list]](../../README.md#endpoints) [[Back to README]](../../README.md)

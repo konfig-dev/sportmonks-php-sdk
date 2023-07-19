@@ -51,7 +51,7 @@ class SportRefereesAllResponseDataInner implements ModelInterface, ArrayAccess, 
     protected static $openAPITypes = [
         'id' => 'float',
         'sport_id' => 'float',
-        'country_id' => '\Sportmonks\Model\SportRefereesAllResponseDataInnerCountryId',
+        'country_id' => 'float',
         'city_id' => 'string',
         'common_name' => 'string',
         'firstname' => 'string',
@@ -97,7 +97,7 @@ class SportRefereesAllResponseDataInner implements ModelInterface, ArrayAccess, 
     protected static array $openAPINullables = [
         'id' => false,
 		'sport_id' => false,
-		'country_id' => false,
+		'country_id' => true,
 		'city_id' => true,
 		'common_name' => false,
 		'firstname' => true,
@@ -433,7 +433,7 @@ class SportRefereesAllResponseDataInner implements ModelInterface, ArrayAccess, 
     /**
      * Gets country_id
      *
-     * @return \Sportmonks\Model\SportRefereesAllResponseDataInnerCountryId|null
+     * @return float|null
      */
     public function getCountryId()
     {
@@ -443,7 +443,7 @@ class SportRefereesAllResponseDataInner implements ModelInterface, ArrayAccess, 
     /**
      * Sets country_id
      *
-     * @param \Sportmonks\Model\SportRefereesAllResponseDataInnerCountryId|null $country_id country_id
+     * @param float|null $country_id country_id
      *
      * @return self
      */
@@ -451,7 +451,14 @@ class SportRefereesAllResponseDataInner implements ModelInterface, ArrayAccess, 
     {
 
         if (is_null($country_id)) {
-            throw new \InvalidArgumentException('non-nullable country_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'country_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('country_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['country_id'] = $country_id;

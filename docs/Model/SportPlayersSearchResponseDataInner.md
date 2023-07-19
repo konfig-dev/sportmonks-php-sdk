@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **nationality_id** | **float** |  | [optional]
 **city_id** | **string** |  | [optional]
 **position_id** | **float** |  | [optional]
-**detailed_position_id** | [**\Sportmonks\Model\SportPlayersSearchResponseDataInnerDetailedPositionId**](SportPlayersSearchResponseDataInnerDetailedPositionId.md) |  | [optional]
+**detailed_position_id** | **float** |  | [optional]
 **type_id** | **float** |  | [optional]
 **common_name** | **string** |  | [optional]
 **firstname** | **string** |  | [optional]

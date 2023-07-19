@@ -55,7 +55,7 @@ class SportPlayersSearchResponseDataInner implements ModelInterface, ArrayAccess
         'nationality_id' => 'float',
         'city_id' => 'string',
         'position_id' => 'float',
-        'detailed_position_id' => '\Sportmonks\Model\SportPlayersSearchResponseDataInnerDetailedPositionId',
+        'detailed_position_id' => 'float',
         'type_id' => 'float',
         'common_name' => 'string',
         'firstname' => 'string',
@@ -109,7 +109,7 @@ class SportPlayersSearchResponseDataInner implements ModelInterface, ArrayAccess
 		'nationality_id' => false,
 		'city_id' => true,
 		'position_id' => false,
-		'detailed_position_id' => false,
+		'detailed_position_id' => true,
 		'type_id' => false,
 		'common_name' => false,
 		'firstname' => false,
@@ -584,7 +584,7 @@ class SportPlayersSearchResponseDataInner implements ModelInterface, ArrayAccess
     /**
      * Gets detailed_position_id
      *
-     * @return \Sportmonks\Model\SportPlayersSearchResponseDataInnerDetailedPositionId|null
+     * @return float|null
      */
     public function getDetailedPositionId()
     {
@@ -594,7 +594,7 @@ class SportPlayersSearchResponseDataInner implements ModelInterface, ArrayAccess
     /**
      * Sets detailed_position_id
      *
-     * @param \Sportmonks\Model\SportPlayersSearchResponseDataInnerDetailedPositionId|null $detailed_position_id detailed_position_id
+     * @param float|null $detailed_position_id detailed_position_id
      *
      * @return self
      */
@@ -602,7 +602,14 @@ class SportPlayersSearchResponseDataInner implements ModelInterface, ArrayAccess
     {
 
         if (is_null($detailed_position_id)) {
-            throw new \InvalidArgumentException('non-nullable detailed_position_id cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'detailed_position_id');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('detailed_position_id', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['detailed_position_id'] = $detailed_position_id;

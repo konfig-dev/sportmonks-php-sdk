@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **is_cancelled** | **bool** |  | [optional]
 **is_final_standing_state** | **bool** |  | [optional]
 **is_completed** | **bool** |  | [optional]
-**type_id** | [**\Sportmonks\Model\SportStatesBySportResponseDataInnerTypeId**](SportStatesBySportResponseDataInnerTypeId.md) |  | [optional]
+**type_id** | **float** |  | [optional]
 **is_deleted** | **bool** |  | [optional]
 **is_notstarted** | **bool** |  | [optional]
 **sections_active** | **bool** |  | [optional]

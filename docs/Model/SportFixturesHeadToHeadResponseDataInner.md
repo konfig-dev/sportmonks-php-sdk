@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **league_id** | **float** |  | [optional]
 **season_id** | **float** |  | [optional]
 **stage_id** | **float** |  | [optional]
-**group_id** | [**\Sportmonks\Model\SportFixturesHeadToHeadResponseDataInnerGroupId**](SportFixturesHeadToHeadResponseDataInnerGroupId.md) |  | [optional]
+**group_id** | **float** |  | [optional]
 **aggregate_id** | **string** |  | [optional]
 **round_id** | **float** |  | [optional]
 **state_id** | **float** |  | [optional]

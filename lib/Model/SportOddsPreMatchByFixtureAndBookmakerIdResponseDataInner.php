@@ -62,7 +62,7 @@ class SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInner implements Model
         'dp3' => 'string',
         'fractional' => 'string',
         'american' => 'string',
-        'winning' => '\Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInnerWinning',
+        'winning' => 'bool',
         'stopped' => 'bool',
         'total' => 'string',
         'handicap' => 'string',
@@ -124,7 +124,7 @@ class SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInner implements Model
 		'dp3' => false,
 		'fractional' => false,
 		'american' => false,
-		'winning' => false,
+		'winning' => true,
 		'stopped' => false,
 		'total' => true,
 		'handicap' => true,
@@ -815,7 +815,7 @@ class SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInner implements Model
     /**
      * Gets winning
      *
-     * @return \Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInnerWinning|null
+     * @return bool|null
      */
     public function getWinning()
     {
@@ -825,7 +825,7 @@ class SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInner implements Model
     /**
      * Sets winning
      *
-     * @param \Sportmonks\Model\SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInnerWinning|null $winning winning
+     * @param bool|null $winning winning
      *
      * @return self
      */
@@ -833,7 +833,14 @@ class SportOddsPreMatchByFixtureAndBookmakerIdResponseDataInner implements Model
     {
 
         if (is_null($winning)) {
-            throw new \InvalidArgumentException('non-nullable winning cannot be null');
+            array_push($this->openAPINullablesSetToNull, 'winning');
+        } else {
+            $nullablesSetToNull = $this->getOpenAPINullablesSetToNull();
+            $index = array_search('winning', $nullablesSetToNull);
+            if ($index !== FALSE) {
+                unset($nullablesSetToNull[$index]);
+                $this->setOpenAPINullablesSetToNull($nullablesSetToNull);
+            }
         }
 
         $this->container['winning'] = $winning;
