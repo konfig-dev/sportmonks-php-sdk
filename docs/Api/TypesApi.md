@@ -23,8 +23,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -83,8 +83,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 

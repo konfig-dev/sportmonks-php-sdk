@@ -126,8 +126,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -191,8 +191,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -254,8 +254,8 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -320,8 +320,8 @@ Last updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -383,8 +383,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -449,8 +449,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -512,8 +512,8 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -578,8 +578,8 @@ By Date Range for Team
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -650,8 +650,8 @@ Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -716,8 +716,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -779,8 +779,8 @@ By Date
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -845,8 +845,8 @@ By Date Range
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -914,8 +914,8 @@ By IDs
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -979,8 +979,8 @@ Head to Head
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1047,8 +1047,8 @@ Last Updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1105,8 +1105,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1171,8 +1171,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1236,8 +1236,8 @@ Enrichments
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1297,8 +1297,8 @@ Shirts By League ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1358,8 +1358,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1421,8 +1421,8 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1487,8 +1487,8 @@ By Date
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1553,8 +1553,8 @@ Leagues By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1614,8 +1614,8 @@ Current Leagues By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1675,8 +1675,8 @@ Live
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1737,8 +1737,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1803,8 +1803,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1865,8 +1865,8 @@ All In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1927,8 +1927,8 @@ Last Updated In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -1989,8 +1989,8 @@ All Post Match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2047,8 +2047,8 @@ All Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2110,8 +2110,8 @@ Post Match by Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2171,8 +2171,8 @@ Pre-match By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2237,8 +2237,8 @@ Upcoming Post Match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2295,8 +2295,8 @@ Upcoming Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2358,8 +2358,8 @@ All In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2421,8 +2421,8 @@ All Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2484,8 +2484,8 @@ In-play by Fixture and Bookmaker ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2548,8 +2548,8 @@ In-play by Fixture and Market ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2612,8 +2612,8 @@ In-play by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2677,8 +2677,8 @@ Latest In-play
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2735,8 +2735,8 @@ Last Updated Pre-match
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2793,8 +2793,8 @@ Pre-match by Fixture and Bookmaker ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2861,8 +2861,8 @@ Pre-match by Fixture and Market ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2929,8 +2929,8 @@ Pre-match by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -2994,8 +2994,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3059,8 +3059,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3122,8 +3122,8 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3188,8 +3188,8 @@ Latest Updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3250,8 +3250,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3316,8 +3316,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3379,8 +3379,8 @@ All Value Bets
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3442,8 +3442,8 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3508,8 +3508,8 @@ Value Bets by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3569,8 +3569,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3634,8 +3634,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3697,8 +3697,8 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3763,8 +3763,8 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3829,8 +3829,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3895,8 +3895,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -3958,8 +3958,8 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4023,8 +4023,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4088,8 +4088,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4151,8 +4151,8 @@ Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4216,8 +4216,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4282,8 +4282,8 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4347,8 +4347,8 @@ By Team and Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4415,8 +4415,8 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4480,8 +4480,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4545,8 +4545,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4608,8 +4608,8 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4669,8 +4669,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4735,8 +4735,8 @@ By Season and Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4804,8 +4804,8 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4869,8 +4869,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4934,8 +4934,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -4997,8 +4997,8 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5062,8 +5062,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5128,8 +5128,8 @@ Correction by Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5194,8 +5194,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5257,8 +5257,8 @@ By Round ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5323,8 +5323,8 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5388,8 +5388,8 @@ By League ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5453,8 +5453,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5518,8 +5518,8 @@ By Sport
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5581,8 +5581,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5644,8 +5644,8 @@ By Country ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5710,8 +5710,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5775,8 +5775,8 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5840,8 +5840,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5906,8 +5906,8 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -5972,8 +5972,8 @@ By Stage ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6038,8 +6038,8 @@ By Date Range
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6107,8 +6107,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6172,8 +6172,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6235,8 +6235,8 @@ By Player ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6301,8 +6301,8 @@ By Team ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6367,8 +6367,8 @@ Last Updated
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6430,8 +6430,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6495,8 +6495,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6558,8 +6558,8 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6624,8 +6624,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6689,8 +6689,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6752,8 +6752,8 @@ By Season ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -6817,8 +6817,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 

@@ -30,8 +30,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -92,8 +92,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -152,8 +152,8 @@ By Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -215,8 +215,8 @@ Mapping by Fixture ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -277,8 +277,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -340,8 +340,8 @@ Upcoming Fixtures by Market ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -406,8 +406,8 @@ By ID
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -468,8 +468,8 @@ All
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
@@ -528,8 +528,8 @@ Search
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $sportmonks = new \Sportmonks\Client(
-    version: "VERSION",
-    sport: "SPORT",
+    version: "v3",
+    sport: "football",
     apiKey: "AUTHORIZATION",
 );
 
