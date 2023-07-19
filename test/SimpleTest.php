@@ -68,5 +68,24 @@ class SimpleTest extends TestCase
             sport: "SPORT",
             apiKey: "AUTHORIZATION",
         );
+        $this->assertNotNull($sportmonks);
+    }
+
+    public function testSimple()
+    {
+        $sportmonks = new \Sportmonks\Client(
+            version: "v3",
+            sport: "football",
+            apiKey: getenv("SPORTMONKS_API_TOKEN"),
+        );
+        $cities = $sportmonks->cities->all();
+        print_r($cities);
+
+        $teams = $sportmonks->sport->teamsAll();
+        $first_team = $teams->getData()[0];
+        $first_team_id = $first_team->getId();
+        $squads = $sportmonks->sport->squadsByTeamId(team_id: $first_team_id);
+        print_r($squads);
+        $this->assertGreaterThan(1, count($squads->getData()));
     }
 }

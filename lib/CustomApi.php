@@ -11,6 +11,11 @@ class CustomApi
         \Sportmonks\Configuration $configuration,
         $body = null
     ) {
+        $uri = $request->getUri();
+        $path = $uri->getPath();
+        $path = str_ireplace("%7Bversion%7D", $configuration->getVersion(), $path);
+        $path = str_ireplace("%7Bsport%7D", $configuration->getSport(), $path);
+        $request = $request->withUri($uri->withPath($path));
     }
 
     public function beforeCreateRequestHook(
